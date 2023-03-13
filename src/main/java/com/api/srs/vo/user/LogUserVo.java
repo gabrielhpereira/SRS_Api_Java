@@ -1,7 +1,5 @@
 package com.api.srs.vo.user;
 
-import com.api.srs.entity.user.UserEntity;
-
 import java.util.Date;
 
 public class LogUserVo {
@@ -9,13 +7,13 @@ public class LogUserVo {
     private Integer id;
     private String description;
     private String date;
-    private String user;
+    private Integer userId;
 
-    public LogUserVo(Integer id, String description, Date date, UserEntity user){
+    public LogUserVo(Integer id, String description, Date date, Integer userId){
         this.id = id;
         this.description = description.toUpperCase();
         this.date = date.toString();
-        this.user = user.getId() + " - " + user.getName();
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -42,11 +40,11 @@ public class LogUserVo {
         this.date = date;
     }
 
-    public String getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

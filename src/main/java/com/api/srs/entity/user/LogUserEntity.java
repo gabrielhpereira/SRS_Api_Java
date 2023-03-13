@@ -13,9 +13,8 @@ public class LogUserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @JoinColumn(name = "id_user")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity user;
+    @Column
+    private Integer userId;
 
     @Column
     private String description;
@@ -31,12 +30,12 @@ public class LogUserEntity {
         this.id = id;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {

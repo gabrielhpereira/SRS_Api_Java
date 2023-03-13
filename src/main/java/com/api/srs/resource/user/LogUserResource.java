@@ -18,10 +18,10 @@ public class LogUserResource {
     @Autowired
     private LogUserService logUserService;
 
-    @GetMapping("/listAllLogUser")
-    public ResponseEntity<Object> listAllLogUser(@PathVariable Integer idUser) {
+    @GetMapping("/listAllLogUser/{userId}")
+    public ResponseEntity<Object> listAllLogUser(@PathVariable Integer userId) {
         try {
-            return new ResponseEntity<>(this.logUserService.listAllLogUser(idUser), HttpStatus.OK);
+            return new ResponseEntity<>(this.logUserService.listAllLogUser(userId), HttpStatus.OK);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {

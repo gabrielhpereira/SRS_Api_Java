@@ -22,7 +22,7 @@ public class LogUserService {
 
     public void saveLog(String description, Date date, UserEntity user) {
         LogUserEntity logUser = new LogUserEntity();
-        logUser.setUser(user);
+        logUser.setUserId(user.getId());
         logUser.setDate(date);
         logUser.setDescription(description);
 
