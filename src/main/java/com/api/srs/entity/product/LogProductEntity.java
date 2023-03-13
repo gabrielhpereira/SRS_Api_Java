@@ -2,6 +2,7 @@ package com.api.srs.entity.product;
 
 import jakarta.persistence.*;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 @Entity
@@ -13,9 +14,8 @@ public class LogProductEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @JoinColumn(name = "id_product")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ProductEntity product;
+    @Column
+    private BigInteger productId;
 
     @Column
     private String description;
@@ -28,14 +28,14 @@ public class LogProductEntity {
 
     private LogProductEntity(Builder builder) {
         this.id = builder.id;
-        this.product = builder.product;
+        this.productId = builder.productId;
         this.description = builder.description;
         this.date = builder.date;
     }
 
     public static class Builder {
         private Integer id;
-        private ProductEntity product;
+        private BigInteger productId;
         private String description;
         private Date date;
 
@@ -44,8 +44,8 @@ public class LogProductEntity {
             return this;
         }
 
-        public Builder product(ProductEntity product) {
-            this.product = product;
+        public Builder productId(BigInteger productId) {
+            this.productId = productId;
             return this;
         }
 
@@ -65,18 +65,18 @@ public class LogProductEntity {
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public BigInteger getProductId() {
+        return this.productId;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public Date getDate() {
-        return date;
+        return this.date;
     }
 }

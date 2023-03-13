@@ -1,24 +1,23 @@
 package com.api.srs.vo.product;
 
-import com.api.srs.entity.product.ProductEntity;
-
+import java.math.BigInteger;
 import java.util.Date;
 
 public class LogProductVo {
     private Integer id;
     private String description;
     private String date;
-    private String product;
+    private BigInteger productId;
 
-    public LogProductVo(Integer id, String description, Date date, ProductEntity product){
+    public LogProductVo(Integer id, String description, Date date, BigInteger productId){
         this.id = id;
         this.description = description.toUpperCase();
         this.date = date.toString();
-        this.product = product.getId() + " - " + product.getName();
+        this.productId = productId;
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -26,7 +25,7 @@ public class LogProductVo {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -34,18 +33,18 @@ public class LogProductVo {
     }
 
     public String getDate() {
-        return date;
+        return this.date;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public String getProduct() {
-        return product;
+    public BigInteger getProductId() {
+        return this.productId;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setProductId(BigInteger productId) {
+        this.productId = productId;
     }
 }

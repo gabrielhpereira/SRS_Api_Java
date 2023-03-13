@@ -19,10 +19,10 @@ public class LogProductResource {
     @Autowired
     private LogProductService logProductService;
 
-    @GetMapping("/listAllLogProduct/{idProduct}")
-    public ResponseEntity<Object> listAllLogProduct(@PathVariable BigInteger idProduct) {
+    @GetMapping("/listAllLogProduct/{productId}")
+    public ResponseEntity<Object> listAllLogProduct(@PathVariable BigInteger productId) {
         try {
-            return new ResponseEntity<>(this.logProductService.listAllLogProduct(idProduct), HttpStatus.OK);
+            return new ResponseEntity<>(this.logProductService.listAllLogProduct(productId), HttpStatus.OK);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {

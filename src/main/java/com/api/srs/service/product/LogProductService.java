@@ -21,7 +21,7 @@ public class LogProductService {
         return this.logProductRepository.listAllLogProduct(idProduct);
     }
 
-    public void saveLogUpdateProduct(){
+    public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct){
 
     }
 
@@ -29,18 +29,19 @@ public class LogProductService {
         this.logProductRepository.save(
                 new LogProductEntity
                         .Builder()
-                        .product(product)
+                        .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName().trim() + " has been created!")
                         .date(nowDate())
                         .build());
     }
 
-    public void saveLogDeleteProduct(String product){
+    public void saveLogDeleteProduct(ProductEntity product){
         this.logProductRepository.save(
                 new LogProductEntity
                         .Builder()
+                        .productId(product.getId())
+                        .description("Product " + product.getId() + " - " + product.getName().toUpperCase().trim() + " has been deleted!")
                         .date(nowDate())
-                        .description("Product " + product + " has been deleted!")
                         .build());
     }
 

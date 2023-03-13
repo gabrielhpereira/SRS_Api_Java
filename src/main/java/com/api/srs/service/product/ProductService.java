@@ -46,20 +46,27 @@ public class ProductService {
 
     private void updateProduct(ProductDto productDto){
         ProductEntity product = this.productRepository.getReferenceById(productDto.getId());
+        ProductEntity oldProduct =
+                new ProductEntity
+                        .Builder()
+                        .name(product.getName().trim().toUpperCase())
+                        .amount(product.getAmount())
+                        .price(product.getPrice())
+                        .build();
+
         product.setName(productDto.getName().toUpperCase().trim());
         product.setPrice(productDto.getPrice());
         product.setAmount(productDto.getAmount());
 
         this.productRepository.saveAndFlush(product);
 
-        this.logProductService.saveLogNewProduct(product);
+        this.logProductService.saveLogUpdateProduct(product, oldProduct);
     }
 
     private void saveProduct(ProductDto productDto){
         ProductEntity product =
                 new ProductEntity
                         .Builder()
-                        .id(productDto.getId())
                         .name(productDto.getName().trim().toUpperCase())
                         .amount(productDto.getAmount())
                         .price(productDto.getPrice())
@@ -76,7 +83,7 @@ public class ProductService {
 
         this.productRepository.deleteById(id);
 
-        this.logProductService.saveLogDeleteProduct(product.getId() + " - " + product.getName().trim());
+        this.logProductService.saveLogDeleteProduct(product);
     }
 
     private static void validateProductDto(ProductDto productDto) {
