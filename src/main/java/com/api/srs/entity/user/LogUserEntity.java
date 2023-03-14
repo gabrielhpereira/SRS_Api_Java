@@ -22,35 +22,61 @@ public class LogUserEntity {
     @Column
     private Date date;
 
-    public Integer getId() {
-        return id;
+    public LogUserEntity() {
+
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    private LogUserEntity(Builder builder) {
+        this.id = builder.id;
+        this.userId = builder.userId;
+        this.description = builder.description;
+        this.date = builder.date;
+    }
+
+    public static class Builder {
+        private Integer id;
+        private Integer userId;
+        private String description;
+        private Date date;
+
+        public Builder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder userId(Integer userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder date(Date date) {
+            this.date = date;
+            return this;
+        }
+
+        public LogUserEntity build() {
+            return new LogUserEntity(this);
+        }
+    }
+
+    public Integer getId() {
+        return this.id;
     }
 
     public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+        return this.userId;
     }
 
     public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return this.description;
     }
 
     public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+        return this.date;
     }
 }

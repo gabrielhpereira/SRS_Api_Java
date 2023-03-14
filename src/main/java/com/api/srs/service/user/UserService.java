@@ -8,43 +8,91 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Service
 public class UserService {
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private LogUserService logUserService;
 
     public List<UserVo> listAllUsers() {
         return this.userRepository.listAllUsers();
     }
 
-    public List<UserVo> listUserByFilters(UserDto dto) {
+    public List<UserVo> listUserByFilters(UserDto userDto) {
         return this.userRepository.listUserByFilters(
-                dto.getId(),
-                dto.getName(),
-                dto.getEmail(),
-                dto.getAddress()
+                userDto.getId(),
+                userDto.getName(),
+                userDto.getEmail(),
+                userDto.getAddress()
         );
     }
 
     @Transactional
-    public void saveOrUpdateUser(UserDto dto) {
+    public void saveOrUpdateUser(UserDto userDto) {
+        validateUserDto(userDto);
+        if (userDto.getId().equals(0) || userDto.getId() == null)
+            this.saveUser(userDto);
+        else
+            this.updateUser(userDto);
+    }
+
+    private void updateUser(UserDto userDto) {
+        UserEntity user = this.userRepository.getReferenceById(userDto.getId());
+        UserEntity oldUser =
+                new UserEntity
+                        .Builder()
+                        .name(user.getName())
+                        .address(user.getAddress())
+                        .email(user.getEmail())
+                        .build();
+
+        user.setName(userDto.getName().toUpperCase().trim());
+        user.setAddress(userDto.getAddress().toUpperCase().trim());
+        user.setEmail(userDto.getEmail().trim());
+
+        this.userRepository.saveAndFlush(user);
+
+        this.logUserService.saveLogUpdateUser(user, oldUser);
+    }
+
+    private void saveUser(UserDto userDto) {
         UserEntity user =
                 new UserEntity
                         .Builder()
-                        .id(dto.getId() == null ? null : dto.getId())
-                        .name(dto.getName() == null || dto.getName().equals("") ? null : dto.getName())
-                        .email(dto.getEmail() == null || dto.getEmail().equals("") ? null : dto.getEmail())
-                        .address(dto.getAddress() == null || dto.getAddress().equals("") ? null : dto.getAddress())
+                        .id(userDto.getId())
+                        .name(userDto.getName().toUpperCase().trim())
+                        .email(userDto.getEmail().trim())
+                        .address(userDto.getAddress().toUpperCase().trim())
                         .build();
 
-        this.userRepository.save(user);
+        this.userRepository.saveAndFlush(user);
+
+        this.logUserService.saveLogNewUser(user);
     }
 
     @Transactional
     public void deleteUserById(Integer id) {
-        this.userRepository.deleteById(id);
+        UserEntity user = this.userRepository.getReferenceById(id);
+
+        this.userRepository.deleteById(user.getId());
+
+        this.logUserService.saveLogDeleteUser(user);
+    }
+
+    private static void validateUserDto(UserDto userDto) {
+        if (userDto.getName().isBlank() || userDto.getName() == null)
+            throw new ValidationException("Name is empty or null");
+
+        if (userDto.getAddress().isBlank() || userDto.getAddress() == null)
+            throw new ValidationException("Address is empty or null");
+
+        if (userDto.getEmail().isBlank() || userDto.getEmail() == null)
+            throw new ValidationException("Price is empty or null");
     }
 }

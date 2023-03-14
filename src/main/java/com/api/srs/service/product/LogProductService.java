@@ -21,38 +21,35 @@ public class LogProductService {
         return this.logProductRepository.listAllLogProduct(idProduct);
     }
 
-    public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct){
+    public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct) {
         StringBuilder sb = new StringBuilder();
 
-        if(!newProduct.getName().toUpperCase().trim().equals(oldProduct.getName().toUpperCase().trim())){
+        if (!newProduct.getName().toUpperCase().trim().equals(oldProduct.getName().toUpperCase().trim()))
             sb.append("Name changed from ")
                     .append(oldProduct.getName().toUpperCase().trim())
                     .append(" to ").append(newProduct.getName().toUpperCase().trim())
                     .append("\n");
-        }
-        if(newProduct.getPrice().compareTo(oldProduct.getPrice()) != 0){
+
+        if (newProduct.getPrice().compareTo(oldProduct.getPrice()) != 0)
             sb.append("Price changed from ")
                     .append(oldProduct.getPrice()).append(" to ")
                     .append(newProduct.getPrice())
                     .append("\n");
-        }
 
-        if(!newProduct.getAmount().equals(oldProduct.getAmount())){
+        if (!newProduct.getAmount().equals(oldProduct.getAmount()))
             sb.append("Amount changed from ")
                     .append(oldProduct.getAmount())
                     .append(" to ")
                     .append(newProduct.getAmount());
-        }
 
-        if(!sb.toString().isEmpty()){
+        if (!sb.toString().isEmpty())
             this.logProductRepository.save(
                     new LogProductEntity
                             .Builder()
                             .productId(newProduct.getId())
                             .description("Product " + newProduct.getId() + " : \n\n" + sb.toString())
-                            .date(nowDate())
+                            .date(now())
                             .build());
-        }
     }
 
     public void saveLogNewProduct(ProductEntity product) {
@@ -61,21 +58,21 @@ public class LogProductService {
                         .Builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName().trim() + " has been created!")
-                        .date(nowDate())
+                        .date(now())
                         .build());
     }
 
-    public void saveLogDeleteProduct(ProductEntity product){
+    public void saveLogDeleteProduct(ProductEntity product) {
         this.logProductRepository.save(
                 new LogProductEntity
                         .Builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName().toUpperCase().trim() + " has been deleted!")
-                        .date(nowDate())
+                        .date(now())
                         .build());
     }
 
-    private static Date nowDate(){
+    private static Date now() {
         return new Date();
     }
 }

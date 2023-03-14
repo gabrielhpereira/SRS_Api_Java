@@ -38,18 +38,18 @@ public class ProductService {
     @Transactional
     public void saveOrUpdateProduct(ProductDto productDto) {
         validateProductDto(productDto);
-        if(productDto.getId().equals(BigInteger.ZERO) || productDto.getId() == null)
+        if (productDto.getId().equals(BigInteger.ZERO) || productDto.getId() == null)
             this.saveProduct(productDto);
         else
             this.updateProduct(productDto);
     }
 
-    private void updateProduct(ProductDto productDto){
+    private void updateProduct(ProductDto productDto) {
         ProductEntity product = this.productRepository.getReferenceById(productDto.getId());
         ProductEntity oldProduct =
                 new ProductEntity
                         .Builder()
-                        .name(product.getName().trim().toUpperCase())
+                        .name(product.getName())
                         .amount(product.getAmount())
                         .price(product.getPrice())
                         .build();
@@ -63,7 +63,7 @@ public class ProductService {
         this.logProductService.saveLogUpdateProduct(product, oldProduct);
     }
 
-    private void saveProduct(ProductDto productDto){
+    private void saveProduct(ProductDto productDto) {
         ProductEntity product =
                 new ProductEntity
                         .Builder()
@@ -81,7 +81,7 @@ public class ProductService {
     public void deleteProductById(BigInteger id) {
         ProductEntity product = this.productRepository.getReferenceById(id);
 
-        this.productRepository.deleteById(id);
+        this.productRepository.deleteById(product.getId());
 
         this.logProductService.saveLogDeleteProduct(product);
     }
