@@ -12,8 +12,10 @@ import java.util.List;
 @Repository
 public interface LogUserRepository extends JpaRepository<LogUserEntity, Integer> {
 
-    @Query("SELECT new com.api.srs.vo.user.LogUserVo(l.id, l.description, l.date, l.userId)" +
-            " FROM LogUserEntity l" +
-            " WHERE l.userId = :userId")
-    public List<LogUserVo> listAllLogUser(@Param("userId") Integer userId);
+    @Query("SELECT new com.api.srs.vo.user.LogUserVo(l.id, l.description, l.date, l.userId)"
+            + "     FROM LogUserEntity l"
+            + " WHERE l.userId = :userId")
+    public List<LogUserVo> listAllLogUser(
+            @Param("userId") Integer userId
+    );
 }

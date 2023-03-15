@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer> {
+public interface EmployeeRepository extends JpaRepository<EmployeeEntity, String> {
     String SELECT = "SELECT new com.api.srs.vo.employee.EmployeeVo(e.cpf, e.name, e.sector) FROM EmployeeEntity e";
 
     @Query(SELECT)
@@ -18,9 +18,9 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
 
     @Query(SELECT
             + " WHERE 1 = 1"
-            + " AND :cpf IS NULL OR e.cpf = :cpf"
-            + " AND :name IS NULL OR e.name LIKE CONCAT('%', :name, '%')"
-            + " AND :sector IS NULL OR e.sector LIKE CONCAT('%', :sector, '%')")
+            + "     AND :cpf IS NULL OR e.cpf = :cpf"
+            + "     AND :name IS NULL OR e.name LIKE CONCAT('%', :name, '%')"
+            + "     AND :sector IS NULL OR e.sector LIKE CONCAT('%', :sector, '%')")
     public List<EmployeeVo> listEmployeeByFilters(
             @Param("cpf") String cpf,
             @Param("name") String name,

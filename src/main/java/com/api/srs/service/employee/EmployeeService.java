@@ -18,6 +18,9 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private LogEmployeeService logEmployeeService;
+
     public List<EmployeeVo> listAllEmployee() {
         return this.employeeRepository.listAllEmployee();
     }
@@ -35,6 +38,36 @@ public class EmployeeService {
     public void saveOrUpdateEmployee(EmployeeDto employeeDto) {
         validateEmployeeDto(employeeDto);
 
+        if (employeeDto.getCpf().isBlank() || employeeDto.getCpf() == null)
+            this.saveEmployee(employeeDto);
+        else
+            this.updateEmployee(employeeDto);
+    }
+
+    private void updateEmployee(EmployeeDto employeeDto) {
+        EmployeeEntity employee = this.employeeRepository.getReferenceById(employeeDto.getCpf());
+        EmployeeEntity oldEmployee =
+                new EmployeeEntity
+                        .Builder()
+                        .name(employee.getName())
+                        .address(employee.getAddress())
+                        .email(employee.getEmail())
+                        .phone(employee.getPhone())
+                        .sector(employee.getSector())
+                        .build();
+
+        employee.setName(employeeDto.getName().toUpperCase().trim());
+        employee.setAddress(employeeDto.getAddress().toUpperCase().trim());
+        employee.setEmail(employeeDto.getEmail().trim());
+        employee.setPhone(employeeDto.getPhone().trim());
+        employee.setSector(employeeDto.getSector().toUpperCase().trim());
+
+        this.employeeRepository.saveAndFlush(employee);
+
+        this.logEmployeeService.saveLogUpdateEmployee(employee, oldEmployee);
+    }
+
+    private void saveEmployee(EmployeeDto employeeDto) {
         EmployeeEntity employee =
                 new EmployeeEntity
                         .Builder()
@@ -46,12 +79,18 @@ public class EmployeeService {
                         .sector(employeeDto.getSector())
                         .build();
 
-        this.employeeRepository.save(employee);
+        this.employeeRepository.saveAndFlush(employee);
+
+        this.logEmployeeService.saveLogNewEmployee(employee);
     }
 
     @Transactional
-    public void deleteEmployeeById(Integer cpf) {
-        this.employeeRepository.deleteById(cpf);
+    public void deleteEmployeeById(String cpf) {
+        EmployeeEntity employee = this.employeeRepository.getReferenceById(cpf);
+
+        this.employeeRepository.deleteById(employee.getCpf());
+
+        this.logEmployeeService.saveLogDeleteEmployee(employee);
     }
 
     private static void validateEmployeeDto(EmployeeDto employeeDto) {

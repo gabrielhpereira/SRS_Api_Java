@@ -38,6 +38,7 @@ public class ProductService {
     @Transactional
     public void saveOrUpdateProduct(ProductDto productDto) {
         validateProductDto(productDto);
+
         if (productDto.getId().equals(BigInteger.ZERO) || productDto.getId() == null)
             this.saveProduct(productDto);
         else

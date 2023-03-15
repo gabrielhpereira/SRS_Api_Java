@@ -18,9 +18,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     @Query(SELECT
             + " WHERE :id = 0 OR u.id = :id"
-            + " AND :name IS NULL OR u.name LIKE CONCAT('%', :name, '%')"
-            + " AND :email IS NULL OR u.email LIKE CONCAT('%', :email, '%')"
-            + " AND :address iS NULL OR u.address LIKE CONCAT('%', :address, '%')")
+            + "     AND :name IS NULL OR u.name LIKE CONCAT('%', :name, '%')"
+            + "     AND :email IS NULL OR u.email LIKE CONCAT('%', :email, '%')"
+            + "     AND :address iS NULL OR u.address LIKE CONCAT('%', :address, '%')")
     public List<UserVo> listUserByFilters(
             @Param("id") Integer id,
             @Param("name") String name,
