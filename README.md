@@ -10,6 +10,6 @@
     Cadastro de Usuarios - OK
     Cadastro de Funcionarios - OK 
     Cadastro de Produtos - OK
-    Log de alterações - A fazer
+    Log de alterações - Ok
     Testes - A fazer
     Swagger - OK
