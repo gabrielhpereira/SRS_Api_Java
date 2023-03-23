@@ -88,13 +88,13 @@ public class ProductService {
     }
 
     private static void validateProductDto(ProductDto productDto) {
-        if (productDto.getName().isBlank() || productDto.getName() == null)
+        if (productDto.getName() == null || productDto.getName().isBlank())
             throw new ValidationException("Name is empty or null");
 
         if (productDto.getAmount() == null || productDto.getAmount() <= 0)
             throw new ValidationException("Amount is null or less than zero");
 
-        if (productDto.getPrice().compareTo(BigDecimal.ZERO) <= 0 || productDto.getPrice() == null)
+        if (productDto.getPrice() == null || productDto.getPrice().compareTo(BigDecimal.ZERO) <= 0)
             throw new ValidationException("Price is null or less than zero");
     }
 }

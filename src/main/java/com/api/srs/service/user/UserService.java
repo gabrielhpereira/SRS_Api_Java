@@ -86,13 +86,13 @@ public class UserService {
     }
 
     private static void validateUserDto(UserDto userDto) {
-        if (userDto.getName().isBlank() || userDto.getName() == null)
+        if (userDto.getName() == null || userDto.getName().isBlank())
             throw new ValidationException("Name is empty or null");
 
-        if (userDto.getAddress().isBlank() || userDto.getAddress() == null)
+        if (userDto.getAddress() == null || userDto.getAddress().isBlank() )
             throw new ValidationException("Address is empty or null");
 
-        if (userDto.getEmail().isBlank() || userDto.getEmail() == null)
+        if (userDto.getEmail() == null || userDto.getEmail().isBlank())
             throw new ValidationException("Price is empty or null");
     }
 }

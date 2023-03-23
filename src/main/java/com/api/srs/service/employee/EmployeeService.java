@@ -96,5 +96,14 @@ public class EmployeeService {
     private static void validateEmployeeDto(EmployeeDto employeeDto) {
         if (Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.getCpf())))
             throw new ValidationException("Cpf is invalid!");
+
+        if(employeeDto.getName() == null || employeeDto.getName().isBlank())
+            throw new ValidationException("Name cannot be null or empty!");
+
+        if(employeeDto.getEmail() == null || employeeDto.getEmail().isBlank())
+            throw new ValidationException("Email cannot be null or empty!");
+
+        if(employeeDto.getPhone() == null || employeeDto.getPhone().isBlank())
+            throw new ValidationException("Phone cannot be null or empty!");
     }
 }
