@@ -51,7 +51,7 @@ public class EmployeeResource {
     }
 
     @DeleteMapping("/deleteEmployee/{cpf}")
-    public ResponseEntity<Object> deleteEmployeeById(@PathVariable Integer cpf) {
+    public ResponseEntity<Object> deleteEmployeeById(@PathVariable String cpf) {
         try {
             this.employeeService.deleteEmployeeById(cpf);
             return new ResponseEntity<>(HttpStatus.OK);
