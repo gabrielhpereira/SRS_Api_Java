@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 
 public class Validator {
     public static Boolean cpfValidator(String cpf) {
+        if(cpf == null || cpf.equals("")) return true;
 
         if (cpf.equals("00000000000") || cpf.equals("11111111111") ||
                 cpf.equals("22222222222") || cpf.equals("33333333333") ||

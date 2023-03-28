@@ -38,7 +38,7 @@ public class EmployeeService {
     public void saveOrUpdateEmployee(EmployeeDto employeeDto) {
         validateEmployeeDto(employeeDto);
 
-        if (employeeDto.getCpf().isBlank() || employeeDto.getCpf() == null)
+        if (employeeDto.getCpf() == null || employeeDto.getCpf().isBlank())
             this.saveEmployee(employeeDto);
         else
             this.updateEmployee(employeeDto);
@@ -105,5 +105,11 @@ public class EmployeeService {
 
         if(employeeDto.getPhone() == null || employeeDto.getPhone().isBlank())
             throw new ValidationException("Phone cannot be null or empty!");
+
+        if(employeeDto.getAddress() == null || employeeDto.getAddress().isBlank())
+            throw new ValidationException("Address cannot be null or empty!");
+
+        if(employeeDto.getSector() == null || employeeDto.getSector().isBlank())
+            throw new ValidationException("Sector cannot be null or empty!");
     }
 }
