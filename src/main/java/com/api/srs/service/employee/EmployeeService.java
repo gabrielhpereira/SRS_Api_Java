@@ -97,19 +97,19 @@ public class EmployeeService {
         if (Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.getCpf())))
             throw new ValidationException("Cpf is invalid!");
 
-        if(employeeDto.getName() == null || employeeDto.getName().isBlank())
+        if (employeeDto.getName() == null || employeeDto.getName().isBlank())
             throw new ValidationException("Name cannot be null or empty!");
 
-        if(employeeDto.getEmail() == null || employeeDto.getEmail().isBlank())
+        if (employeeDto.getEmail() == null || employeeDto.getEmail().isBlank())
             throw new ValidationException("Email cannot be null or empty!");
 
-        if(employeeDto.getPhone() == null || employeeDto.getPhone().isBlank())
+        if (employeeDto.getPhone() == null || employeeDto.getPhone().isBlank())
             throw new ValidationException("Phone cannot be null or empty!");
 
-        if(employeeDto.getAddress() == null || employeeDto.getAddress().isBlank())
+        if (employeeDto.getAddress() == null || employeeDto.getAddress().isBlank())
             throw new ValidationException("Address cannot be null or empty!");
 
-        if(employeeDto.getSector() == null || employeeDto.getSector().isBlank())
+        if (employeeDto.getSector() == null || employeeDto.getSector().isBlank())
             throw new ValidationException("Sector cannot be null or empty!");
     }
 }
