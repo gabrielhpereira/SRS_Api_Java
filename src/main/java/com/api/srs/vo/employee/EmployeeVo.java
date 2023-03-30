@@ -2,6 +2,7 @@ package com.api.srs.vo.employee;
 
 public class EmployeeVo {
 
+    private Integer id;
     private String cpf;
     private String name;
     private String sector;
@@ -10,11 +11,16 @@ public class EmployeeVo {
 
     }
 
-    public EmployeeVo(String cpf, String name, String sector){
+    public EmployeeVo(Integer id,String cpf, String name, String sector){
+        this.id = id;
         this.cpf = cpf;
         this.name = name;
         this.sector = sector;
     }
+
+    public Integer getId() { return this.id; }
+
+    public void setId(Integer id) { this.id = id; }
 
     public String getCpf() {
         return cpf;

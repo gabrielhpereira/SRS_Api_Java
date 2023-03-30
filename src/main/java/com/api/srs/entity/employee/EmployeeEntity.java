@@ -7,8 +7,11 @@ import jakarta.persistence.*;
 public class EmployeeEntity {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    private Integer id;
+
+    @Column(unique = true)
     private String cpf;
 
     @Column
@@ -32,6 +35,7 @@ public class EmployeeEntity {
 
     private EmployeeEntity(Builder builder) {
         super();
+        this.id = builder.id;
         this.cpf = builder.cpf;
         this.name = builder.name;
         this.phone = builder.phone;
@@ -41,12 +45,18 @@ public class EmployeeEntity {
     }
 
     public static class Builder {
+        private Integer id;
         private String cpf;
         private String name;
         private String phone;
         private String address;
         private String email;
         private String sector;
+
+        public Builder id(Integer id){
+            this.id = id;
+            return this;
+        }
 
         public Builder cpf(String cpf) {
             this.cpf = cpf;
@@ -83,8 +93,12 @@ public class EmployeeEntity {
         }
     }
 
+    public Integer getId() { return this.id; }
+
+    public void setId(Integer id){ this.id = id; }
+
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public void setCpf(String cpf) {
@@ -92,7 +106,7 @@ public class EmployeeEntity {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -100,7 +114,7 @@ public class EmployeeEntity {
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(String phone) {
@@ -108,7 +122,7 @@ public class EmployeeEntity {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -116,7 +130,7 @@ public class EmployeeEntity {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -124,7 +138,7 @@ public class EmployeeEntity {
     }
 
     public String getSector() {
-        return sector;
+        return this.sector;
     }
 
     public void setSector(String sector) {

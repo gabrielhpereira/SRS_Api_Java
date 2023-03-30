@@ -28,6 +28,7 @@ public class EmployeeService {
     public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
         validateEmployeeDto(employeeDto);
         return this.employeeRepository.listEmployeeByFilters(
+                employeeDto.getId(),
                 employeeDto.getCpf(),
                 employeeDto.getName(),
                 employeeDto.getSector()
@@ -38,14 +39,14 @@ public class EmployeeService {
     public void saveOrUpdateEmployee(EmployeeDto employeeDto) {
         validateEmployeeDto(employeeDto);
 
-        if (employeeDto.getCpf() == null || employeeDto.getCpf().isBlank())
+        if (employeeDto.getId() == null)
             this.saveEmployee(employeeDto);
         else
             this.updateEmployee(employeeDto);
     }
 
     private void updateEmployee(EmployeeDto employeeDto) {
-        EmployeeEntity employee = this.employeeRepository.getReferenceById(employeeDto.getCpf());
+        EmployeeEntity employee = this.employeeRepository.getReferenceById(employeeDto.getId());
         EmployeeEntity oldEmployee =
                 new EmployeeEntity
                         .Builder()
@@ -85,16 +86,16 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployeeById(String cpf) {
-        EmployeeEntity employee = this.employeeRepository.getReferenceById(cpf);
+    public void deleteEmployeeById(Integer id) {
+        EmployeeEntity employee = this.employeeRepository.getReferenceById(id);
 
-        this.employeeRepository.deleteById(employee.getCpf());
+        this.employeeRepository.deleteById(employee.getId());
 
         this.logEmployeeService.saveLogDeleteEmployee(employee);
     }
 
     private static void validateEmployeeDto(EmployeeDto employeeDto) {
-        if (Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.getCpf())))
+        if (employeeDto.getCpf() == null || employeeDto.getCpf().isBlank() || Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.getCpf())))
             throw new ValidationException("Cpf is invalid!");
 
         if (employeeDto.getName() == null || employeeDto.getName().isBlank())

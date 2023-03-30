@@ -32,7 +32,7 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must return all employees")
     public void mustReturnAllEmployees() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo("test", "test", "test")).toList();
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
 
         this.employeeService.listAllEmployee();
@@ -43,12 +43,13 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must return employees by filters")
     public void mustReturnEmployeesByFilters() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo("test", "test", "test")).toList();
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
 
         this.employeeService.listEmployeeByFilters(buildMockDto());
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1)).listEmployeeByFilters(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.employeeRepository, Mockito.times(1))
+                .listEmployeeByFilters(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 
     @Test
@@ -56,21 +57,24 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     public void mustSaveAnEmployee() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getCpf()).thenReturn(null);
+        Mockito.when(mock.getId()).thenReturn(null);
 
         this.employeeService.saveOrUpdateEmployee(mock);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
-        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogNewEmployee(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.employeeRepository, Mockito.times(1))
+                .saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.logEmployeeService, Mockito.times(1))
+                .saveLogNewEmployee(ArgumentMatchers.any(EmployeeEntity.class));
     }
 
     @Test
     @DisplayName("Must update an employee")
     public void mustUpdateAnEmployee() {
         EmployeeDto mock = buildMockDto();
-        Mockito.when(this.employeeRepository.getReferenceById(mock.getCpf()))
+        Mockito.when(this.employeeRepository.getReferenceById(mock.getId()))
                 .thenReturn(new EmployeeEntity
                         .Builder()
+                        .id(1)
                         .cpf("90324214090")
                         .name("test")
                         .email("test@gmail.com")
@@ -82,8 +86,10 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         this.employeeService.saveOrUpdateEmployee(mock);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
-        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.employeeRepository, Mockito.times(1))
+                .saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.logEmployeeService, Mockito.times(1))
+                .saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
     }
 
     @Test
@@ -92,6 +98,14 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
         EmployeeDto mock = Mockito.mock(EmployeeDto.class);
 
         Mockito.when(mock.getCpf()).thenReturn("");
+
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
+
+        Mockito.when(mock.getCpf()).thenReturn(null);
+
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
+
+        Mockito.when(mock.getCpf()).thenReturn("000000000");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
     }
@@ -169,21 +183,24 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must delete an employee")
     public void mustDeleteAnEmployee() {
-        String cpf = "90324214090";
+        Integer id = 1;
         EmployeeEntity employee = Mockito.mock(EmployeeEntity.class);
 
-        Mockito.when(employee.getCpf()).thenReturn("90324214090");
-        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(cpf))).thenReturn(employee);
+        Mockito.when(employee.getId()).thenReturn(id);
+        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id))).thenReturn(employee);
 
-        this.employeeService.deleteEmployeeById(cpf);
+        this.employeeService.deleteEmployeeById(id);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1)).deleteById(ArgumentMatchers.any());
-        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogDeleteEmployee(ArgumentMatchers.any());
+        Mockito.verify(this.employeeRepository, Mockito.times(1))
+                .deleteById(ArgumentMatchers.any());
+        Mockito.verify(this.logEmployeeService, Mockito.times(1))
+                .saveLogDeleteEmployee(ArgumentMatchers.any());
     }
 
     private static EmployeeDto buildMockDto() {
         EmployeeDto mock = Mockito.mock(EmployeeDto.class);
 
+        Mockito.when(mock.getId()).thenReturn(1);
         Mockito.when(mock.getCpf()).thenReturn("90324214090");
         Mockito.when(mock.getName()).thenReturn("test");
         Mockito.when(mock.getEmail()).thenReturn("test@gmail.com");

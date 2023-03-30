@@ -1,6 +1,7 @@
 package com.api.srs.dto.employee;
 
 public class EmployeeDto {
+    private Integer id;
     private String cpf;
     private String name;
     private String phone;
@@ -8,8 +9,12 @@ public class EmployeeDto {
     private String address;
     private String sector;
 
+    public Integer getId() { return this.id; }
+
+    public void setId(Integer id){ this.id = id; }
+
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public void setCpf(String cpf) {
@@ -17,7 +22,7 @@ public class EmployeeDto {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -25,7 +30,7 @@ public class EmployeeDto {
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(String phone) {
@@ -33,7 +38,7 @@ public class EmployeeDto {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -41,7 +46,7 @@ public class EmployeeDto {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -49,7 +54,7 @@ public class EmployeeDto {
     }
 
     public String getSector() {
-        return sector;
+        return this.sector;
     }
 
     public void setSector(String sector) {
