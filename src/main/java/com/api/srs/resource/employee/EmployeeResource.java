@@ -20,6 +20,11 @@ public class EmployeeResource {
     private EmployeeService employeeService;
 
     @GetMapping("/listAllEmployee")
+    @Operation(description = "List all employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employees successfully listed"),
+            @ApiResponse(responseCode = "500", description = "An exception occurred while listing employees"),
+    })
     public ResponseEntity<Object> listAllEmployee() {
         try {
             return new ResponseEntity<>(this.employeeService.listAllEmployee(), HttpStatus.OK);
@@ -29,15 +34,29 @@ public class EmployeeResource {
     }
 
     @PostMapping("/listEmployeeByFilters")
+    @Operation(description = "List employee by filters")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employees successfully listed"),
+            @ApiResponse(responseCode = "409", description = "Some parameter is incorrect, validation error"),
+            @ApiResponse(responseCode = "500", description = "An exception occurred while listing employees"),
+    })
     public ResponseEntity<Object> listEmployeeByFilters(@RequestBody EmployeeDto employeeDto) {
         try {
             return new ResponseEntity<>(this.employeeService.listEmployeeByFilters(employeeDto), HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/saveOrUpdateEmployee")
+    @Operation(description = "Save or update an employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee successfully saved or updated"),
+            @ApiResponse(responseCode = "409", description = "Some parameter is incorrect, validation error"),
+            @ApiResponse(responseCode = "500", description = "An exception occurred while saving or updating the employee"),
+    })
     public ResponseEntity<Object> saveOrUpdateEmployee(@RequestBody EmployeeDto employeeDto) {
         try {
             this.employeeService.saveOrUpdateEmployee(employeeDto);
