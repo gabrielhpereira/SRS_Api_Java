@@ -32,7 +32,7 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must return all employees")
     public void mustReturnAllEmployees() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test")).toList();
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test", "test", "test","test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
 
         this.employeeService.listAllEmployee();
@@ -43,13 +43,20 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must return employees by filters")
     public void mustReturnEmployeesByFilters() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test")).toList();
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test", "test", "test","test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
 
         this.employeeService.listEmployeeByFilters(buildMockDto());
 
         Mockito.verify(this.employeeRepository, Mockito.times(1))
-                .listEmployeeByFilters(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+                .listEmployeeByFilters(
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString()
+                );
     }
 
     @Test

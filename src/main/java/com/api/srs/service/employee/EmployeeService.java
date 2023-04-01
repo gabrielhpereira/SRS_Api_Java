@@ -27,10 +27,12 @@ public class EmployeeService {
 
     public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
         return this.employeeRepository.listEmployeeByFilters(
-                employeeDto.getId() == null || employeeDto.getId().equals(0) ? null : employeeDto.getId(),
-                employeeDto.getCpf() == null || employeeDto.getCpf().isBlank() ? null : employeeDto.getCpf().trim(),
-                employeeDto.getName() == null || employeeDto.getName().isBlank() ? null : employeeDto.getName().toUpperCase().trim(),
-                employeeDto.getSector() == null || employeeDto.getSector().isBlank() ? null : employeeDto.getSector().toUpperCase().trim()
+                validateStringNullOrEmpty(employeeDto.getCpf()),
+                validateStringNullOrEmpty(employeeDto.getName()),
+                validateStringNullOrEmpty(employeeDto.getSector()),
+                validateStringNullOrEmpty(employeeDto.getPhone()),
+                validateStringNullOrEmpty(employeeDto.getAddress()),
+                validateStringNullOrEmpty(employeeDto.getEmail())
         );
     }
 
@@ -113,5 +115,9 @@ public class EmployeeService {
 
         if (employeeDto.getSector() == null || employeeDto.getSector().isBlank())
             throw new ValidationException("Sector cannot be null or empty!");
+    }
+
+    private static String validateStringNullOrEmpty(String valor){
+        return valor == null || valor.isBlank() ? null : valor.trim();
     }
 }
