@@ -99,15 +99,15 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getCpf()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn("000000000");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
     }
 
     @Test
@@ -117,11 +117,11 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getName()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
 
         Mockito.when(mock.getName()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
     }
 
     @Test
@@ -131,11 +131,11 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getEmail()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
 
         Mockito.when(mock.getEmail()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
     }
 
     @Test
@@ -145,11 +145,11 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getPhone()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
 
         Mockito.when(mock.getPhone()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
     }
 
     @Test
@@ -159,11 +159,11 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getAddress()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
 
         Mockito.when(mock.getAddress()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
     }
 
     @Test
@@ -173,11 +173,11 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         Mockito.when(mock.getSector()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
 
         Mockito.when(mock.getSector()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
     }
 
     @Test

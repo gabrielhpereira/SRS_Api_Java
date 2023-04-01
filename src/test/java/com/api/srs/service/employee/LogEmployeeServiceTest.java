@@ -8,7 +8,6 @@ import com.api.srs.repository.employee.LogEmployeeRepository;
 import com.api.srs.vo.employee.LogEmployeeVo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

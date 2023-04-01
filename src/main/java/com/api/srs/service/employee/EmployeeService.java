@@ -26,12 +26,11 @@ public class EmployeeService {
     }
 
     public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
-        validateEmployeeDto(employeeDto);
         return this.employeeRepository.listEmployeeByFilters(
-                employeeDto.getId(),
-                employeeDto.getCpf(),
-                employeeDto.getName(),
-                employeeDto.getSector()
+                employeeDto.getId() == null || employeeDto.getId().equals(0) ? null : employeeDto.getId(),
+                employeeDto.getCpf() == null || employeeDto.getCpf().isBlank() ? null : employeeDto.getCpf().trim(),
+                employeeDto.getName() == null || employeeDto.getName().isBlank() ? null : employeeDto.getName().toUpperCase().trim(),
+                employeeDto.getSector() == null || employeeDto.getSector().isBlank() ? null : employeeDto.getSector().toUpperCase().trim()
         );
     }
 
@@ -50,6 +49,7 @@ public class EmployeeService {
         EmployeeEntity oldEmployee =
                 new EmployeeEntity
                         .Builder()
+                        .cpf(employee.getCpf())
                         .name(employee.getName())
                         .address(employee.getAddress())
                         .email(employee.getEmail())
@@ -57,11 +57,12 @@ public class EmployeeService {
                         .sector(employee.getSector())
                         .build();
 
-        employee.setName(employeeDto.getName().toUpperCase().trim());
-        employee.setAddress(employeeDto.getAddress().toUpperCase().trim());
+        employee.setCpf(employeeDto.getCpf().trim());
+        employee.setName(employeeDto.getName().trim());
+        employee.setAddress(employeeDto.getAddress().trim());
         employee.setEmail(employeeDto.getEmail().trim());
         employee.setPhone(employeeDto.getPhone().trim());
-        employee.setSector(employeeDto.getSector().toUpperCase().trim());
+        employee.setSector(employeeDto.getSector().trim());
 
         this.employeeRepository.saveAndFlush(employee);
 
@@ -72,12 +73,12 @@ public class EmployeeService {
         EmployeeEntity employee =
                 new EmployeeEntity
                         .Builder()
-                        .address(employeeDto.getAddress())
-                        .email(employeeDto.getEmail())
-                        .name(employeeDto.getName())
-                        .cpf(employeeDto.getCpf())
-                        .phone(employeeDto.getPhone())
-                        .sector(employeeDto.getSector())
+                        .address(employeeDto.getAddress().trim())
+                        .email(employeeDto.getEmail().trim())
+                        .name(employeeDto.getName().trim())
+                        .cpf(employeeDto.getCpf().trim())
+                        .phone(employeeDto.getPhone().trim())
+                        .sector(employeeDto.getSector().trim())
                         .build();
 
         this.employeeRepository.saveAndFlush(employee);
