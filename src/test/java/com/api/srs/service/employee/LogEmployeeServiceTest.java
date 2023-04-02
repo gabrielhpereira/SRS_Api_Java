@@ -28,14 +28,14 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
     @Test
     @DisplayName("Must return all employee logs")
     public void mustReturnAllLogEmployee() {
-        String cpf = "119929392";
+        Integer idEmployee = 1;
 
-        Mockito.when(this.logEmployeeRepository.listAllLogEmployee(cpf)).thenReturn(
-                IntStream.range(0, 3).mapToObj(value -> new LogEmployeeVo(1, cpf,"Test description", new Date())).toList());
+        Mockito.when(this.logEmployeeRepository.listAllLogEmployee(idEmployee)).thenReturn(
+                IntStream.range(0, 3).mapToObj(value -> new LogEmployeeVo(1, idEmployee,"Test description", new Date())).toList());
 
-        this.logEmployeeService.listAllLogEmployee(cpf);
+        this.logEmployeeService.listAllLogEmployee(idEmployee);
 
-        Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).listAllLogEmployee(cpf);
+        Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).listAllLogEmployee(idEmployee);
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class LogEmployeeVo {
     private Integer id;
-    private String employeeCpf;
+    private Integer idEmployee;
     private String description;
     private Date date;
 
@@ -12,9 +12,9 @@ public class LogEmployeeVo {
 
     }
 
-    public LogEmployeeVo(Integer id, String employeeCpf, String description, Date date) {
+    public LogEmployeeVo(Integer id, Integer idEmployee, String description, Date date) {
         this.id = id;
-        this.employeeCpf = employeeCpf;
+        this.idEmployee = idEmployee;
         this.description = description;
         this.date = date;
     }
@@ -23,8 +23,8 @@ public class LogEmployeeVo {
         return this.id;
     }
 
-    public String getEmployeeCpf() {
-        return this.employeeCpf;
+    public Integer getIdEmployee() {
+        return this.idEmployee;
     }
 
     public String getDescription() {

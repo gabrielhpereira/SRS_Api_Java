@@ -17,8 +17,8 @@ public class LogEmployeeService {
     @Autowired
     private LogEmployeeRepository logEmployeeRepository;
 
-    public List<LogEmployeeVo> listAllLogEmployee(String employeeCpf) {
-        return this.logEmployeeRepository.listAllLogEmployee(employeeCpf);
+    public List<LogEmployeeVo> listAllLogEmployee(Integer idEmployee) {
+        return this.logEmployeeRepository.listAllLogEmployee(idEmployee);
     }
 
     public void saveLogUpdateEmployee(EmployeeEntity newEmployee, EmployeeEntity oldEmployee) {
@@ -70,7 +70,7 @@ public class LogEmployeeService {
             this.logEmployeeRepository.save(
                     new LogEmployeeEntity
                             .Builder()
-                            .employeeCpf(newEmployee.getCpf())
+                            .idEmployee(newEmployee.getId())
                             .description("Product " + newEmployee.getCpf() + " : \n\n" + sb.toString())
                             .date(now())
                             .build());
@@ -80,7 +80,7 @@ public class LogEmployeeService {
         this.logEmployeeRepository.save(
                 new LogEmployeeEntity
                         .Builder()
-                        .employeeCpf(employee.getCpf())
+                        .id(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName().toUpperCase().trim() + " has been created!")
                         .date(now())
                         .build()
@@ -91,7 +91,7 @@ public class LogEmployeeService {
         this.logEmployeeRepository.save(
                 new LogEmployeeEntity
                         .Builder()
-                        .employeeCpf(employee.getCpf())
+                        .idEmployee(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName().toUpperCase().trim() + " has been deleted!")
                         .date(now())
                         .build()

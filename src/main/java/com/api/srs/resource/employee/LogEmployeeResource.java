@@ -18,10 +18,10 @@ public class LogEmployeeResource {
     @Autowired
     private LogEmployeeService logEmployeeService;
 
-    @GetMapping("/listAllLogEmployee/{employeeCpf}")
-    public ResponseEntity<Object> listAllLogEmployee(@PathVariable String employeeCpf) {
+    @GetMapping("/listAllLogEmployee/{idEmployee}")
+    public ResponseEntity<Object> listAllLogEmployee(@PathVariable Integer idEmployee) {
         try {
-            return new ResponseEntity<>(this.logEmployeeService.listAllLogEmployee(employeeCpf), HttpStatus.OK);
+            return new ResponseEntity<>(this.logEmployeeService.listAllLogEmployee(idEmployee), HttpStatus.OK);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {

@@ -14,7 +14,7 @@ public class LogEmployeeEntity {
     private Integer id;
 
     @Column
-    private String employeeCpf;
+    private Integer idEmployee;
 
     @Column
     private String description;
@@ -28,14 +28,14 @@ public class LogEmployeeEntity {
 
     private LogEmployeeEntity(Builder builder) {
         this.id = builder.id;
-        this.employeeCpf = builder.employeeCpf;
+        this.idEmployee = builder.idEmployee;
         this.description = builder.description;
         this.date = builder.date;
     }
 
     public static class Builder {
         private Integer id;
-        private String employeeCpf;
+        private Integer idEmployee;
         private String description;
         private Date date;
 
@@ -44,8 +44,8 @@ public class LogEmployeeEntity {
             return this;
         }
 
-        public Builder employeeCpf(String employeeCpf) {
-            this.employeeCpf = employeeCpf;
+        public Builder idEmployee(Integer idEmployee) {
+            this.idEmployee = idEmployee;
             return this;
         }
 
@@ -68,8 +68,8 @@ public class LogEmployeeEntity {
         return this.id;
     }
 
-    public String getEmployeeCpf() {
-        return this.employeeCpf;
+    public Integer getIdEmployee() {
+        return this.idEmployee;
     }
 
     public String getDescription() {

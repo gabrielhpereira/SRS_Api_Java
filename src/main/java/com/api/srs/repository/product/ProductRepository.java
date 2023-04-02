@@ -20,12 +20,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity, BigInteg
 
     @Query(SELECT
             + " WHERE 1 = 1"
-            + "     AND :id = 0 OR p.id = :id"
-            + "     AND :name IS NULL OR p.name LIKE CONCAT('%', :name, '%')"
-            + "     AND :price = 0 OR p.price = :price"
-            + "     AND :amount = 0 OR p.amount = :amount")
+            + "     (AND :name IS NULL OR UPPER(p.name) LIKE CONCAT('%', :name, '%'))"
+            + "     (AND :price = 0 OR p.price LIKE CONCAT('%', :price, '%'))"
+            + "     (AND :amount = 0 OR p.amount LIKE CONCAT('%', :amount, '%'))")
     public List<ProductVo> listProductByFilters(
-            @Param("id") BigInteger id,
             @Param("name") String name,
             @Param("price") BigDecimal price,
             @Param("amount") Integer amount

@@ -28,10 +28,9 @@ public class ProductService {
 
     public List<ProductVo> listProductByFilters(ProductDto productDto) {
         return this.productRepository.listProductByFilters(
-                productDto.getId(),
-                productDto.getName(),
-                productDto.getPrice(),
-                productDto.getAmount()
+                productDto.getName() == null || productDto.getName().isBlank() ? null : productDto.getName().trim(),
+                productDto.getPrice() == null || productDto.getPrice().compareTo(BigDecimal.ZERO) == 0 ? null : productDto.getPrice(),
+                productDto.getAmount() == null || productDto.getAmount().equals(0) ? null : productDto.getAmount()
         );
     }
 
@@ -39,7 +38,7 @@ public class ProductService {
     public void saveOrUpdateProduct(ProductDto productDto) {
         validateProductDto(productDto);
 
-        if (productDto.getId().equals(BigInteger.ZERO) || productDto.getId() == null)
+        if (productDto.getId() == null || productDto.getId().equals(BigInteger.ZERO))
             this.saveProduct(productDto);
         else
             this.updateProduct(productDto);
@@ -50,12 +49,13 @@ public class ProductService {
         ProductEntity oldProduct =
                 new ProductEntity
                         .Builder()
+                        .id(product.getId())
                         .name(product.getName())
                         .amount(product.getAmount())
                         .price(product.getPrice())
                         .build();
 
-        product.setName(productDto.getName().toUpperCase().trim());
+        product.setName(productDto.getName().trim());
         product.setPrice(productDto.getPrice());
         product.setAmount(productDto.getAmount());
 
@@ -68,7 +68,7 @@ public class ProductService {
         ProductEntity product =
                 new ProductEntity
                         .Builder()
-                        .name(productDto.getName().trim().toUpperCase())
+                        .name(productDto.getName().trim())
                         .amount(productDto.getAmount())
                         .price(productDto.getPrice())
                         .build();
