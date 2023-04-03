@@ -2,7 +2,6 @@ package com.api.srs.service.employee;
 
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.entity.employee.LogEmployeeEntity;
-import com.api.srs.entity.product.LogProductEntity;
 import com.api.srs.repository.employee.LogEmployeeRepository;
 import com.api.srs.vo.employee.LogEmployeeVo;
 import org.springframework.beans.factory.annotation.Autowired;
