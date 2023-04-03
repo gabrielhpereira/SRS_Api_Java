@@ -23,22 +23,22 @@ public class LogUserService {
     public void saveLogUpdateUser(UserEntity newUser, UserEntity oldUser) {
         StringBuilder sb = new StringBuilder();
 
-        if (newUser.getName().toUpperCase().trim().equals(oldUser.getName().toUpperCase().trim()))
+        if (newUser.getName().equalsIgnoreCase(oldUser.getName()))
             sb.append("Name changed from ")
-                    .append(oldUser.getName().toUpperCase().trim())
-                    .append(" to ").append(newUser.getName().toUpperCase().trim())
+                    .append(oldUser.getName())
+                    .append(" to ").append(newUser.getName())
                     .append("\n");
 
-        if (newUser.getAddress().toUpperCase().trim().equals(oldUser.getAddress().toUpperCase().trim()))
+        if (newUser.getAddress().equalsIgnoreCase(oldUser.getAddress()))
             sb.append("Address changed from ")
-                    .append(oldUser.getAddress().toUpperCase().trim())
-                    .append(" to ").append(newUser.getAddress().toUpperCase().trim())
+                    .append(oldUser.getAddress())
+                    .append(" to ").append(newUser.getAddress())
                     .append("\n");
 
-        if (newUser.getEmail().trim().equals(oldUser.getEmail().trim()))
+        if (newUser.getEmail().equalsIgnoreCase(oldUser.getEmail()))
             sb.append("Email changed from ")
                     .append(oldUser.getEmail().trim())
-                    .append(" to ").append(newUser.getEmail().trim())
+                    .append(" to ").append(newUser.getEmail())
                     .append("\n");
 
         if (!sb.toString().isEmpty())
@@ -56,7 +56,7 @@ public class LogUserService {
                 new LogUserEntity
                         .Builder()
                         .userId(user.getId())
-                        .description("User " + user.getId() + " - " + user.getName().trim() + " has been created!")
+                        .description("User " + user.getId() + " - " + user.getName() + " has been created!")
                         .date(now())
                         .build());
     }
@@ -66,7 +66,7 @@ public class LogUserService {
                 new LogUserEntity
                         .Builder()
                         .userId(user.getId())
-                        .description("User " + user.getId() + " - " + user.getName().trim() + " has been deleted!")
+                        .description("User " + user.getId() + " - " + user.getName() + " has been deleted!")
                         .date(now())
                         .build());
     }

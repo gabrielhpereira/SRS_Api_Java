@@ -24,10 +24,10 @@ public class LogProductService {
     public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct) {
         StringBuilder sb = new StringBuilder();
 
-        if (!newProduct.getName().toUpperCase().trim().equals(oldProduct.getName().toUpperCase().trim()))
+        if (!newProduct.getName().equalsIgnoreCase(oldProduct.getName()))
             sb.append("Name changed from ")
-                    .append(oldProduct.getName().toUpperCase().trim())
-                    .append(" to ").append(newProduct.getName().toUpperCase().trim())
+                    .append(oldProduct.getName())
+                    .append(" to ").append(newProduct.getName())
                     .append("\n");
 
         if (newProduct.getPrice().compareTo(oldProduct.getPrice()) != 0)
@@ -57,7 +57,7 @@ public class LogProductService {
                 new LogProductEntity
                         .Builder()
                         .productId(product.getId())
-                        .description("Product " + product.getId() + " - " + product.getName().trim() + " has been created!")
+                        .description("Product " + product.getId() + " - " + product.getName() + " has been created!")
                         .date(now())
                         .build());
     }
@@ -67,7 +67,7 @@ public class LogProductService {
                 new LogProductEntity
                         .Builder()
                         .productId(product.getId())
-                        .description("Product " + product.getId() + " - " + product.getName().toUpperCase().trim() + " has been deleted!")
+                        .description("Product " + product.getId() + " - " + product.getName() + " has been deleted!")
                         .date(now())
                         .build());
     }

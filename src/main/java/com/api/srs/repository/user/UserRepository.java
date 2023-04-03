@@ -17,12 +17,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     public List<UserVo> listAllUsers();
 
     @Query(SELECT
-            + " WHERE :id = 0 OR u.id = :id"
-            + "     AND :name IS NULL OR u.name LIKE CONCAT('%', :name, '%')"
-            + "     AND :email IS NULL OR u.email LIKE CONCAT('%', :email, '%')"
-            + "     AND :address iS NULL OR u.address LIKE CONCAT('%', :address, '%')")
+            + " WHERE 1 = 1"
+            + "     AND (:name IS NULL OR UPPER(u.name) LIKE CONCAT('%', :name, '%'))"
+            + "     AND (:email IS NULL OR u.email LIKE CONCAT('%', :email, '%'))"
+            + "     AND (:address iS NULL OR UPPER(u.address) LIKE CONCAT('%', :address, '%'))")
     public List<UserVo> listUserByFilters(
-            @Param("id") Integer id,
             @Param("name") String name,
             @Param("email") String email,
             @Param("address") String address

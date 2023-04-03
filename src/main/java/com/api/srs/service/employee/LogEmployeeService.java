@@ -24,46 +24,46 @@ public class LogEmployeeService {
     public void saveLogUpdateEmployee(EmployeeEntity newEmployee, EmployeeEntity oldEmployee) {
         StringBuilder sb = new StringBuilder();
 
-        if (!newEmployee.getName().toUpperCase().trim().equals(oldEmployee.getName().toUpperCase().trim()))
+        if (!newEmployee.getName().equalsIgnoreCase(oldEmployee.getName()))
             sb.append("Name changed from ")
-                    .append(oldEmployee.getName().toUpperCase().trim())
+                    .append(oldEmployee.getName().toUpperCase())
                     .append(" to ")
-                    .append(newEmployee.getName().toUpperCase().trim())
+                    .append(newEmployee.getName().toUpperCase())
                     .append("\n");
 
-        if (!newEmployee.getCpf().trim().equals(oldEmployee.getCpf().trim()))
+        if (!newEmployee.getCpf().equals(oldEmployee.getCpf()))
             sb.append("Cpf changed from ")
-                    .append(oldEmployee.getCpf().trim())
+                    .append(oldEmployee.getCpf())
                     .append(" to ")
-                    .append(newEmployee.getCpf().trim())
+                    .append(newEmployee.getCpf())
                     .append("\n");
 
-        if (!newEmployee.getAddress().toUpperCase().trim().equals(oldEmployee.getAddress().toUpperCase().trim()))
+        if (!newEmployee.getAddress().equalsIgnoreCase(oldEmployee.getAddress()))
             sb.append("Address changed from ")
-                    .append(oldEmployee.getAddress().toUpperCase().trim())
+                    .append(oldEmployee.getAddress().toUpperCase())
                     .append(" to ")
-                    .append(newEmployee.getAddress().toUpperCase().trim())
+                    .append(newEmployee.getAddress().toUpperCase())
                     .append("\n");
 
-        if (!newEmployee.getEmail().trim().equals(oldEmployee.getEmail().trim()))
+        if (!newEmployee.getEmail().equalsIgnoreCase(oldEmployee.getEmail()))
             sb.append("Email changed from ")
-                    .append(oldEmployee.getEmail().trim())
+                    .append(oldEmployee.getEmail())
                     .append(" to ")
-                    .append(newEmployee.getEmail().trim())
+                    .append(newEmployee.getEmail())
                     .append("\n");
 
-        if (!newEmployee.getPhone().trim().equals(oldEmployee.getPhone().trim()))
+        if (!newEmployee.getPhone().equals(oldEmployee.getPhone()))
             sb.append("Phone changed from ")
-                    .append(oldEmployee.getPhone().trim())
+                    .append(oldEmployee.getPhone())
                     .append(" to ")
-                    .append(newEmployee.getPhone().trim())
+                    .append(newEmployee.getPhone())
                     .append("\n");
 
-        if (!newEmployee.getSector().toUpperCase().trim().equals(oldEmployee.getSector().toUpperCase().trim()))
+        if (!newEmployee.getSector().equalsIgnoreCase(oldEmployee.getSector()))
             sb.append("Sector changed from ")
-                    .append(oldEmployee.getSector().toUpperCase().trim())
+                    .append(oldEmployee.getSector().toUpperCase())
                     .append(" to ")
-                    .append(newEmployee.getSector().toUpperCase().trim())
+                    .append(newEmployee.getSector().toUpperCase())
                     .append("\n");
 
         if (!sb.toString().isEmpty())
@@ -81,7 +81,7 @@ public class LogEmployeeService {
                 new LogEmployeeEntity
                         .Builder()
                         .id(employee.getId())
-                        .description("Employee " + employee.getCpf() + " - " + employee.getName().toUpperCase().trim() + " has been created!")
+                        .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been created!")
                         .date(now())
                         .build()
         );
@@ -92,7 +92,7 @@ public class LogEmployeeService {
                 new LogEmployeeEntity
                         .Builder()
                         .idEmployee(employee.getId())
-                        .description("Employee " + employee.getCpf() + " - " + employee.getName().toUpperCase().trim() + " has been deleted!")
+                        .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been deleted!")
                         .date(now())
                         .build()
         );

@@ -26,10 +26,9 @@ public class UserService {
 
     public List<UserVo> listUserByFilters(UserDto userDto) {
         return this.userRepository.listUserByFilters(
-                userDto.getId(),
-                userDto.getName(),
-                userDto.getEmail(),
-                userDto.getAddress()
+                validateStringNullOrEmpty(userDto.getName()),
+                validateStringNullOrEmpty(userDto.getEmail()),
+                validateStringNullOrEmpty(userDto.getAddress())
         );
     }
 
@@ -52,8 +51,8 @@ public class UserService {
                         .email(user.getEmail())
                         .build();
 
-        user.setName(userDto.getName().toUpperCase().trim());
-        user.setAddress(userDto.getAddress().toUpperCase().trim());
+        user.setName(userDto.getName().trim());
+        user.setAddress(userDto.getAddress().trim());
         user.setEmail(userDto.getEmail().trim());
 
         this.userRepository.saveAndFlush(user);
@@ -66,9 +65,9 @@ public class UserService {
                 new UserEntity
                         .Builder()
                         .id(userDto.getId())
-                        .name(userDto.getName().toUpperCase().trim())
+                        .name(userDto.getName().trim())
                         .email(userDto.getEmail().trim())
-                        .address(userDto.getAddress().toUpperCase().trim())
+                        .address(userDto.getAddress().trim())
                         .build();
 
         this.userRepository.saveAndFlush(user);
@@ -89,10 +88,14 @@ public class UserService {
         if (userDto.getName() == null || userDto.getName().isBlank())
             throw new ValidationException("Name is empty or null");
 
-        if (userDto.getAddress() == null || userDto.getAddress().isBlank() )
+        if (userDto.getAddress() == null || userDto.getAddress().isBlank())
             throw new ValidationException("Address is empty or null");
 
         if (userDto.getEmail() == null || userDto.getEmail().isBlank())
             throw new ValidationException("Price is empty or null");
+    }
+
+    private static String validateStringNullOrEmpty(String valor) {
+        return valor == null || valor.isBlank() ? null : valor.trim();
     }
 }
