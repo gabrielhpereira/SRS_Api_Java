@@ -27,11 +27,15 @@ public class ProductService {
     }
 
     public List<ProductVo> listProductByFilters(ProductDto productDto) {
-        return this.productRepository.listProductByFilters(
+        List<ProductVo> listVo =  this.productRepository.listProductByFilters(
                 productDto.getName() == null || productDto.getName().isBlank() ? null : productDto.getName().trim(),
                 productDto.getPrice() == null || productDto.getPrice().compareTo(BigDecimal.ZERO) == 0 ? null : productDto.getPrice(),
                 productDto.getAmount() == null || productDto.getAmount().equals(0) ? null : productDto.getAmount()
         );
+
+        if(listVo.isEmpty()) throw new ValidationException("Product not found!");
+
+        return listVo;
     }
 
     @Transactional

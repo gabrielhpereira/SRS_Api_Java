@@ -23,11 +23,14 @@ public class EmployeeResource {
     @Operation(description = "List all employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employees successfully listed"),
-            @ApiResponse(responseCode = "500", description = "An exception occurred while listing employees"),
+            @ApiResponse(responseCode = "409", description = "Employee not found!"),
+            @ApiResponse(responseCode = "500", description = "An exception occurred while listing employees")
     })
     public ResponseEntity<Object> listAllEmployee() {
         try {
             return new ResponseEntity<>(this.employeeService.listAllEmployee(), HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

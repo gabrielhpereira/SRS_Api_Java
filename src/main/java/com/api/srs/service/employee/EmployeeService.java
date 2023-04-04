@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Validation;
 import javax.validation.ValidationException;
 import java.util.List;
 
@@ -22,11 +23,15 @@ public class EmployeeService {
     private LogEmployeeService logEmployeeService;
 
     public List<EmployeeVo> listAllEmployee() {
-        return this.employeeRepository.listAllEmployee();
+        List<EmployeeVo> listVo =  this.employeeRepository.listAllEmployee();
+
+        if(listVo.isEmpty()) throw new ValidationException("Employee not found!");
+
+        return listVo;
     }
 
     public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
-        return this.employeeRepository.listEmployeeByFilters(
+        List<EmployeeVo> listEmployee = this.employeeRepository.listEmployeeByFilters(
                 validateStringNullOrEmpty(employeeDto.getCpf()),
                 validateStringNullOrEmpty(employeeDto.getName()),
                 validateStringNullOrEmpty(employeeDto.getSector()),
@@ -34,6 +39,10 @@ public class EmployeeService {
                 validateStringNullOrEmpty(employeeDto.getAddress()),
                 validateStringNullOrEmpty(employeeDto.getEmail())
         );
+
+        if(listEmployee.isEmpty()) throw new ValidationException("Employee not found!");
+
+        return listEmployee;
     }
 
     @Transactional

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -31,8 +32,9 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must return all employees")
-    public void mustReturnAllEmployees() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test", "test", "test","test")).toList();
+    public void testReturnAllEmployees() {
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value ->
+                new EmployeeVo(1, "test", "test", "test", "test", "test", "test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
 
         this.employeeService.listAllEmployee();
@@ -42,9 +44,20 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must return employees by filters")
-    public void mustReturnEmployeesByFilters() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(1, "test", "test", "test", "test", "test","test")).toList();
-        Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
+    public void testReturnEmployeesByFilters() {
+        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value ->
+                new EmployeeVo(1, "test", "test", "test", "test", "test", "test")).toList();
+
+        Mockito.when(this.employeeRepository
+                .listEmployeeByFilters(
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString()
+                )
+        ).thenReturn(listEmployee);
 
         this.employeeService.listEmployeeByFilters(buildMockDto());
 
@@ -60,23 +73,39 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
     }
 
     @Test
-    @DisplayName("Must save an employee")
-    public void mustSaveAnEmployee() {
-        EmployeeDto mock = buildMockDto();
+    @DisplayName("Must throw exception when return empty list")
+    public void testThrowExceptionWhenReturnEmptyList() {
+        Mockito.when(this.employeeRepository
+                .listEmployeeByFilters(
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString()
+                )
+        ).thenReturn(new ArrayList<>());
 
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.listEmployeeByFilters(buildMockDto()), "Employee not found!");
+
+    }
+
+    @Test
+    @DisplayName("Must save an employee")
+    public void testSaveAnEmployee() {
+        EmployeeDto mock = buildMockDto();
         Mockito.when(mock.getId()).thenReturn(null);
 
         this.employeeService.saveOrUpdateEmployee(mock);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1))
-                .saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
-        Mockito.verify(this.logEmployeeService, Mockito.times(1))
-                .saveLogNewEmployee(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.employeeRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogNewEmployee(ArgumentMatchers.any(EmployeeEntity.class));
     }
 
     @Test
     @DisplayName("Must update an employee")
-    public void mustUpdateAnEmployee() {
+    public void testUpdateAnEmployee() {
         EmployeeDto mock = buildMockDto();
         Mockito.when(this.employeeRepository.getReferenceById(mock.getId()))
                 .thenReturn(new EmployeeEntity
@@ -93,115 +122,124 @@ public class EmployeeServiceTest extends ApplicationConfigTest {
 
         this.employeeService.saveOrUpdateEmployee(mock);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1))
-                .saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
-        Mockito.verify(this.logEmployeeService, Mockito.times(1))
-                .saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.employeeRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Cpf")
-    public void mustThrowExceptionWhenValidatingCpf() {
+    public void testThrowExceptionWhenValidatingCpf() {
         EmployeeDto mock = Mockito.mock(EmployeeDto.class);
 
         Mockito.when(mock.getCpf()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn("000000000");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Name")
-    public void mustThrowExceptionWhenValidatingName() {
+    public void testThrowExceptionWhenValidatingName() {
         EmployeeDto mock = buildMockDto();
 
         Mockito.when(mock.getName()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
 
         Mockito.when(mock.getName()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Email")
-    public void mustThrowExceptionWhenValidatingEmail() {
+    public void testThrowExceptionWhenValidatingEmail() {
         EmployeeDto mock = buildMockDto();
 
         Mockito.when(mock.getEmail()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
 
         Mockito.when(mock.getEmail()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Phone")
-    public void mustThrowExceptionWhenValidatingPhone() {
+    public void testThrowExceptionWhenValidatingPhone() {
         EmployeeDto mock = buildMockDto();
 
         Mockito.when(mock.getPhone()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
 
         Mockito.when(mock.getPhone()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Address")
-    public void mustThrowExceptionWhenValidatingAddress() {
+    public void testThrowExceptionWhenValidatingAddress() {
         EmployeeDto mock = buildMockDto();
 
         Mockito.when(mock.getAddress()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
 
         Mockito.when(mock.getAddress()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
     }
 
     @Test
     @DisplayName("Must throw Exception when validation Sector")
-    public void mustThrowExceptionWhenValidatingSector() {
+    public void testThrowExceptionWhenValidatingSector() {
         EmployeeDto mock = buildMockDto();
 
         Mockito.when(mock.getSector()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
 
         Mockito.when(mock.getSector()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
     }
 
     @Test
     @DisplayName("Must delete an employee")
-    public void mustDeleteAnEmployee() {
+    public void testDeleteAnEmployee() {
         Integer id = 1;
-        EmployeeEntity employee = Mockito.mock(EmployeeEntity.class);
+        EmployeeEntity mock = Mockito.mock(EmployeeEntity.class);
 
-        Mockito.when(employee.getId()).thenReturn(id);
-        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id))).thenReturn(employee);
+        Mockito.when(mock.getId()).thenReturn(id);
+        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id))).thenReturn(mock);
 
         this.employeeService.deleteEmployeeById(id);
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1))
-                .deleteById(ArgumentMatchers.any());
-        Mockito.verify(this.logEmployeeService, Mockito.times(1))
-                .saveLogDeleteEmployee(ArgumentMatchers.any());
+        Mockito.verify(this.employeeRepository, Mockito.times(1)).deleteById(ArgumentMatchers.any());
+        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogDeleteEmployee(ArgumentMatchers.any());
     }
 
     private static EmployeeDto buildMockDto() {

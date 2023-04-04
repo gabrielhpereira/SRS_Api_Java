@@ -27,7 +27,7 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must return all employee logs")
-    public void mustReturnAllLogEmployee() {
+    public void testReturnAllLogEmployee() {
         Integer idEmployee = 1;
 
         Mockito.when(this.logEmployeeRepository.listAllLogEmployee(idEmployee)).thenReturn(
@@ -40,7 +40,7 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must save log new employee")
-    public void mustSaveLogNewEmployee(){
+    public void testSaveLogNewEmployee(){
         this.logEmployeeService.saveLogNewEmployee(buildMockEmployeeEntity());
 
         Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).save(ArgumentMatchers.any(LogEmployeeEntity.class));
@@ -48,7 +48,7 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must save log update employee")
-    public void mustSaveLogUpdateEmployee(){
+    public void testSaveLogUpdateEmployee(){
         EmployeeEntity newEmployeeEntity = Mockito.mock(EmployeeEntity.class);
         Mockito.when(newEmployeeEntity.getCpf()).thenReturn("New cpf");
         Mockito.when(newEmployeeEntity.getName()).thenReturn("New name");
@@ -72,7 +72,7 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Update has not changed")
-    public void updateHasNotChanged(){
+    public void testUpdateHasNotChanged(){
         EmployeeEntity newEmployeeEntity = Mockito.mock(EmployeeEntity.class);
         Mockito.when(newEmployeeEntity.getCpf()).thenReturn("New cpf");
         Mockito.when(newEmployeeEntity.getName()).thenReturn("New name");
@@ -96,7 +96,7 @@ public class LogEmployeeServiceTest extends ApplicationConfigTest {
 
     @Test
     @DisplayName("Must save log delete employee")
-    public void mustSaveLogDeleteEmployee(){
+    public void testSaveLogDeleteEmployee(){
         this.logEmployeeService.saveLogDeleteEmployee(buildMockEmployeeEntity());
 
         Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).save(ArgumentMatchers.any(LogEmployeeEntity.class));
