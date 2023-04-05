@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ProductServiceTest extends ApplicationConfigTest {
+@DisplayName("ProductServiceTest")
+public class ProductServiceTest implements ApplicationConfigTest {
 
     @MockBean
     private ProductRepository productRepository;

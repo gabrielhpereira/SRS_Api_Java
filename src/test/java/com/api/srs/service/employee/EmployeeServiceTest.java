@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @DisplayName("EmployeeServiceTest")
-public class EmployeeServiceTest extends ApplicationConfigTest {
+public class EmployeeServiceTest implements ApplicationConfigTest {
 
     @MockBean
     private EmployeeRepository employeeRepository;
