@@ -1,8 +1,10 @@
 package com.api.srs.resource.employee;
 
 import com.api.srs.ApplicationConfigTest;
+import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.service.employee.EmployeeService;
 import com.api.srs.vo.employee.EmployeeVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -31,14 +34,85 @@ public class EmployeeResourceTest extends ApplicationConfigTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("listAllEmployee return status code 200")
+    @DisplayName("ListAllEmployee return status code 200")
     public void testListAllEmployee() throws Exception {
         Mockito.when(this.employeeService.listAllEmployee()).thenReturn(
                 IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
                         1, "test", "test", "test", "test", "test", "test")).toList());
 
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/listAllEmployee")
-                        .contentType(MediaType.APPLICATION_JSON))
+        this.genericTestOKStatus(MockMvcRequestBuilders.get(
+                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("ListAllEmployee return status code 409")
+    public void testListAllEmployeeReturnConflict() throws Exception {
+        String message = "Employee not found!";
+        Mockito.when(this.employeeService.listAllEmployee())
+                .thenThrow(new ValidationException(message));
+
+        this.genericTestConflictStatus(MockMvcRequestBuilders.get(
+                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), message);
+    }
+
+    @Test
+    @DisplayName("ListAllEmployee return status code 500")
+    public void testListAllEmployeeReturnInternalError() throws Exception {
+        String message = "null";
+        Mockito.when(this.employeeService.listAllEmployee())
+                .thenThrow(new NullPointerException(message));
+
+        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.get(
+                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), message);
+    }
+
+    @Test
+    @DisplayName("ListEmployeeByFilters return status code 200")
+    public void testListEmployeeByFilters() throws Exception {
+        EmployeeDto employeeDto = new EmployeeDto();
+
+        employeeDto.setId(1);
+
+        Mockito.when(this.employeeService.listEmployeeByFilters(employeeDto)).thenReturn(
+                IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
+                        1, "test", "test", "test", "test", "test", "test")).toList());
+
+        this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
+                .content(new ObjectMapper().writeValueAsString(employeeDto))
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+    }
+
+    @Test
+    @DisplayName("ListEmployeeByFilters return status code 409")
+    public void testListEmployeeByFiltersReturnConflict() throws Exception {
+        String message = "Employee not found!";
+
+        Mockito.when(this.employeeService.listEmployeeByFilters(Mockito.any(EmployeeDto.class)))
+                .thenThrow(new ValidationException(message));
+
+        this.genericTestConflictStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
+                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .contentType(MediaType.APPLICATION_JSON), message);
+    }
+
+    @Test
+    @DisplayName("ListEmployeeByFilters return status code 500")
+    public void testListEmployeeByFiltersReturnInternalError() throws Exception {
+        String message = "null";
+
+        EmployeeDto employeeDto = new EmployeeDto();
+
+        Mockito.when(this.employeeService.listEmployeeByFilters(Mockito.any(EmployeeDto.class)))
+                .thenThrow(new NullPointerException(message));
+
+        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
+                .content(new ObjectMapper().writeValueAsString(employeeDto))
+                .contentType(MediaType.APPLICATION_JSON), message);
+    }
+
+    private void genericTestOKStatus(RequestBuilder requestBuilder) throws Exception {
+        MockHttpServletResponse response = mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse();
@@ -46,36 +120,23 @@ public class EmployeeResourceTest extends ApplicationConfigTest {
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
-    @Test
-    @DisplayName("listAllEmployee return status code 409")
-    public void testListAllEmployeeReturnConflict() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee())
-                .thenThrow(new ValidationException("Employee not found!"));
-
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/listAllEmployee")
-                        .contentType(MediaType.APPLICATION_JSON))
+    private void genericTestConflictStatus(RequestBuilder requestBuilder, String message) throws Exception {
+        MockHttpServletResponse response = mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isConflict())
                 .andReturn()
                 .getResponse();
 
         Assertions.assertTrue(HttpStatus.CONFLICT.value() == response.getStatus()
-                && response.getContentAsString().equalsIgnoreCase("Employee not found!"));
+                && response.getContentAsString().equalsIgnoreCase(message));
     }
 
-    @Test
-    @DisplayName("listAllEmployee return status code 500")
-    public void testListAllEmployeeReturnInternalError() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee())
-                .thenThrow(new NullPointerException("null"));
-
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/listAllEmployee")
-                        .contentType(MediaType.APPLICATION_JSON))
+    private void genericTestInternalErrorStatus(RequestBuilder requestBuilder, String message) throws Exception {
+        MockHttpServletResponse response = mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError())
                 .andReturn()
                 .getResponse();
 
         Assertions.assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.value() == response.getStatus()
-                && response.getContentAsString().equalsIgnoreCase("null"));
+                && response.getContentAsString().equalsIgnoreCase(message));
     }
-
 }

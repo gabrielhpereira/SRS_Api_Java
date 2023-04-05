@@ -20,7 +20,7 @@ public class EmployeeResource {
     private EmployeeService employeeService;
 
     @GetMapping("/listAllEmployee")
-    @Operation(description = "List all employee")
+    @Operation(description = "List all employees")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employees successfully listed"),
             @ApiResponse(responseCode = "409", description = "Employee not found!"),
