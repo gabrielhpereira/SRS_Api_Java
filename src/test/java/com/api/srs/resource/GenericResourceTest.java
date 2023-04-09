@@ -16,7 +16,7 @@ public class GenericResourceTest {
     private MockMvc mockMvc;
 
     protected void genericTestOKStatus(RequestBuilder requestBuilder) throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(requestBuilder)
+        MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse();

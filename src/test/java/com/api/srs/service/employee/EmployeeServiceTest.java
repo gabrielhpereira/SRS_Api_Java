@@ -5,6 +5,7 @@ import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.repository.employee.EmployeeRepository;
 import com.api.srs.vo.employee.EmployeeVo;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -240,6 +241,20 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.verify(this.employeeRepository, Mockito.times(1)).deleteById(ArgumentMatchers.any());
         Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogDeleteEmployee(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("Must throw Exception employee not found ")
+    public void testDeleteAnEmployeeNotFound() {
+        Integer id = 1;
+        EmployeeEntity mock = Mockito.mock(EmployeeEntity.class);
+
+        Mockito.when(mock.getId()).thenReturn(id);
+        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id)))
+                .thenThrow(EntityNotFoundException.class);
+
+        Assertions.assertThrows(ValidationException.class, () ->
+                this.employeeService.deleteEmployeeById(id), "Employee not found!");
     }
 
     private static EmployeeDto buildMockDto() {

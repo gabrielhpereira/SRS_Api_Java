@@ -5,6 +5,7 @@ import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.repository.employee.EmployeeRepository;
 import com.api.srs.shared.Validator;
 import com.api.srs.vo.employee.EmployeeVo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +24,9 @@ public class EmployeeService {
     private LogEmployeeService logEmployeeService;
 
     public List<EmployeeVo> listAllEmployee() {
-        List<EmployeeVo> listVo =  this.employeeRepository.listAllEmployee();
+        List<EmployeeVo> listVo = this.employeeRepository.listAllEmployee();
 
-        if(listVo.isEmpty()) throw new ValidationException("Employee not found!");
+        if (listVo.isEmpty()) throw new ValidationException("Employee not found!");
 
         return listVo;
     }
@@ -40,7 +41,7 @@ public class EmployeeService {
                 validateStringNullOrEmpty(employeeDto.getEmail())
         );
 
-        if(listEmployee.isEmpty()) throw new ValidationException("Employee not found!");
+        if (listEmployee.isEmpty()) throw new ValidationException("Employee not found!");
 
         return listEmployee;
     }
@@ -99,11 +100,15 @@ public class EmployeeService {
 
     @Transactional
     public void deleteEmployeeById(Integer id) {
-        EmployeeEntity employee = this.employeeRepository.getReferenceById(id);
+        try {
+            EmployeeEntity employee = this.employeeRepository.getReferenceById(id);
 
-        this.employeeRepository.deleteById(employee.getId());
+            this.employeeRepository.deleteById(employee.getId());
 
-        this.logEmployeeService.saveLogDeleteEmployee(employee);
+            this.logEmployeeService.saveLogDeleteEmployee(employee);
+        } catch (EntityNotFoundException e) {
+            throw new ValidationException("Employee not found!");
+        }
     }
 
     private static void validateEmployeeDto(EmployeeDto employeeDto) {
@@ -126,7 +131,7 @@ public class EmployeeService {
             throw new ValidationException("Sector cannot be null or empty!");
     }
 
-    private static String validateStringNullOrEmpty(String valor){
+    private static String validateStringNullOrEmpty(String valor) {
         return valor == null || valor.isBlank() ? null : valor.trim();
     }
 }

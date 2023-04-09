@@ -75,12 +75,15 @@ public class EmployeeResource {
     @Operation(description = "Delete an employee by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee deleted successfully"),
+            @ApiResponse(responseCode = "409", description = "Employee not found!"),
             @ApiResponse(responseCode = "500", description = "An exception occurred when deleting the employee"),
     })
     public ResponseEntity<Object> deleteEmployeeById(@PathVariable Integer id) {
         try {
             this.employeeService.deleteEmployeeById(id);
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
