@@ -87,8 +87,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
                 )
         ).thenReturn(new ArrayList<>());
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.listEmployeeByFilters(buildMockDto()), "Employee not found!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(buildMockDto()), "Employee not found!");
 
     }
 
@@ -124,7 +123,8 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
         this.employeeService.saveOrUpdateEmployee(mock);
 
         Mockito.verify(this.employeeRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(EmployeeEntity.class));
-        Mockito.verify(this.logEmployeeService, Mockito.times(1)).saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
+        Mockito.verify(this.logEmployeeService, Mockito.times(1))
+                .saveLogUpdateEmployee(ArgumentMatchers.any(EmployeeEntity.class), ArgumentMatchers.any(EmployeeEntity.class));
     }
 
     @Test
@@ -134,18 +134,15 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getCpf()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
         Mockito.when(mock.getCpf()).thenReturn("000000000");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
     }
 
     @Test
@@ -155,13 +152,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getName()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
 
         Mockito.when(mock.getName()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
     }
 
     @Test
@@ -171,13 +166,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getEmail()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
 
         Mockito.when(mock.getEmail()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
     }
 
     @Test
@@ -187,13 +180,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getPhone()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
 
         Mockito.when(mock.getPhone()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
     }
 
     @Test
@@ -203,13 +194,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getAddress()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
 
         Mockito.when(mock.getAddress()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
     }
 
     @Test
@@ -219,13 +208,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
         Mockito.when(mock.getSector()).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
 
         Mockito.when(mock.getSector()).thenReturn("");
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
     }
 
     @Test
@@ -235,7 +222,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
         EmployeeEntity mock = Mockito.mock(EmployeeEntity.class);
 
         Mockito.when(mock.getId()).thenReturn(id);
-        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id))).thenReturn(mock);
+        Mockito.when(this.employeeRepository.getReferenceById(id)).thenReturn(mock);
 
         this.employeeService.deleteEmployeeById(id);
 
@@ -244,17 +231,15 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     }
 
     @Test
-    @DisplayName("Must throw Exception employee not found ")
+    @DisplayName("Must throw Exception employee not found")
     public void testDeleteAnEmployeeNotFound() {
         Integer id = 1;
         EmployeeEntity mock = Mockito.mock(EmployeeEntity.class);
 
         Mockito.when(mock.getId()).thenReturn(id);
-        Mockito.when(this.employeeRepository.getReferenceById(ArgumentMatchers.eq(id)))
-                .thenThrow(EntityNotFoundException.class);
+        Mockito.when(this.employeeRepository.getReferenceById(id)).thenThrow(EntityNotFoundException.class);
 
-        Assertions.assertThrows(ValidationException.class, () ->
-                this.employeeService.deleteEmployeeById(id), "Employee not found!");
+        Assertions.assertThrows(ValidationException.class, () -> this.employeeService.deleteEmployeeById(id), "Employee not found!");
     }
 
     private static EmployeeDto buildMockDto() {

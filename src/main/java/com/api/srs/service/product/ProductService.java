@@ -4,6 +4,7 @@ import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.ProductRepository;
 import com.api.srs.vo.product.ProductVo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,11 +85,15 @@ public class ProductService {
 
     @Transactional
     public void deleteProductById(BigInteger id) {
-        ProductEntity product = this.productRepository.getReferenceById(id);
+        try {
+            ProductEntity product = this.productRepository.getReferenceById(id);
 
-        this.productRepository.deleteById(product.getId());
+            this.productRepository.deleteById(product.getId());
 
-        this.logProductService.saveLogDeleteProduct(product);
+            this.logProductService.saveLogDeleteProduct(product);
+        } catch (EntityNotFoundException e) {
+            throw new ValidationException("Product not found!");
+        }
     }
 
     private static void validateProductDto(ProductDto productDto) {

@@ -30,8 +30,7 @@ public class GenericResourceTest {
                 .andReturn()
                 .getResponse();
 
-        Assertions.assertTrue(HttpStatus.CONFLICT.value() == response.getStatus()
-                && response.getContentAsString().equalsIgnoreCase(message));
+        Assertions.assertTrue(HttpStatus.CONFLICT.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
     }
 
     protected void genericTestInternalErrorStatus(RequestBuilder requestBuilder, String message) throws Exception {
@@ -40,7 +39,6 @@ public class GenericResourceTest {
                 .andReturn()
                 .getResponse();
 
-        Assertions.assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.value() == response.getStatus()
-                && response.getContentAsString().equalsIgnoreCase(message));
+        Assertions.assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
     }
 }

@@ -32,28 +32,23 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
                 .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
                         1, "test", "test", "test", "test", "test", "test")).toList());
 
-        this.genericTestOKStatus(MockMvcRequestBuilders.get(
-                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON));
+        this.genericTestOKStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("ListAllEmployee return status code 409")
     public void testListAllEmployeeReturnConflict() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee())
-                .thenThrow(new ValidationException(MESSAGE));
+        Mockito.when(this.employeeService.listAllEmployee()).thenThrow(new ValidationException(MESSAGE));
 
-        this.genericTestConflictStatus(MockMvcRequestBuilders.get(
-                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
+        this.genericTestConflictStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
     @Test
     @DisplayName("ListAllEmployee return status code 500")
     public void testListAllEmployeeReturnInternalError() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee())
-                .thenThrow(new NullPointerException(MESSAGE));
+        Mockito.when(this.employeeService.listAllEmployee()).thenThrow(new NullPointerException(MESSAGE));
 
-        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.get(
-                PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
+        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
     @Test
