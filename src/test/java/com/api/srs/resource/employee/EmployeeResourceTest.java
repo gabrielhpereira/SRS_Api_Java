@@ -28,27 +28,27 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     @Test
     @DisplayName("ListAllEmployee return status code 200")
     public void testListAllEmployee() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee())
+        Mockito.when(this.employeeService.listAllEmployees())
                 .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
                         1, "test", "test", "test", "test", "test", "test")).toList());
 
-        this.genericTestOKStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON));
+        this.genericTestOKStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployees").contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("ListAllEmployee return status code 409")
     public void testListAllEmployeeReturnConflict() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee()).thenThrow(new ValidationException(MESSAGE));
+        Mockito.when(this.employeeService.listAllEmployees()).thenThrow(new ValidationException(MESSAGE));
 
-        this.genericTestConflictStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
+        this.genericTestConflictStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployees").contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
     @Test
     @DisplayName("ListAllEmployee return status code 500")
     public void testListAllEmployeeReturnInternalError() throws Exception {
-        Mockito.when(this.employeeService.listAllEmployee()).thenThrow(new NullPointerException(MESSAGE));
+        Mockito.when(this.employeeService.listAllEmployees()).thenThrow(new NullPointerException(MESSAGE));
 
-        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployee").contentType(MediaType.APPLICATION_JSON), MESSAGE);
+        this.genericTestInternalErrorStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployees").contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
     @Test
@@ -60,8 +60,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
 
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
                 .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
-                .contentType(MediaType.APPLICATION_JSON)
-        );
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -91,8 +90,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     public void testSaveOrUpdateEmployee() throws Exception {
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateEmployee")
                 .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
-                .contentType(MediaType.APPLICATION_JSON)
-        );
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -119,8 +117,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     @DisplayName("DeleteEmployee return status code 200")
     public void testDeleteEmployee() throws Exception {
         this.genericTestOKStatus(MockMvcRequestBuilders.delete(PATH + "/deleteEmployee/1")
-                .contentType(MediaType.APPLICATION_JSON)
-        );
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -129,8 +126,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
         Mockito.doThrow(new ValidationException(MESSAGE)).when(this.employeeService).deleteEmployeeById(Mockito.anyInt());
 
         this.genericTestConflictStatus(MockMvcRequestBuilders.delete(PATH + "/deleteEmployee/1")
-                .contentType(MediaType.APPLICATION_JSON), MESSAGE
-        );
+                .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
     @Test
@@ -139,7 +135,6 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
         Mockito.doThrow(new NullPointerException(MESSAGE)).when(this.employeeService).deleteEmployeeById(Mockito.anyInt());
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.delete(PATH + "/deleteEmployee/1")
-                .contentType(MediaType.APPLICATION_JSON), MESSAGE
-        );
+                .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 }

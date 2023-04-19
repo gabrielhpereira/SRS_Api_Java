@@ -14,7 +14,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
     String SELECT = "SELECT new com.api.srs.vo.employee.EmployeeVo(e.id, e.cpf, e.name, e.sector, e.phone, e.address, e.email) FROM EmployeeEntity e";
 
     @Query(SELECT)
-    public List<EmployeeVo> listAllEmployee();
+    public List<EmployeeVo> listAllEmployees();
 
     @Query(SELECT
             + " WHERE 1 = 1"

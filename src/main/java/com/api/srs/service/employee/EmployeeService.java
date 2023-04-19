@@ -23,10 +23,10 @@ public class EmployeeService {
     @Autowired
     private LogEmployeeService logEmployeeService;
 
-    public List<EmployeeVo> listAllEmployee() {
-        List<EmployeeVo> listVo = this.employeeRepository.listAllEmployee();
+    public List<EmployeeVo> listAllEmployees() {
+        List<EmployeeVo> listVo = this.employeeRepository.listAllEmployees();
 
-        if (listVo.isEmpty()) throw new ValidationException("Employee not found!");
+        if (listVo.isEmpty()) throw new ValidationException("Employees not found!");
 
         return listVo;
     }

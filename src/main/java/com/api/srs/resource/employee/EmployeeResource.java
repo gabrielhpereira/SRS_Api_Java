@@ -19,16 +19,16 @@ public class EmployeeResource {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/listAllEmployee")
+    @GetMapping("/listAllEmployees")
     @Operation(description = "List all employees")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employees successfully listed"),
             @ApiResponse(responseCode = "409", description = "Employee not found!"),
             @ApiResponse(responseCode = "500", description = "An exception occurred while listing employees")
     })
-    public ResponseEntity<Object> listAllEmployee() {
+    public ResponseEntity<Object> listAllEmployees() {
         try {
-            return new ResponseEntity<>(this.employeeService.listAllEmployee(), HttpStatus.OK);
+            return new ResponseEntity<>(this.employeeService.listAllEmployees(), HttpStatus.OK);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {

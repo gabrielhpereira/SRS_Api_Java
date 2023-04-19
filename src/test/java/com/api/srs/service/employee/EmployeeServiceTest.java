@@ -36,11 +36,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testReturnAllEmployees() {
         List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value ->
                 new EmployeeVo(1, "test", "test", "test", "test", "test", "test")).toList();
-        Mockito.when(this.employeeRepository.listAllEmployee()).thenReturn(listEmployee);
+        Mockito.when(this.employeeRepository.listAllEmployees()).thenReturn(listEmployee);
 
-        this.employeeService.listAllEmployee();
+        this.employeeService.listAllEmployees();
 
-        Mockito.verify(this.employeeRepository, Mockito.times(1)).listAllEmployee();
+        Mockito.verify(this.employeeRepository, Mockito.times(1)).listAllEmployees();
     }
 
     @Test

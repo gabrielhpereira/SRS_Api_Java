@@ -24,7 +24,11 @@ public class ProductService {
     private LogProductService logProductService;
 
     public List<ProductVo> listAllProducts() {
-        return this.productRepository.listAllProducts();
+        List<ProductVo> listVo = this.productRepository.listAllProducts();
+
+        if(listVo.isEmpty()) throw new ValidationException("Product not found!");
+
+        return listVo;
     }
 
     public List<ProductVo> listProductByFilters(ProductDto productDto) {
