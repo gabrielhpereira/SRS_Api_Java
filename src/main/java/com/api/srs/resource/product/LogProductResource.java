@@ -1,6 +1,9 @@
 package com.api.srs.resource.product;
 
 import com.api.srs.service.product.LogProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,12 @@ public class LogProductResource {
     private LogProductService logProductService;
 
     @GetMapping("/listAllLogProduct/{productId}")
+    @Operation(description = "List all logProduct by idProduct")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "LogProducts successfully listed"),
+            @ApiResponse(responseCode = "409", description = "LogProduct not found!"),
+            @ApiResponse(responseCode = "500", description = "An exception occurred while listing LogProducts")
+    })
     public ResponseEntity<Object> listAllLogProduct(@PathVariable BigInteger productId) {
         try {
             return new ResponseEntity<>(this.logProductService.listAllLogProduct(productId), HttpStatus.OK);

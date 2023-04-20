@@ -41,7 +41,7 @@ public class LogEmployeeServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must save log new employee")
     public void testSaveLogNewEmployee() {
-        this.logEmployeeService.saveLogNewEmployee(buildMockEmployeeEntity());
+        this.logEmployeeService.saveLogNewEmployee(Mockito.mock(EmployeeEntity.class));
 
         Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).save(ArgumentMatchers.any(LogEmployeeEntity.class));
     }
@@ -81,15 +81,7 @@ public class LogEmployeeServiceTest implements ApplicationConfigTest {
         Mockito.when(newEmployeeEntity.getSector()).thenReturn("New sector");
         Mockito.when(newEmployeeEntity.getPhone()).thenReturn("New phone");
 
-        EmployeeEntity oldEmployeeEntity = Mockito.mock(EmployeeEntity.class);
-        Mockito.when(oldEmployeeEntity.getCpf()).thenReturn("New cpf");
-        Mockito.when(oldEmployeeEntity.getName()).thenReturn("New name");
-        Mockito.when(oldEmployeeEntity.getAddress()).thenReturn("New address");
-        Mockito.when(oldEmployeeEntity.getEmail()).thenReturn("New email");
-        Mockito.when(oldEmployeeEntity.getSector()).thenReturn("New sector");
-        Mockito.when(oldEmployeeEntity.getPhone()).thenReturn("New phone");
-
-        this.logEmployeeService.saveLogUpdateEmployee(newEmployeeEntity, oldEmployeeEntity);
+        this.logEmployeeService.saveLogUpdateEmployee(newEmployeeEntity, newEmployeeEntity);
 
         Mockito.verify(this.logEmployeeRepository, Mockito.never()).save(ArgumentMatchers.any(LogEmployeeEntity.class));
     }
@@ -97,17 +89,8 @@ public class LogEmployeeServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must save log delete employee")
     public void testSaveLogDeleteEmployee() {
-        this.logEmployeeService.saveLogDeleteEmployee(buildMockEmployeeEntity());
+        this.logEmployeeService.saveLogDeleteEmployee(Mockito.mock(EmployeeEntity.class));
 
         Mockito.verify(this.logEmployeeRepository, Mockito.times(1)).save(ArgumentMatchers.any(LogEmployeeEntity.class));
-    }
-
-    private EmployeeEntity buildMockEmployeeEntity() {
-        EmployeeEntity mock = Mockito.mock(EmployeeEntity.class);
-
-        Mockito.when(mock.getCpf()).thenReturn("0000000000");
-        Mockito.when(mock.getName()).thenReturn("Test");
-
-        return mock;
     }
 }

@@ -1,7 +1,6 @@
 package com.api.srs.service.product;
 
 import com.api.srs.ApplicationConfigTest;
-import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.ProductRepository;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -136,7 +134,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     @Test
     @DisplayName("Must throw Exception when validating amount")
-    public void testThrowExceptionWhenValidatingAmount(){
+    public void testThrowExceptionWhenValidatingAmount() {
         ProductDto mock = buildMockDto();
 
         Mockito.when(mock.getAmount()).thenReturn(null);
@@ -150,7 +148,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     @Test
     @DisplayName("Must throw Exception when validating price")
-    public void testThrowExceptionValidatingPrice(){
+    public void testThrowExceptionValidatingPrice() {
         ProductDto mock = buildMockDto();
 
         Mockito.when(mock.getPrice()).thenReturn(null);
@@ -164,7 +162,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     @Test
     @DisplayName("Must delete an product")
-    public void testDeleteAnProduct(){
+    public void testDeleteAnProduct() {
         BigInteger id = BigInteger.ONE;
 
         ProductEntity mock = Mockito.mock(ProductEntity.class);
@@ -181,7 +179,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     @Test
     @DisplayName("Must throw Exception product not found")
-    public void testDeleteAnProductNotFound(){
+    public void testDeleteAnProductNotFound() {
         BigInteger id = BigInteger.ONE;
 
         ProductEntity mock = Mockito.mock(ProductEntity.class);

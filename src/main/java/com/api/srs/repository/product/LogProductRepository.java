@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface LogProductRepository extends JpaRepository<LogProductEntity, Integer> {
 
-    @Query("SELECT new com.api.srs.vo.product.LogProductVo(l.id, l.description, l.date, l.productId)"
+    @Query("SELECT new com.api.srs.vo.product.LogProductVo(l.id, l.productId, l.description, l.date)"
             + "     FROM LogProductEntity l"
             + " WHERE l.productId = :productId")
     public List<LogProductVo> listAllLogProduct(

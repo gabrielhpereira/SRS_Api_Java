@@ -1,7 +1,6 @@
 package com.api.srs.vo.employee;
 
 public class EmployeeVo {
-
     private Integer id;
     private String cpf;
     private String name;
@@ -10,7 +9,7 @@ public class EmployeeVo {
     private String address;
     private String email;
 
-    public EmployeeVo() { }
+    public EmployeeVo() {}
 
     public EmployeeVo(Integer id, String cpf, String name, String sector, String phone, String address, String email) {
         this.id = id;
@@ -23,30 +22,30 @@ public class EmployeeVo {
     }
 
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     public String getCpf() {
-        return this.cpf;
+        return cpf;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getSector() {
-        return this.sector;
+        return sector;
     }
 
     public String getPhone() {
-        return this.phone;
+        return phone;
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 }
