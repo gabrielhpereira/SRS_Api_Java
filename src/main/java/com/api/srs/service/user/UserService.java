@@ -3,6 +3,7 @@ package com.api.srs.service.user;
 import com.api.srs.dto.user.UserDto;
 import com.api.srs.entity.user.UserEntity;
 import com.api.srs.repository.user.UserRepository;
+import com.api.srs.shared.Validator;
 import com.api.srs.vo.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class UserService {
 
     public List<UserVo> listUserByFilters(UserDto userDto) {
         return this.userRepository.listUserByFilters(
-                validateStringNullOrEmpty(userDto.getName()),
-                validateStringNullOrEmpty(userDto.getEmail()),
-                validateStringNullOrEmpty(userDto.getAddress())
+                Validator.validateStringNullOrEmpty(userDto.getName()),
+                Validator.validateStringNullOrEmpty(userDto.getEmail()),
+                Validator.validateStringNullOrEmpty(userDto.getAddress())
         );
     }
 
@@ -93,9 +94,5 @@ public class UserService {
 
         if (userDto.getEmail() == null || userDto.getEmail().isBlank())
             throw new ValidationException("Price is empty or null");
-    }
-
-    private static String validateStringNullOrEmpty(String valor) {
-        return valor == null || valor.isBlank() ? null : valor.trim();
     }
 }

@@ -3,6 +3,7 @@ package com.api.srs.service.product;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.ProductRepository;
+import com.api.srs.shared.Validator;
 import com.api.srs.vo.product.ProductVo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +27,19 @@ public class ProductService {
     public List<ProductVo> listAllProducts() {
         List<ProductVo> listVo = this.productRepository.listAllProducts();
 
-        if(listVo.isEmpty()) throw new ValidationException("Product not found!");
+        if (listVo.isEmpty()) throw new ValidationException("Product not found!");
 
         return listVo;
     }
 
     public List<ProductVo> listProductByFilters(ProductDto productDto) {
-        List<ProductVo> listVo =  this.productRepository.listProductByFilters(
-                productDto.getName() == null || productDto.getName().isBlank() ? null : productDto.getName().trim(),
-                productDto.getPrice() == null || productDto.getPrice().compareTo(BigDecimal.ZERO) == 0 ? null : productDto.getPrice(),
-                productDto.getAmount() == null || productDto.getAmount().equals(0) ? null : productDto.getAmount()
+        List<ProductVo> listVo = this.productRepository.listProductByFilters(
+                Validator.validateStringNullOrEmpty(productDto.getName()),
+                Validator.validateBigDecimalNullOrLessEqualZero(productDto.getPrice()),
+                Validator.validateIntegerNullOrLessEqualZero(productDto.getAmount())
         );
 
-        if(listVo.isEmpty()) throw new ValidationException("Product not found!");
+        if (listVo.isEmpty()) throw new ValidationException("Product not found!");
 
         return listVo;
     }

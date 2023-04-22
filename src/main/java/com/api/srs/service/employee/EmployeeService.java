@@ -32,12 +32,12 @@ public class EmployeeService {
 
     public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
         List<EmployeeVo> listEmployee = this.employeeRepository.listEmployeeByFilters(
-                validateStringNullOrEmpty(employeeDto.getCpf()),
-                validateStringNullOrEmpty(employeeDto.getName()),
-                validateStringNullOrEmpty(employeeDto.getSector()),
-                validateStringNullOrEmpty(employeeDto.getPhone()),
-                validateStringNullOrEmpty(employeeDto.getAddress()),
-                validateStringNullOrEmpty(employeeDto.getEmail())
+                Validator.validateStringNullOrEmpty(employeeDto.getCpf()),
+                Validator.validateStringNullOrEmpty(employeeDto.getName()),
+                Validator.validateStringNullOrEmpty(employeeDto.getSector()),
+                Validator.validateStringNullOrEmpty(employeeDto.getPhone()),
+                Validator.validateStringNullOrEmpty(employeeDto.getAddress()),
+                Validator.validateStringNullOrEmpty(employeeDto.getEmail())
         );
 
         if (listEmployee.isEmpty()) throw new ValidationException("Employee not found!");
@@ -128,9 +128,5 @@ public class EmployeeService {
 
         if (employeeDto.getSector() == null || employeeDto.getSector().isBlank())
             throw new ValidationException("Sector cannot be null or empty!");
-    }
-
-    private static String validateStringNullOrEmpty(String valor) {
-        return valor == null || valor.isBlank() ? null : valor.trim();
     }
 }

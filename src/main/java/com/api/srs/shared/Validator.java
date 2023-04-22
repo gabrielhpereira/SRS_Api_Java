@@ -1,8 +1,22 @@
 package com.api.srs.shared;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 
 public class Validator {
+
+    public static String validateStringNullOrEmpty(String valor) {
+        return valor == null || valor.isBlank() ? null : valor.trim();
+    }
+
+    public static BigDecimal validateBigDecimalNullOrLessEqualZero(BigDecimal valor) {
+        return valor == null || valor.compareTo(BigDecimal.ZERO) <= 0 ? null : valor;
+    }
+
+    public static Integer validateIntegerNullOrLessEqualZero(Integer valor) {
+        return valor == null || valor.compareTo(0) <= 0 ? null : valor;
+    }
+
     public static Boolean cpfValidator(String cpf) {
         if(cpf == null || cpf.equals("")) return true;
 
