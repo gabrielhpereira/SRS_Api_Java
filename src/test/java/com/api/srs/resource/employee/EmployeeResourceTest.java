@@ -4,7 +4,6 @@ import com.api.srs.ApplicationConfigTest;
 import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.resource.GenericResourceTest;
 import com.api.srs.service.employee.EmployeeService;
-import com.api.srs.vo.employee.EmployeeVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     @DisplayName("ListAllEmployee return status code 200")
     public void testListAllEmployee() throws Exception {
         Mockito.when(this.employeeService.listAllEmployees())
-                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
+                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeDto(
                         1, "test", "test", "test", "test", "test", "test")).toList());
 
         this.genericTestOKStatus(MockMvcRequestBuilders.get(PATH + "/listAllEmployees").contentType(MediaType.APPLICATION_JSON));
@@ -55,11 +54,11 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     @DisplayName("ListEmployeeByFilters return status code 200")
     public void testListEmployeeByFilters() throws Exception {
         Mockito.when(this.employeeService.listEmployeeByFilters(Mockito.any(EmployeeDto.class)))
-                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeVo(
+                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new EmployeeDto(
                         1, "test", "test", "test", "test", "test", "test")).toList());
 
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -70,7 +69,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
                 .thenThrow(new ValidationException(MESSAGE));
 
         this.genericTestConflictStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -81,7 +80,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
                 .thenThrow(new NullPointerException(MESSAGE));
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.post(PATH + "/listEmployeeByFilters")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -89,7 +88,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
     @DisplayName("SaveOrUpdateEmployee return status code 200")
     public void testSaveOrUpdateEmployee() throws Exception {
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateEmployee")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -99,7 +98,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
         Mockito.doThrow(new ValidationException(MESSAGE)).when(this.employeeService).saveOrUpdateEmployee(Mockito.any(EmployeeDto.class));
 
         this.genericTestConflictStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateEmployee")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -109,7 +108,7 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
         Mockito.doThrow(new NullPointerException(MESSAGE)).when(this.employeeService).saveOrUpdateEmployee(Mockito.any(EmployeeDto.class));
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateEmployee")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newEmployeeDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -136,5 +135,9 @@ public class EmployeeResourceTest extends GenericResourceTest implements Applica
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.delete(PATH + "/deleteEmployee/1")
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
+    }
+
+    private static EmployeeDto newEmployeeDto() {
+        return new EmployeeDto(1, "test", "test", "test", "test", "test", "test");
     }
 }

@@ -2,10 +2,11 @@ package com.api.srs.service.employee;
 
 
 import com.api.srs.ApplicationConfigTest;
+import com.api.srs.dto.employee.LogEmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.entity.employee.LogEmployeeEntity;
 import com.api.srs.repository.employee.LogEmployeeRepository;
-import com.api.srs.vo.employee.LogEmployeeVo;
+import com.api.srs.shared.DateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -13,7 +14,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Date;
 import java.util.stream.IntStream;
 
 @DisplayName("LogEmployeeServiceTest")
@@ -31,7 +31,7 @@ public class LogEmployeeServiceTest implements ApplicationConfigTest {
         Integer idEmployee = 1;
 
         Mockito.when(this.logEmployeeRepository.listAllLogEmployee(idEmployee)).thenReturn(
-                IntStream.range(0, 3).mapToObj(value -> new LogEmployeeVo(1, idEmployee, "Test description", new Date())).toList());
+                IntStream.range(0, 3).mapToObj(value -> new LogEmployeeDto(1, idEmployee, "Test description", DateTime.nowDate())).toList());
 
         this.logEmployeeService.listAllLogEmployee(idEmployee);
 

@@ -33,6 +33,16 @@ public class EmployeeEntity {
 
     }
 
+    public EmployeeEntity(EmployeeEntity entity) {
+        this.id = entity.getId();
+        this.cpf = entity.getCpf();
+        this.name = entity.getName();
+        this.phone = entity.getPhone();
+        this.address = entity.getAddress();
+        this.email = entity.getEmail();
+        this.sector = entity.getSector();
+    }
+
     private EmployeeEntity(Builder builder) {
         super();
         this.id = builder.id;
@@ -53,7 +63,7 @@ public class EmployeeEntity {
         private String email;
         private String sector;
 
-        public Builder id(Integer id){
+        public Builder id(Integer id) {
             this.id = id;
             return this;
         }
@@ -93,9 +103,13 @@ public class EmployeeEntity {
         }
     }
 
-    public Integer getId() { return this.id; }
+    public Integer getId() {
+        return this.id;
+    }
 
-    public void setId(Integer id){ this.id = id; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCpf() {
         return this.cpf;

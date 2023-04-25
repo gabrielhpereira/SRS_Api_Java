@@ -1,7 +1,6 @@
 package com.api.srs.resource.product;
 
 import com.api.srs.ApplicationConfigTest;
-import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.resource.GenericResourceTest;
 import com.api.srs.service.product.ProductService;
@@ -91,7 +90,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
     @DisplayName("SaveOrUpdateProduct return status code 200")
     public void testSaveOrUpdateProduct() throws Exception {
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateProduct")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -101,7 +100,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
         Mockito.doThrow(new ValidationException(MESSAGE)).when(this.productService).saveOrUpdateProduct(Mockito.any(ProductDto.class));
 
         this.genericTestConflictStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateProduct")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -111,7 +110,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
         Mockito.doThrow(new NullPointerException(MESSAGE)).when(this.productService).saveOrUpdateProduct(Mockito.any(ProductDto.class));
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.post(PATH + "/saveOrUpdateProduct")
-                .content(new ObjectMapper().writeValueAsString(new EmployeeDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 

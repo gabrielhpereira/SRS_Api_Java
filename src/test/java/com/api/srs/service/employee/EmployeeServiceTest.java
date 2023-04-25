@@ -4,7 +4,6 @@ import com.api.srs.ApplicationConfigTest;
 import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.repository.employee.EmployeeRepository;
-import com.api.srs.vo.employee.EmployeeVo;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,8 +33,8 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must return all employees")
     public void testReturnAllEmployees() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value ->
-                new EmployeeVo(1, "test", "test", "test", "test", "test", "test")).toList();
+        List<EmployeeDto> listEmployee = IntStream.range(0, 3).mapToObj(value ->
+                new EmployeeDto(1, "test", "test", "test", "test", "test", "test")).toList();
         Mockito.when(this.employeeRepository.listAllEmployees()).thenReturn(listEmployee);
 
         this.employeeService.listAllEmployees();
@@ -46,8 +45,8 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must return employees by filters")
     public void testReturnEmployeesByFilters() {
-        List<EmployeeVo> listEmployee = IntStream.range(0, 3).mapToObj(value ->
-                new EmployeeVo(1, "test", "test", "test", "test", "test", "test")).toList();
+        List<EmployeeDto> listEmployee = IntStream.range(0, 3).mapToObj(value ->
+                new EmployeeDto(1, "test", "test", "test", "test", "test", "test")).toList();
 
         Mockito.when(this.employeeRepository
                 .listEmployeeByFilters(
@@ -95,7 +94,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     @DisplayName("Must save an employee")
     public void testSaveAnEmployee() {
         EmployeeDto mock = buildMockDto();
-        Mockito.when(mock.getId()).thenReturn(null);
+        Mockito.when(mock.id()).thenReturn(null);
 
         this.employeeService.saveOrUpdateEmployee(mock);
 
@@ -107,7 +106,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     @DisplayName("Must update an employee")
     public void testUpdateAnEmployee() {
         EmployeeDto mock = buildMockDto();
-        Mockito.when(this.employeeRepository.getReferenceById(mock.getId()))
+        Mockito.when(this.employeeRepository.getReferenceById(mock.id()))
                 .thenReturn(new EmployeeEntity
                         .Builder()
                         .id(1)
@@ -132,15 +131,15 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingCpf() {
         EmployeeDto mock = Mockito.mock(EmployeeDto.class);
 
-        Mockito.when(mock.getCpf()).thenReturn("");
+        Mockito.when(mock.cpf()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
-        Mockito.when(mock.getCpf()).thenReturn(null);
+        Mockito.when(mock.cpf()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
 
-        Mockito.when(mock.getCpf()).thenReturn("000000000");
+        Mockito.when(mock.cpf()).thenReturn("000000000");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Cpf is invalid!");
     }
@@ -150,11 +149,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingName() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getName()).thenReturn(null);
+        Mockito.when(mock.name()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
 
-        Mockito.when(mock.getName()).thenReturn("");
+        Mockito.when(mock.name()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Name cannot be null or empty!");
     }
@@ -164,11 +163,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingEmail() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getEmail()).thenReturn(null);
+        Mockito.when(mock.email()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
 
-        Mockito.when(mock.getEmail()).thenReturn("");
+        Mockito.when(mock.email()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Email cannot be null or empty!");
     }
@@ -178,11 +177,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingPhone() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getPhone()).thenReturn(null);
+        Mockito.when(mock.phone()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
 
-        Mockito.when(mock.getPhone()).thenReturn("");
+        Mockito.when(mock.phone()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Phone cannot be null or empty!");
     }
@@ -192,11 +191,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingAddress() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getAddress()).thenReturn(null);
+        Mockito.when(mock.address()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
 
-        Mockito.when(mock.getAddress()).thenReturn("");
+        Mockito.when(mock.address()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Address cannot be null or empty!");
     }
@@ -206,11 +205,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingSector() {
         EmployeeDto mock = buildMockDto();
 
-        Mockito.when(mock.getSector()).thenReturn(null);
+        Mockito.when(mock.sector()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
 
-        Mockito.when(mock.getSector()).thenReturn("");
+        Mockito.when(mock.sector()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), "Sector cannot be null or empty!");
     }
@@ -245,13 +244,13 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     private static EmployeeDto buildMockDto() {
         EmployeeDto mock = Mockito.mock(EmployeeDto.class);
 
-        Mockito.when(mock.getId()).thenReturn(1);
-        Mockito.when(mock.getCpf()).thenReturn("90324214090");
-        Mockito.when(mock.getName()).thenReturn("test");
-        Mockito.when(mock.getEmail()).thenReturn("test@gmail.com");
-        Mockito.when(mock.getSector()).thenReturn("test");
-        Mockito.when(mock.getAddress()).thenReturn("test");
-        Mockito.when(mock.getPhone()).thenReturn("123456789");
+        Mockito.when(mock.id()).thenReturn(1);
+        Mockito.when(mock.cpf()).thenReturn("90324214090");
+        Mockito.when(mock.name()).thenReturn("test");
+        Mockito.when(mock.email()).thenReturn("test@gmail.com");
+        Mockito.when(mock.sector()).thenReturn("test");
+        Mockito.when(mock.address()).thenReturn("test");
+        Mockito.when(mock.phone()).thenReturn("123456789");
 
         return mock;
     }

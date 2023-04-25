@@ -2,8 +2,6 @@ package com.api.srs.entity.employee;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table
 public class LogEmployeeEntity {
@@ -14,13 +12,13 @@ public class LogEmployeeEntity {
     private Integer id;
 
     @Column
-    private Integer idEmployee;
+    private Integer employeeId;
 
     @Column
     private String description;
 
     @Column
-    private Date date;
+    private String date;
 
     public LogEmployeeEntity() {
 
@@ -28,24 +26,24 @@ public class LogEmployeeEntity {
 
     private LogEmployeeEntity(Builder builder) {
         this.id = builder.id;
-        this.idEmployee = builder.idEmployee;
+        this.employeeId = builder.employeeId;
         this.description = builder.description;
         this.date = builder.date;
     }
 
     public static class Builder {
         private Integer id;
-        private Integer idEmployee;
+        private Integer employeeId;
         private String description;
-        private Date date;
+        private String date;
 
         public Builder id(Integer id) {
             this.id = id;
             return this;
         }
 
-        public Builder idEmployee(Integer idEmployee) {
-            this.idEmployee = idEmployee;
+        public Builder employeeId(Integer employeeId) {
+            this.employeeId = employeeId;
             return this;
         }
 
@@ -54,7 +52,7 @@ public class LogEmployeeEntity {
             return this;
         }
 
-        public Builder date(Date date) {
+        public Builder date(String date) {
             this.date = date;
             return this;
         }
@@ -65,18 +63,18 @@ public class LogEmployeeEntity {
     }
 
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
-    public Integer getIdEmployee() {
-        return this.idEmployee;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
-    public Date getDate() {
-        return this.date;
+    public String getDate() {
+        return date;
     }
 }

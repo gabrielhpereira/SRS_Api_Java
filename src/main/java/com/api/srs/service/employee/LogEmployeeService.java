@@ -1,13 +1,13 @@
 package com.api.srs.service.employee;
 
+import com.api.srs.dto.employee.LogEmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.entity.employee.LogEmployeeEntity;
 import com.api.srs.repository.employee.LogEmployeeRepository;
-import com.api.srs.vo.employee.LogEmployeeVo;
+import com.api.srs.shared.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,8 +16,8 @@ public class LogEmployeeService {
     @Autowired
     private LogEmployeeRepository logEmployeeRepository;
 
-    public List<LogEmployeeVo> listAllLogEmployee(Integer idEmployee) {
-        return this.logEmployeeRepository.listAllLogEmployee(idEmployee);
+    public List<LogEmployeeDto> listAllLogEmployee(Integer employeeId) {
+        return this.logEmployeeRepository.listAllLogEmployee(employeeId);
     }
 
     public void saveLogUpdateEmployee(EmployeeEntity newEmployee, EmployeeEntity oldEmployee) {
@@ -69,9 +69,9 @@ public class LogEmployeeService {
             this.logEmployeeRepository.save(
                     new LogEmployeeEntity
                             .Builder()
-                            .idEmployee(newEmployee.getId())
+                            .employeeId(newEmployee.getId())
                             .description("Product " + newEmployee.getCpf() + " : \n\n" + sb.toString())
-                            .date(now())
+                            .date(DateTime.nowDate())
                             .build());
     }
 
@@ -81,7 +81,7 @@ public class LogEmployeeService {
                         .Builder()
                         .id(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been created!")
-                        .date(now())
+                        .date(DateTime.nowDate())
                         .build()
         );
     }
@@ -90,14 +90,10 @@ public class LogEmployeeService {
         this.logEmployeeRepository.save(
                 new LogEmployeeEntity
                         .Builder()
-                        .idEmployee(employee.getId())
+                        .employeeId(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been deleted!")
-                        .date(now())
+                        .date(DateTime.nowDate())
                         .build()
         );
-    }
-
-    private static Date now() {
-        return new Date();
     }
 }

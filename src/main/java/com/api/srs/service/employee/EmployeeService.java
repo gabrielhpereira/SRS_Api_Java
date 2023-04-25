@@ -4,7 +4,6 @@ import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.repository.employee.EmployeeRepository;
 import com.api.srs.shared.Validator;
-import com.api.srs.vo.employee.EmployeeVo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,22 +21,22 @@ public class EmployeeService {
     @Autowired
     private LogEmployeeService logEmployeeService;
 
-    public List<EmployeeVo> listAllEmployees() {
-        List<EmployeeVo> listVo = this.employeeRepository.listAllEmployees();
+    public List<EmployeeDto> listAllEmployees() {
+        List<EmployeeDto> listVo = this.employeeRepository.listAllEmployees();
 
         if (listVo.isEmpty()) throw new ValidationException("Employees not found!");
 
         return listVo;
     }
 
-    public List<EmployeeVo> listEmployeeByFilters(EmployeeDto employeeDto) {
-        List<EmployeeVo> listEmployee = this.employeeRepository.listEmployeeByFilters(
-                Validator.validateStringNullOrEmpty(employeeDto.getCpf()),
-                Validator.validateStringNullOrEmpty(employeeDto.getName()),
-                Validator.validateStringNullOrEmpty(employeeDto.getSector()),
-                Validator.validateStringNullOrEmpty(employeeDto.getPhone()),
-                Validator.validateStringNullOrEmpty(employeeDto.getAddress()),
-                Validator.validateStringNullOrEmpty(employeeDto.getEmail())
+    public List<EmployeeDto> listEmployeeByFilters(EmployeeDto employeeDto) {
+        List<EmployeeDto> listEmployee = this.employeeRepository.listEmployeeByFilters(
+                Validator.validateStringNullOrEmpty(employeeDto.cpf()),
+                Validator.validateStringNullOrEmpty(employeeDto.name()),
+                Validator.validateStringNullOrEmpty(employeeDto.sector()),
+                Validator.validateStringNullOrEmpty(employeeDto.phone()),
+                Validator.validateStringNullOrEmpty(employeeDto.address()),
+                Validator.validateStringNullOrEmpty(employeeDto.email())
         );
 
         if (listEmployee.isEmpty()) throw new ValidationException("Employee not found!");
@@ -49,31 +48,22 @@ public class EmployeeService {
     public void saveOrUpdateEmployee(EmployeeDto employeeDto) {
         validateEmployeeDto(employeeDto);
 
-        if (employeeDto.getId() == null)
+        if (employeeDto.id() == null)
             this.saveEmployee(employeeDto);
         else
             this.updateEmployee(employeeDto);
     }
 
     private void updateEmployee(EmployeeDto employeeDto) {
-        EmployeeEntity employee = this.employeeRepository.getReferenceById(employeeDto.getId());
-        EmployeeEntity oldEmployee =
-                new EmployeeEntity
-                        .Builder()
-                        .cpf(employee.getCpf())
-                        .name(employee.getName())
-                        .address(employee.getAddress())
-                        .email(employee.getEmail())
-                        .phone(employee.getPhone())
-                        .sector(employee.getSector())
-                        .build();
+        EmployeeEntity employee = this.employeeRepository.getReferenceById(employeeDto.id());
+        EmployeeEntity oldEmployee = new EmployeeEntity(employee);
 
-        employee.setCpf(employeeDto.getCpf().trim());
-        employee.setName(employeeDto.getName().trim());
-        employee.setAddress(employeeDto.getAddress().trim());
-        employee.setEmail(employeeDto.getEmail().trim());
-        employee.setPhone(employeeDto.getPhone().trim());
-        employee.setSector(employeeDto.getSector().trim());
+        employee.setCpf(employeeDto.cpf().trim());
+        employee.setName(employeeDto.name().trim());
+        employee.setAddress(employeeDto.address().trim());
+        employee.setEmail(employeeDto.email().trim());
+        employee.setPhone(employeeDto.phone().trim());
+        employee.setSector(employeeDto.sector().trim());
 
         this.employeeRepository.saveAndFlush(employee);
 
@@ -84,12 +74,12 @@ public class EmployeeService {
         EmployeeEntity employee =
                 new EmployeeEntity
                         .Builder()
-                        .address(employeeDto.getAddress().trim())
-                        .email(employeeDto.getEmail().trim())
-                        .name(employeeDto.getName().trim())
-                        .cpf(employeeDto.getCpf().trim())
-                        .phone(employeeDto.getPhone().trim())
-                        .sector(employeeDto.getSector().trim())
+                        .address(employeeDto.address().trim())
+                        .email(employeeDto.email().trim())
+                        .name(employeeDto.name().trim())
+                        .cpf(employeeDto.cpf().trim())
+                        .phone(employeeDto.phone().trim())
+                        .sector(employeeDto.sector().trim())
                         .build();
 
         this.employeeRepository.saveAndFlush(employee);
@@ -111,22 +101,22 @@ public class EmployeeService {
     }
 
     private static void validateEmployeeDto(EmployeeDto employeeDto) {
-        if (employeeDto.getCpf() == null || employeeDto.getCpf().isBlank() || Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.getCpf())))
+        if (employeeDto.cpf() == null || employeeDto.cpf().isBlank() || Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.cpf())))
             throw new ValidationException("Cpf is invalid!");
 
-        if (employeeDto.getName() == null || employeeDto.getName().isBlank())
+        if (employeeDto.name() == null || employeeDto.name().isBlank())
             throw new ValidationException("Name cannot be null or empty!");
 
-        if (employeeDto.getEmail() == null || employeeDto.getEmail().isBlank())
+        if (employeeDto.email() == null || employeeDto.email().isBlank())
             throw new ValidationException("Email cannot be null or empty!");
 
-        if (employeeDto.getPhone() == null || employeeDto.getPhone().isBlank())
+        if (employeeDto.phone() == null || employeeDto.phone().isBlank())
             throw new ValidationException("Phone cannot be null or empty!");
 
-        if (employeeDto.getAddress() == null || employeeDto.getAddress().isBlank())
+        if (employeeDto.address() == null || employeeDto.address().isBlank())
             throw new ValidationException("Address cannot be null or empty!");
 
-        if (employeeDto.getSector() == null || employeeDto.getSector().isBlank())
+        if (employeeDto.sector() == null || employeeDto.sector().isBlank())
             throw new ValidationException("Sector cannot be null or empty!");
     }
 }
