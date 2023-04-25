@@ -4,7 +4,8 @@ import com.api.srs.ApplicationConfigTest;
 import com.api.srs.entity.product.LogProductEntity;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.LogProductRepository;
-import com.api.srs.vo.product.LogProductVo;
+import com.api.srs.dto.product.LogProductDto;
+import com.api.srs.shared.DateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -14,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.stream.IntStream;
 
 @DisplayName("LogProductServiceTest")
@@ -32,7 +32,7 @@ public class LogProductServiceTest implements ApplicationConfigTest {
         BigInteger idProduct = BigInteger.ONE;
 
         Mockito.when(this.logProductRepository.listAllLogProduct(idProduct)).thenReturn(
-                IntStream.range(0, 3).mapToObj(value -> new LogProductVo(1, idProduct, "Test description", new Date())).toList());
+                IntStream.range(0, 3).mapToObj(value -> new LogProductDto(1, idProduct, "Test description", DateTime.nowDate())).toList());
 
         this.logProductService.listAllLogProduct(idProduct);
 

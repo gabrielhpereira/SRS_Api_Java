@@ -1,14 +1,14 @@
 package com.api.srs.service.product;
 
+import com.api.srs.dto.product.LogProductDto;
 import com.api.srs.entity.product.LogProductEntity;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.LogProductRepository;
-import com.api.srs.vo.product.LogProductVo;
+import com.api.srs.shared.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class LogProductService {
     @Autowired
     private LogProductRepository logProductRepository;
 
-    public List<LogProductVo> listAllLogProduct(BigInteger idProduct) {
+    public List<LogProductDto> listAllLogProduct(BigInteger idProduct) {
         return this.logProductRepository.listAllLogProduct(idProduct);
     }
 
@@ -48,7 +48,7 @@ public class LogProductService {
                             .Builder()
                             .productId(newProduct.getId())
                             .description("Product " + newProduct.getId() + " : \n\n" + sb.toString())
-                            .date(now())
+                            .date(DateTime.nowDate())
                             .build());
     }
 
@@ -58,7 +58,7 @@ public class LogProductService {
                         .Builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName() + " has been created!")
-                        .date(now())
+                        .date(DateTime.nowDate())
                         .build());
     }
 
@@ -68,11 +68,7 @@ public class LogProductService {
                         .Builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName() + " has been deleted!")
-                        .date(now())
+                        .date(DateTime.nowDate())
                         .build());
-    }
-
-    private static Date now() {
-        return new Date();
     }
 }

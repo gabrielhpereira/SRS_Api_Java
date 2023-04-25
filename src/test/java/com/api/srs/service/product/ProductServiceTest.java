@@ -4,7 +4,6 @@ import com.api.srs.ApplicationConfigTest;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.ProductRepository;
-import com.api.srs.vo.product.ProductVo;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -36,8 +35,8 @@ public class ProductServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must return all products")
     public void testReturnAllProducts() {
-        List<ProductVo> listProduct = IntStream.range(0, 3).mapToObj(value ->
-                new ProductVo(BigInteger.ONE, "Test", BigDecimal.TEN, 1)).toList();
+        List<ProductDto> listProduct = IntStream.range(0, 3).mapToObj(value ->
+                new ProductDto(BigInteger.ONE, "Test", BigDecimal.TEN, 1)).toList();
 
         Mockito.when(this.productRepository.listAllProducts()).thenReturn(listProduct);
 
@@ -49,8 +48,8 @@ public class ProductServiceTest implements ApplicationConfigTest {
     @Test
     @DisplayName("Must return products by filters")
     public void testReturnProductsByFilters() {
-        List<ProductVo> listProduct = IntStream.range(0, 3).mapToObj(value ->
-                new ProductVo(BigInteger.ONE, "Test", BigDecimal.TEN, 1)).toList();
+        List<ProductDto> listProduct = IntStream.range(0, 3).mapToObj(value ->
+                new ProductDto(BigInteger.ONE, "Test", BigDecimal.TEN, 1)).toList();
         Mockito.when(this.productRepository
                 .listProductByFilters(
                         ArgumentMatchers.anyString(),
@@ -88,7 +87,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
     @DisplayName("Must save an product")
     public void testSaveAnProduct() {
         ProductDto mock = buildMockDto();
-        Mockito.when(mock.getId()).thenReturn(null);
+        Mockito.when(mock.id()).thenReturn(null);
 
         this.productService.saveOrUpdateProduct(mock);
 
@@ -101,7 +100,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
     public void testUpdateProduct() {
         ProductDto mock = buildMockDto();
 
-        Mockito.when(this.productRepository.getReferenceById(mock.getId()))
+        Mockito.when(this.productRepository.getReferenceById(mock.id()))
                 .thenReturn(new ProductEntity
                         .Builder()
                         .id(BigInteger.ONE)
@@ -123,11 +122,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingName() {
         ProductDto mock = Mockito.mock(ProductDto.class);
 
-        Mockito.when(mock.getName()).thenReturn(null);
+        Mockito.when(mock.name()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Name is empty or null");
 
-        Mockito.when(mock.getName()).thenReturn("");
+        Mockito.when(mock.name()).thenReturn("");
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Name is empty or null");
     }
@@ -137,11 +136,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionWhenValidatingAmount() {
         ProductDto mock = buildMockDto();
 
-        Mockito.when(mock.getAmount()).thenReturn(null);
+        Mockito.when(mock.amount()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Amount is null or less than zero");
 
-        Mockito.when(mock.getAmount()).thenReturn(0);
+        Mockito.when(mock.amount()).thenReturn(0);
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Amount is null or less than zero");
     }
@@ -151,11 +150,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
     public void testThrowExceptionValidatingPrice() {
         ProductDto mock = buildMockDto();
 
-        Mockito.when(mock.getPrice()).thenReturn(null);
+        Mockito.when(mock.price()).thenReturn(null);
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Price is null or less than zero");
 
-        Mockito.when(mock.getPrice()).thenReturn(BigDecimal.ZERO);
+        Mockito.when(mock.price()).thenReturn(BigDecimal.ZERO);
 
         Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), "Price is null or less than zero");
     }
@@ -194,10 +193,10 @@ public class ProductServiceTest implements ApplicationConfigTest {
     private static ProductDto buildMockDto() {
         ProductDto mock = Mockito.mock(ProductDto.class);
 
-        Mockito.when(mock.getId()).thenReturn(BigInteger.ONE);
-        Mockito.when(mock.getName()).thenReturn("test");
-        Mockito.when(mock.getAmount()).thenReturn(1);
-        Mockito.when(mock.getPrice()).thenReturn(BigDecimal.ONE);
+        Mockito.when(mock.id()).thenReturn(BigInteger.ONE);
+        Mockito.when(mock.name()).thenReturn("test");
+        Mockito.when(mock.amount()).thenReturn(1);
+        Mockito.when(mock.price()).thenReturn(BigDecimal.ONE);
 
         return mock;
     }

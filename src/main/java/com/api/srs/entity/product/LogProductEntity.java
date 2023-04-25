@@ -3,7 +3,6 @@ package com.api.srs.entity.product;
 import jakarta.persistence.*;
 
 import java.math.BigInteger;
-import java.util.Date;
 
 @Entity
 @Table
@@ -21,7 +20,7 @@ public class LogProductEntity {
     private String description;
 
     @Column
-    private Date date;
+    private String date;
 
     public LogProductEntity() {
     }
@@ -37,7 +36,7 @@ public class LogProductEntity {
         private Integer id;
         private BigInteger productId;
         private String description;
-        private Date date;
+        private String date;
 
         public Builder id(Integer id) {
             this.id = id;
@@ -54,7 +53,7 @@ public class LogProductEntity {
             return this;
         }
 
-        public Builder date(Date date) {
+        public Builder date(String date) {
             this.date = date;
             return this;
         }
@@ -76,7 +75,7 @@ public class LogProductEntity {
         return this.description;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 }

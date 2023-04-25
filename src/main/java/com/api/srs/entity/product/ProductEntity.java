@@ -27,6 +27,13 @@ public class ProductEntity {
 
     }
 
+    public ProductEntity(ProductEntity entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.amount = entity.getAmount();
+        this.price = entity.getPrice();
+    }
+
     private ProductEntity(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;

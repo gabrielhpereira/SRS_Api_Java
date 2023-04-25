@@ -5,7 +5,6 @@ import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.resource.GenericResourceTest;
 import com.api.srs.service.product.ProductService;
-import com.api.srs.vo.product.ProductVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
     @DisplayName("ListAllProducts return status code 200")
     public void testListAllProducts() throws Exception {
         Mockito.when(this.productService.listAllProducts())
-                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new ProductVo(
+                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new ProductDto(
                         BigInteger.ONE, "Test", BigDecimal.TEN, 10)).toList());
 
         this.genericTestOKStatus(MockMvcRequestBuilders.get(PATH + "/listAllProducts").contentType(MediaType.APPLICATION_JSON));
@@ -58,11 +57,11 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
     @DisplayName("ListProductByFilters return status code 200")
     public void testListProductByFilters() throws Exception {
         Mockito.when(this.productService.listProductByFilters(Mockito.any(ProductDto.class)))
-                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new ProductVo(
+                .thenReturn(IntStream.range(0, 3).mapToObj(value -> new ProductDto(
                         BigInteger.ONE, "Test", BigDecimal.TEN, 10)).toList());
 
         this.genericTestOKStatus(MockMvcRequestBuilders.post(PATH + "/listProductByFilters")
-                .content(new ObjectMapper().writeValueAsString(new ProductDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -73,7 +72,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
                 .thenThrow(new ValidationException(MESSAGE));
 
         this.genericTestConflictStatus(MockMvcRequestBuilders.post(PATH + "/listProductByFilters")
-                .content(new ObjectMapper().writeValueAsString(new ProductDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -84,7 +83,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
                 .thenThrow(new NullPointerException(MESSAGE));
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.post(PATH + "/listProductByFilters")
-                .content(new ObjectMapper().writeValueAsString(new ProductDto()))
+                .content(new ObjectMapper().writeValueAsString(newProductDto()))
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
     }
 
@@ -139,5 +138,9 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
 
         this.genericTestInternalErrorStatus(MockMvcRequestBuilders.delete(PATH + "/deleteProduct/1")
                 .contentType(MediaType.APPLICATION_JSON), MESSAGE);
+    }
+
+    private static ProductDto newProductDto() {
+        return new ProductDto(BigInteger.ONE, "Test", BigDecimal.TEN, 10);
     }
 }
