@@ -5,7 +5,7 @@ import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.repository.employee.EmployeeRepository;
 import com.api.srs.shared.Validator;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +13,11 @@ import javax.validation.ValidationException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private LogEmployeeService logEmployeeService;
+    private final EmployeeRepository employeeRepository;
+    private final LogEmployeeService logEmployeeService;
 
     public List<EmployeeDto> listAllEmployees() {
         List<EmployeeDto> listVo = this.employeeRepository.listAllEmployees();
@@ -72,8 +70,8 @@ public class EmployeeService {
 
     private void saveEmployee(EmployeeDto employeeDto) {
         EmployeeEntity employee =
-                new EmployeeEntity
-                        .Builder()
+                EmployeeEntity
+                        .builder()
                         .address(employeeDto.address().trim())
                         .email(employeeDto.email().trim())
                         .name(employeeDto.name().trim())

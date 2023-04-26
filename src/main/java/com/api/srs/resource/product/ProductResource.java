@@ -5,7 +5,7 @@ import com.api.srs.resource.GenericResource;
 import com.api.srs.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,10 @@ import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductResource extends GenericResource {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping("/listAllProducts")
     @Operation(description = "List all products")

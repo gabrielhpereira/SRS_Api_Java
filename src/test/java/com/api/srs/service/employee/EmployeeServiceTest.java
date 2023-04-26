@@ -107,8 +107,8 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     public void testUpdateAnEmployee() {
         EmployeeDto mock = buildMockDto();
         Mockito.when(this.employeeRepository.getReferenceById(mock.id()))
-                .thenReturn(new EmployeeEntity
-                        .Builder()
+                .thenReturn(EmployeeEntity
+                        .builder()
                         .id(1)
                         .cpf("90324214090")
                         .name("test")

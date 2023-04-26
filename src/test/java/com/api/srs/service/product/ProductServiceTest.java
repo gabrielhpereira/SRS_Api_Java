@@ -101,8 +101,8 @@ public class ProductServiceTest implements ApplicationConfigTest {
         ProductDto mock = buildMockDto();
 
         Mockito.when(this.productRepository.getReferenceById(mock.id()))
-                .thenReturn(new ProductEntity
-                        .Builder()
+                .thenReturn(ProductEntity
+                        .builder()
                         .id(BigInteger.ONE)
                         .name("Test")
                         .amount(1)

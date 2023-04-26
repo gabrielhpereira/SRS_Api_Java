@@ -5,7 +5,7 @@ import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.ProductRepository;
 import com.api.srs.shared.Validator;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +15,11 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private LogProductService logProductService;
+    private final ProductRepository productRepository;
+    private final LogProductService logProductService;
 
     public List<ProductDto> listAllProducts() {
         List<ProductDto> listVo = this.productRepository.listAllProducts();
@@ -68,8 +66,8 @@ public class ProductService {
 
     private void saveProduct(ProductDto productDto) {
         ProductEntity product =
-                new ProductEntity
-                        .Builder()
+                ProductEntity
+                        .builder()
                         .name(productDto.name().trim())
                         .amount(productDto.amount())
                         .price(productDto.price())

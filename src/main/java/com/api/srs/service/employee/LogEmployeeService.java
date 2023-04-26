@@ -5,16 +5,16 @@ import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.entity.employee.LogEmployeeEntity;
 import com.api.srs.repository.employee.LogEmployeeRepository;
 import com.api.srs.shared.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LogEmployeeService {
 
-    @Autowired
-    private LogEmployeeRepository logEmployeeRepository;
+    private final LogEmployeeRepository logEmployeeRepository;
 
     public List<LogEmployeeDto> listAllLogEmployee(Integer employeeId) {
         return this.logEmployeeRepository.listAllLogEmployee(employeeId);
@@ -67,8 +67,8 @@ public class LogEmployeeService {
 
         if (!sb.toString().isEmpty())
             this.logEmployeeRepository.save(
-                    new LogEmployeeEntity
-                            .Builder()
+                    LogEmployeeEntity
+                            .builder()
                             .employeeId(newEmployee.getId())
                             .description("Product " + newEmployee.getCpf() + " : \n\n" + sb.toString())
                             .date(DateTime.nowDate())
@@ -77,8 +77,8 @@ public class LogEmployeeService {
 
     public void saveLogNewEmployee(EmployeeEntity employee) {
         this.logEmployeeRepository.save(
-                new LogEmployeeEntity
-                        .Builder()
+                LogEmployeeEntity
+                        .builder()
                         .id(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been created!")
                         .date(DateTime.nowDate())
@@ -88,8 +88,8 @@ public class LogEmployeeService {
 
     public void saveLogDeleteEmployee(EmployeeEntity employee) {
         this.logEmployeeRepository.save(
-                new LogEmployeeEntity
-                        .Builder()
+                LogEmployeeEntity
+                        .builder()
                         .employeeId(employee.getId())
                         .description("Employee " + employee.getCpf() + " - " + employee.getName() + " has been deleted!")
                         .date(DateTime.nowDate())

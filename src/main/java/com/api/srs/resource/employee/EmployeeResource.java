@@ -5,16 +5,16 @@ import com.api.srs.resource.GenericResource;
 import com.api.srs.service.employee.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeResource extends GenericResource {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/listAllEmployees")
     @Operation(description = "List all employees")

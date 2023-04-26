@@ -5,17 +5,17 @@ import com.api.srs.entity.product.LogProductEntity;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.repository.product.LogProductRepository;
 import com.api.srs.shared.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LogProductService {
 
-    @Autowired
-    private LogProductRepository logProductRepository;
+    private final LogProductRepository logProductRepository;
 
     public List<LogProductDto> listAllLogProduct(BigInteger idProduct) {
         return this.logProductRepository.listAllLogProduct(idProduct);
@@ -44,8 +44,8 @@ public class LogProductService {
 
         if (!sb.toString().isEmpty())
             this.logProductRepository.save(
-                    new LogProductEntity
-                            .Builder()
+                    LogProductEntity
+                            .builder()
                             .productId(newProduct.getId())
                             .description("Product " + newProduct.getId() + " : \n\n" + sb.toString())
                             .date(DateTime.nowDate())
@@ -54,8 +54,8 @@ public class LogProductService {
 
     public void saveLogNewProduct(ProductEntity product) {
         this.logProductRepository.save(
-                new LogProductEntity
-                        .Builder()
+                LogProductEntity
+                        .builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName() + " has been created!")
                         .date(DateTime.nowDate())
@@ -64,8 +64,8 @@ public class LogProductService {
 
     public void saveLogDeleteProduct(ProductEntity product) {
         this.logProductRepository.save(
-                new LogProductEntity
-                        .Builder()
+                LogProductEntity
+                        .builder()
                         .productId(product.getId())
                         .description("Product " + product.getId() + " - " + product.getName() + " has been deleted!")
                         .date(DateTime.nowDate())
