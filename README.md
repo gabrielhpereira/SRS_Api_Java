@@ -6,11 +6,11 @@
     Maven
 
 ## Progresso do desenvolvimento API
-    Login - A fazer
-    Cadastro de Usuarios - A Fazer
+    Login - OK
+    Cadastro de Usuarios - OK
     Cadastro de Funcionarios - OK 
     Cadastro de Produtos - OK
     Validações - Em Andamento
     Log de alterações - Ok
-    Testes - Em Andamento
+    Testes - Em andamento
     Swagger - OK

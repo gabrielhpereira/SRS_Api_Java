@@ -29,20 +29,4 @@ public class UserResource extends GenericResource {
     public ResponseEntity<?> listUserByFilters(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(this.userService.listUserByFilters(userDto));
     }
-
-//    @PostMapping("/saveOrUpdateUser")
-//    @Operation(description = "Save or update an user")
-//    @ApiResponse(responseCode = "200", description = "User successfully saved or updated")
-//    public ResponseEntity<?> saveOrUpdateUser(@RequestBody UserDto userDto) {
-//        this.userService.saveOrUpdateUser(userDto);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/deleteUser/{id}")
-//    @Operation(description = "Delete an user by id")
-//    @ApiResponse(responseCode = "200", description = "User deleted successfully")
-//    public ResponseEntity<?> deleteUserById(@PathVariable Integer id) {
-//        this.userService.deleteUserById(id);
-//        return ResponseEntity.ok().build();
-//    }
 }
