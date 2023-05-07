@@ -2,6 +2,7 @@ package com.api.srs.service.product;
 
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
+import com.api.srs.enums.product.MessageProductEnum;
 import com.api.srs.repository.product.ProductRepository;
 import com.api.srs.shared.Validator;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,7 +25,7 @@ public class ProductService {
     public List<ProductDto> listAllProducts() {
         List<ProductDto> listVo = this.productRepository.listAllProducts();
 
-        if (listVo.isEmpty()) throw new ValidationException("Product not found!");
+        if (listVo.isEmpty()) throw new ValidationException(MessageProductEnum.NOT_FOUND.getMessage());
 
         return listVo;
     }
@@ -36,7 +37,7 @@ public class ProductService {
                 Validator.validateIntegerNullOrLessEqualZero(productDto.amount())
         );
 
-        if (listVo.isEmpty()) throw new ValidationException("Product not found!");
+        if (listVo.isEmpty()) throw new ValidationException(MessageProductEnum.NOT_FOUND.getMessage());
 
         return listVo;
     }
@@ -87,18 +88,18 @@ public class ProductService {
 
             this.logProductService.saveLogDeleteProduct(product);
         } catch (EntityNotFoundException e) {
-            throw new ValidationException("Product not found!");
+            throw new ValidationException(MessageProductEnum.NOT_FOUND.getMessage());
         }
     }
 
     private static void validateProductDto(ProductDto productDto) {
         if (productDto.name() == null || productDto.name().isBlank())
-            throw new ValidationException("Name is empty or null");
+            throw new ValidationException(MessageProductEnum.NAME_NULL_OR_EMPTY.getMessage());
 
         if (productDto.amount() == null || productDto.amount() <= 0)
-            throw new ValidationException("Amount is null or less than zero");
+            throw new ValidationException(MessageProductEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
 
         if (productDto.price() == null || productDto.price().compareTo(BigDecimal.ZERO) <= 0)
-            throw new ValidationException("Price is null or less than zero");
+            throw new ValidationException(MessageProductEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
     }
 }
