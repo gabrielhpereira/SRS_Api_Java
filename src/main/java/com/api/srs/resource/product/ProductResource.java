@@ -13,6 +13,7 @@ import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin
 @RequiredArgsConstructor
 public class ProductResource extends GenericResource {
 
