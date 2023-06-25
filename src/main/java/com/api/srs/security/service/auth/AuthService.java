@@ -25,91 +25,91 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserService userService;
-    private final TokenService tokenService;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+  private final UserService userService;
+  private final TokenService tokenService;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
+  private final AuthenticationManager authenticationManager;
 
-    public TokenDto registerNewUser(UserDto userDto) {
-        UserEntity user = UserEntity
-                .builder()
-                .firstname(userDto.firstname())
-                .lastname(userDto.lastname())
-                .email(userDto.email())
-                .password(passwordEncoder.encode(userDto.password()))
-                .roleType(RoleType.USER)
-                .build();
+  public TokenDto registerNewUser(UserDto userDto) {
+    UserEntity user = UserEntity
+        .builder()
+        .firstname(userDto.firstname())
+        .lastname(userDto.lastname())
+        .email(userDto.email())
+        .password(passwordEncoder.encode(userDto.password()))
+        .roleType(RoleType.USER)
+        .build();
 
-        UserEntity savedUser = this.userService.saveUser(user);
-        String jwtToken = this.jwtService.generatedToken(user);
-        String refreshToken = this.jwtService.generatedRefreshToken(user);
+    UserEntity savedUser = this.userService.saveUser(user);
+    String jwtToken = this.jwtService.generatedToken(user);
+    String refreshToken = this.jwtService.generatedRefreshToken(user);
 
-        this.saveUserToken(savedUser, jwtToken);
+    this.saveUserToken(savedUser, jwtToken);
 
-        return new TokenDto(jwtToken, refreshToken);
-    }
+    return new TokenDto(jwtToken, refreshToken);
+  }
 
-    public TokenDto authenticate(UserDto userDto) {
-        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.email(), userDto.password()));
+  public TokenDto authenticate(UserDto userDto) {
+    this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.email(), userDto.password()));
 
-        UserEntity user = this.userService.findByEmail(userDto.email()).orElseThrow();
+    UserEntity user = this.userService.findByEmail(userDto.email()).orElseThrow();
 
-        String jwtToken = this.jwtService.generatedToken(user);
-        String refreshToken = this.jwtService.generatedRefreshToken(user);
+    String jwtToken = this.jwtService.generatedToken(user);
+    String refreshToken = this.jwtService.generatedRefreshToken(user);
 
+    revokeAllUserTokens(user);
+    saveUserToken(user, jwtToken);
+
+    return new TokenDto(jwtToken, refreshToken);
+  }
+
+  public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) return;
+
+    final String refreshToken = authHeader.substring(7);
+    final String email = this.jwtService.extractUsername(refreshToken);
+
+    if (email != null) {
+      UserEntity user = this.userService.findByEmail(email).orElseThrow();
+
+      if (this.jwtService.isTokenValid(refreshToken, user)) {
+        String accessToken = this.jwtService.generatedToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        saveUserToken(user, accessToken);
 
-        return new TokenDto(jwtToken, refreshToken);
+        TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
+
+        new ObjectMapper().writeValue(response.getOutputStream(), tokenDto);
+      }
     }
+  }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+  private void saveUserToken(UserEntity user, String jwtToken) {
+    TokenEntity token = TokenEntity
+        .builder()
+        .user(user)
+        .token(jwtToken)
+        .tokenType(TokenType.BEARER)
+        .expired(false)
+        .revoked(false)
+        .build();
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) return;
+    this.tokenService.saveToken(token);
+  }
 
-        final String refreshToken = authHeader.substring(7);
-        final String email = this.jwtService.extractUsername(refreshToken);
+  private void revokeAllUserTokens(UserEntity user) {
+    List<TokenEntity> validUserTokens = this.tokenService.findAllValidTokenByUser(user.getId());
 
-        if (email != null) {
-            UserEntity user = this.userService.findByEmail(email).orElseThrow();
+    if (validUserTokens.isEmpty()) return;
 
-            if (this.jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = this.jwtService.generatedToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+    validUserTokens.forEach(token -> {
+      token.setExpired(true);
+      token.setRevoked(true);
+    });
 
-                TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
-
-                new ObjectMapper().writeValue(response.getOutputStream(), tokenDto);
-            }
-        }
-    }
-
-    private void saveUserToken(UserEntity user, String jwtToken) {
-        TokenEntity token = TokenEntity
-                .builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
-
-        this.tokenService.saveToken(token);
-    }
-
-    private void revokeAllUserTokens(UserEntity user) {
-        List<TokenEntity> validUserTokens = this.tokenService.findAllValidTokenByUser(user.getId());
-
-        if (validUserTokens.isEmpty()) return;
-
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-
-        this.tokenService.saveAllTokens(validUserTokens);
-    }
+    this.tokenService.saveAllTokens(validUserTokens);
+  }
 }

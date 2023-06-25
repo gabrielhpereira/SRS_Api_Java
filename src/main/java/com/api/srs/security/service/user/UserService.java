@@ -15,25 +15,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public Optional<UserEntity> findByEmail(String email) {
-        return this.userRepository.findByEmail(email);
-    }
+  public Optional<UserEntity> findByEmail(String email) {
+    return this.userRepository.findByEmail(email);
+  }
 
-    public List<UserDto> listAllUsers() {
-        return this.userRepository.listAllUsers();
-    }
+  public List<UserDto> listAllUsers() {
+    return this.userRepository.listAllUsers();
+  }
 
-    public List<UserDto> listUserByFilters(UserDto userDto) {
-        return this.userRepository.listUserByFilters(
-                Validator.validateStringNullOrEmpty(userDto.firstname() + " " + userDto.lastname()),
-                Validator.validateStringNullOrEmpty(userDto.email())
-        );
-    }
+  public List<UserDto> listUserByFilters(UserDto userDto) {
+    return this.userRepository.listUserByFilters(
+        Validator.validateStringNullOrEmpty(userDto.firstname() + " " + userDto.lastname()),
+        Validator.validateStringNullOrEmpty(userDto.email())
+    );
+  }
 
-    @Transactional
-    public UserEntity saveUser(UserEntity userEntity) {
-        return this.userRepository.saveAndFlush(userEntity);
-    }
+  @Transactional
+  public UserEntity saveUser(UserEntity userEntity) {
+    return this.userRepository.saveAndFlush(userEntity);
+  }
 }

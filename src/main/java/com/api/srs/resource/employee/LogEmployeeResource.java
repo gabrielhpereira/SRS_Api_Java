@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LogEmployeeResource extends GenericResource {
 
-    private final LogEmployeeService logEmployeeService;
+  private final LogEmployeeService logEmployeeService;
 
-    @GetMapping("/listAllLogEmployee/{employeeId}")
-    @Operation(description = "List all logEmployees by employeeId")
-    @ApiResponse(responseCode = "200", description = "LogEmployees successfully listed")
-    public ResponseEntity<?> listAllLogEmployee(@PathVariable Integer employeeId) {
-        return ResponseEntity.ok(this.logEmployeeService.listAllLogEmployee(employeeId));
-    }
+  @GetMapping("/listAllLogEmployee/{employeeId}")
+  @Operation(description = "List all logEmployees by employeeId")
+  @ApiResponse(responseCode = "200", description = "LogEmployees successfully listed")
+  public ResponseEntity<?> listAllLogEmployee(@PathVariable Integer employeeId) {
+    return ResponseEntity.ok(this.logEmployeeService.listAllLogEmployee(employeeId));
+  }
 }

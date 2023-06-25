@@ -12,20 +12,20 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-    String SELECT = "SELECT new com.api.srs.security.dto.user.UserDto(u.id, u.firstname, u.lastname, u.email) FROM UserEntity u";
+  String SELECT = "SELECT new com.api.srs.security.dto.user.UserDto(u.id, u.firstname, u.lastname, u.email) FROM UserEntity u";
 
-    @Query(SELECT)
-    public List<UserDto> listAllUsers();
+  @Query(SELECT)
+  public List<UserDto> listAllUsers();
 
-    @Query(SELECT
-            + " WHERE 1 = 1"
-            + "     AND (:name IS NULL OR UPPER(u.firstname + ' ' +u.lastname) LIKE CONCAT('%', :name, '%'))"
-            + "     AND (:email IS NULL OR u.email LIKE CONCAT('%', :email, '%'))")
-    public List<UserDto> listUserByFilters(
-            @Param("name") String name,
-            @Param("email") String email
-    );
+  @Query(SELECT
+      + " WHERE 1 = 1"
+      + "     AND (:name IS NULL OR UPPER(u.firstname + ' ' +u.lastname) LIKE CONCAT('%', :name, '%'))"
+      + "     AND (:email IS NULL OR u.email LIKE CONCAT('%', :email, '%'))")
+  public List<UserDto> listUserByFilters(
+      @Param("name") String name,
+      @Param("email") String email
+  );
 
-    @Query("SELECT u FROM UserEntity u WHERE u.email = :email")
-    public Optional<UserEntity> findByEmail(@Param("email") String email);
+  @Query("SELECT u FROM UserEntity u WHERE u.email = :email")
+  public Optional<UserEntity> findByEmail(@Param("email") String email);
 }

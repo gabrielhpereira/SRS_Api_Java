@@ -12,13 +12,13 @@ import java.util.Optional;
 @Repository
 public interface TokenRepository extends JpaRepository<TokenEntity, Integer> {
 
-    @Query("SELECT t FROM TokenEntity t"
-            + " INNER JOIN UserEntity u"
-            + "     ON t.user.id = u.id"
-            + " WHERE u.id = :userId"
-            + "     AND (t.expired = false OR t.revoked = false)")
-    public List<TokenEntity> findAllValidTokenByUser(@Param("userId") Integer userId);
+  @Query("SELECT t FROM TokenEntity t"
+      + " INNER JOIN UserEntity u"
+      + "     ON t.user.id = u.id"
+      + " WHERE u.id = :userId"
+      + "     AND (t.expired = false OR t.revoked = false)")
+  public List<TokenEntity> findAllValidTokenByUser(@Param("userId") Integer userId);
 
-    @Query("SELECT t FROM TokenEntity t WHERE t.token = :token")
-    public Optional<TokenEntity> findByToken(@Param("token") String token);
+  @Query("SELECT t FROM TokenEntity t WHERE t.token = :token")
+  public Optional<TokenEntity> findByToken(@Param("token") String token);
 }

@@ -14,33 +14,33 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser
 public class GenericResourceTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    protected void genericTestOKStatus(RequestBuilder requestBuilder) throws Exception {
-        MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn()
-                .getResponse();
+  protected void genericTestOKStatus(RequestBuilder requestBuilder) throws Exception {
+    MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn()
+        .getResponse();
 
-        Assertions.assertEquals(HttpStatus.OK.value(), response.getStatus());
-    }
+    Assertions.assertEquals(HttpStatus.OK.value(), response.getStatus());
+  }
 
-    protected void genericTestConflictStatus(RequestBuilder requestBuilder, String message) throws Exception {
-        MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isConflict())
-                .andReturn()
-                .getResponse();
+  protected void genericTestConflictStatus(RequestBuilder requestBuilder, String message) throws Exception {
+    MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
+        .andExpect(MockMvcResultMatchers.status().isConflict())
+        .andReturn()
+        .getResponse();
 
-        Assertions.assertTrue(HttpStatus.CONFLICT.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
-    }
+    Assertions.assertTrue(HttpStatus.CONFLICT.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
+  }
 
-    protected void genericTestInternalErrorStatus(RequestBuilder requestBuilder, String message) throws Exception {
-        MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isInternalServerError())
-                .andReturn()
-                .getResponse();
+  protected void genericTestInternalErrorStatus(RequestBuilder requestBuilder, String message) throws Exception {
+    MockHttpServletResponse response = this.mockMvc.perform(requestBuilder)
+        .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+        .andReturn()
+        .getResponse();
 
-        Assertions.assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
-    }
+    Assertions.assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.value() == response.getStatus() && response.getContentAsString().equalsIgnoreCase(message));
+  }
 }

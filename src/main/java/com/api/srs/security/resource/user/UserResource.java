@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserResource extends GenericResource {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @GetMapping("/listAllUsers")
-    @Operation(description = "List all users")
-    @ApiResponse(responseCode = "200", description = "Users successfully listed")
-    public ResponseEntity<?> listAllUsers() {
-        return ResponseEntity.ok(this.userService.listAllUsers());
-    }
+  @GetMapping("/listAllUsers")
+  @Operation(description = "List all users")
+  @ApiResponse(responseCode = "200", description = "Users successfully listed")
+  public ResponseEntity<?> listAllUsers() {
+    return ResponseEntity.ok(this.userService.listAllUsers());
+  }
 
-    @PostMapping("/listUserByFilters")
-    @Operation(description = "List users by filters")
-    @ApiResponse(responseCode = "200", description = "Users successfully listed")
-    public ResponseEntity<?> listUserByFilters(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(this.userService.listUserByFilters(userDto));
-    }
+  @PostMapping("/listUserByFilters")
+  @Operation(description = "List users by filters")
+  @ApiResponse(responseCode = "200", description = "Users successfully listed")
+  public ResponseEntity<?> listUserByFilters(@RequestBody UserDto userDto) {
+    return ResponseEntity.ok(this.userService.listUserByFilters(userDto));
+  }
 }

@@ -13,23 +13,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final TokenRepository tokenRepository;
+  private final TokenRepository tokenRepository;
 
-    public List<TokenEntity> findAllValidTokenByUser(Integer userId) {
-        return this.tokenRepository.findAllValidTokenByUser(userId);
-    }
+  public List<TokenEntity> findAllValidTokenByUser(Integer userId) {
+    return this.tokenRepository.findAllValidTokenByUser(userId);
+  }
 
-    public Optional<TokenEntity> findByToken(String token) {
-        return this.tokenRepository.findByToken(token);
-    }
+  public Optional<TokenEntity> findByToken(String token) {
+    return this.tokenRepository.findByToken(token);
+  }
 
-    @Transactional
-    public void saveToken(TokenEntity token) {
-        this.tokenRepository.save(token);
-    }
+  @Transactional
+  public void saveToken(TokenEntity token) {
+    this.tokenRepository.save(token);
+  }
 
-    @Transactional
-    public void saveAllTokens(List<TokenEntity> validUserTokens) {
-        this.tokenRepository.saveAll(validUserTokens);
-    }
+  @Transactional
+  public void saveAllTokens(List<TokenEntity> validUserTokens) {
+    this.tokenRepository.saveAll(validUserTokens);
+  }
 }

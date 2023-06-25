@@ -15,12 +15,12 @@ import java.math.BigInteger;
 @RequiredArgsConstructor
 public class LogProductResource extends GenericResource {
 
-    private final LogProductService logProductService;
+  private final LogProductService logProductService;
 
-    @GetMapping("/listAllLogProduct/{productId}")
-    @Operation(description = "List all logProduct by productId")
-    @ApiResponse(responseCode = "200", description = "LogProducts successfully listed")
-    public ResponseEntity<?> listAllLogEmployee(@PathVariable BigInteger productId) {
-        return ResponseEntity.ok(this.logProductService.listAllLogProduct(productId));
-    }
+  @GetMapping("/listAllLogProduct/{productId}")
+  @Operation(description = "List all logProduct by productId")
+  @ApiResponse(responseCode = "200", description = "LogProducts successfully listed")
+  public ResponseEntity<?> listAllLogEmployee(@PathVariable BigInteger productId) {
+    return ResponseEntity.ok(this.logProductService.listAllLogProduct(productId));
+  }
 }

@@ -17,24 +17,24 @@ import java.math.BigInteger;
 @Table
 public class ProductEntity {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+  @Id
+  @Column
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private BigInteger id;
 
-    @Column
-    private String name;
+  @Column
+  private String name;
 
-    @Column
-    private BigDecimal price;
+  @Column
+  private BigDecimal price;
 
-    @Column
-    private Integer amount;
+  @Column
+  private Integer amount;
 
-    public ProductEntity(ProductEntity entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.amount = entity.getAmount();
-        this.price = entity.getPrice();
-    }
+  public ProductEntity(ProductEntity entity) {
+    this.id = entity.getId();
+    this.name = entity.getName();
+    this.amount = entity.getAmount();
+    this.price = entity.getPrice();
+  }
 }

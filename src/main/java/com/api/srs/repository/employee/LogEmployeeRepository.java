@@ -12,10 +12,10 @@ import java.util.List;
 @Repository
 public interface LogEmployeeRepository extends JpaRepository<LogEmployeeEntity, Integer> {
 
-    @Query("SELECT new com.api.srs.dto.employee.LogEmployeeDto(l.id, l.employeeId, l.description, l.date)"
-            + "     FROM LogEmployeeEntity l"
-            + " WHERE l.id = :employeeId")
-    public List<LogEmployeeDto> listAllLogEmployee(
-            @Param("employeeId") Integer employeeId
-    );
+  @Query("SELECT new com.api.srs.dto.employee.LogEmployeeDto(l.id, l.employeeId, l.description, l.date)"
+      + "     FROM LogEmployeeEntity l"
+      + " WHERE l.id = :employeeId")
+  public List<LogEmployeeDto> listAllLogEmployee(
+      @Param("employeeId") Integer employeeId
+  );
 }

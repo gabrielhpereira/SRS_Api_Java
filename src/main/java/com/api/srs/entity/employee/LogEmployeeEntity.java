@@ -14,17 +14,17 @@ import lombok.NoArgsConstructor;
 @Table
 public class LogEmployeeEntity {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @Column
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Column
-    private Integer employeeId;
+  @Column
+  private Integer employeeId;
 
-    @Column
-    private String description;
+  @Column
+  private String description;
 
-    @Column
-    private String date;
+  @Column
+  private String date;
 }

@@ -22,26 +22,26 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthResource extends GenericResource {
 
-    private final AuthService authService;
+  private final AuthService authService;
 
-    @PostMapping("/register")
-    @Operation(description = "Register a new user")
-    @ApiResponse(responseCode = "200", description = "Successfully registered user")
-    public ResponseEntity<TokenDto> registerNewUser(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(this.authService.registerNewUser(userDto));
-    }
+  @PostMapping("/register")
+  @Operation(description = "Register a new user")
+  @ApiResponse(responseCode = "200", description = "Successfully registered user")
+  public ResponseEntity<TokenDto> registerNewUser(@RequestBody UserDto userDto) {
+    return ResponseEntity.ok(this.authService.registerNewUser(userDto));
+  }
 
-    @PostMapping("/authenticate")
-    @Operation(description = "Log in a user")
-    @ApiResponse(responseCode = "200", description = "Successful login")
-    public ResponseEntity<TokenDto> authenticate(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(this.authService.authenticate(userDto));
-    }
+  @PostMapping("/authenticate")
+  @Operation(description = "Log in a user")
+  @ApiResponse(responseCode = "200", description = "Successful login")
+  public ResponseEntity<TokenDto> authenticate(@RequestBody UserDto userDto) {
+    return ResponseEntity.ok(this.authService.authenticate(userDto));
+  }
 
-    @PostMapping("/refreshToken")
-    @Operation(description = "Update login token")
-    @ApiResponse(responseCode = "200", description = "Successfully updated login token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        this.authService.refreshToken(request, response);
-    }
+  @PostMapping("/refreshToken")
+  @Operation(description = "Update login token")
+  @ApiResponse(responseCode = "200", description = "Successfully updated login token")
+  public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    this.authService.refreshToken(request, response);
+  }
 }

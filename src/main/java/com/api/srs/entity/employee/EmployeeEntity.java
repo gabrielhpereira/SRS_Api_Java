@@ -14,36 +14,36 @@ import lombok.NoArgsConstructor;
 @Table
 public class EmployeeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column
+  private Integer id;
 
-    @Column(unique = true)
-    private String cpf;
+  @Column(unique = true)
+  private String cpf;
 
-    @Column
-    private String name;
+  @Column
+  private String name;
 
-    @Column
-    private String phone;
+  @Column
+  private String phone;
 
-    @Column
-    private String address;
+  @Column
+  private String address;
 
-    @Column
-    private String email;
+  @Column
+  private String email;
 
-    @Column
-    private String sector;
+  @Column
+  private String sector;
 
-    public EmployeeEntity(EmployeeEntity entity) {
-        this.id = entity.getId();
-        this.cpf = entity.getCpf();
-        this.name = entity.getName();
-        this.phone = entity.getPhone();
-        this.address = entity.getAddress();
-        this.email = entity.getEmail();
-        this.sector = entity.getSector();
-    }
+  public EmployeeEntity(EmployeeEntity entity) {
+    this.id = entity.getId();
+    this.cpf = entity.getCpf();
+    this.name = entity.getName();
+    this.phone = entity.getPhone();
+    this.address = entity.getAddress();
+    this.email = entity.getEmail();
+    this.sector = entity.getSector();
+  }
 }

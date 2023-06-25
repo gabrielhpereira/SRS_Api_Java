@@ -15,35 +15,35 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EmployeeResource extends GenericResource {
 
-    private final EmployeeService employeeService;
+  private final EmployeeService employeeService;
 
-    @GetMapping("/listAllEmployees")
-    @Operation(description = "List all employees")
-    @ApiResponse(responseCode = "200", description = "Employees successfully listed")
-    public ResponseEntity<?> listAllEmployees() {
-        return ResponseEntity.ok(this.employeeService.listAllEmployees());
-    }
+  @GetMapping("/listAllEmployees")
+  @Operation(description = "List all employees")
+  @ApiResponse(responseCode = "200", description = "Employees successfully listed")
+  public ResponseEntity<?> listAllEmployees() {
+    return ResponseEntity.ok(this.employeeService.listAllEmployees());
+  }
 
-    @PostMapping("/listEmployeeByFilters")
-    @Operation(description = "List employee by filters")
-    @ApiResponse(responseCode = "200", description = "Employees successfully listed")
-    public ResponseEntity<?> listEmployeeByFilters(@RequestBody EmployeeDto employeeDto) {
-        return ResponseEntity.ok(this.employeeService.listEmployeeByFilters(employeeDto));
-    }
+  @PostMapping("/listEmployeeByFilters")
+  @Operation(description = "List employee by filters")
+  @ApiResponse(responseCode = "200", description = "Employees successfully listed")
+  public ResponseEntity<?> listEmployeeByFilters(@RequestBody EmployeeDto employeeDto) {
+    return ResponseEntity.ok(this.employeeService.listEmployeeByFilters(employeeDto));
+  }
 
-    @PostMapping("/saveOrUpdateEmployee")
-    @Operation(description = "Save or update an employee")
-    @ApiResponse(responseCode = "200", description = "Employee successfully saved or updated")
-    public ResponseEntity<?> saveOrUpdateEmployee(@RequestBody EmployeeDto employeeDto) {
-        this.employeeService.saveOrUpdateEmployee(employeeDto);
-        return ResponseEntity.ok().build();
-    }
+  @PostMapping("/saveOrUpdateEmployee")
+  @Operation(description = "Save or update an employee")
+  @ApiResponse(responseCode = "200", description = "Employee successfully saved or updated")
+  public ResponseEntity<?> saveOrUpdateEmployee(@RequestBody EmployeeDto employeeDto) {
+    this.employeeService.saveOrUpdateEmployee(employeeDto);
+    return ResponseEntity.ok().build();
+  }
 
-    @DeleteMapping("/deleteEmployee/{id}")
-    @Operation(description = "Delete an employee by id")
-    @ApiResponse(responseCode = "200", description = "Employee deleted successfully")
-    public ResponseEntity<?> deleteEmployeeById(@PathVariable Integer id) {
-        this.employeeService.deleteEmployeeById(id);
-        return ResponseEntity.ok().build();
-    }
+  @DeleteMapping("/deleteEmployee/{id}")
+  @Operation(description = "Delete an employee by id")
+  @ApiResponse(responseCode = "200", description = "Employee deleted successfully")
+  public ResponseEntity<?> deleteEmployeeById(@PathVariable Integer id) {
+    this.employeeService.deleteEmployeeById(id);
+    return ResponseEntity.ok().build();
+  }
 }

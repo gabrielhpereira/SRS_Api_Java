@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public record ProductDto(
-        BigInteger id,
-        String name,
-        BigDecimal price,
-        Integer amount
-) { }
+    BigInteger id,
+    String name,
+    BigDecimal price,
+    Integer amount
+) {
+}

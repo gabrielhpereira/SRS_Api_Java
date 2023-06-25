@@ -14,24 +14,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
 
-    private final TokenService tokenService;
+  private final TokenService tokenService;
 
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        final String authHeader = request.getHeader("Authorization");
+  @Override
+  public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) return;
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) return;
 
-        final String jwtToken = authHeader.substring(7);
+    final String jwtToken = authHeader.substring(7);
 
-        TokenEntity storedToken = this.tokenService.findByToken(jwtToken).orElse(null);
+    TokenEntity storedToken = this.tokenService.findByToken(jwtToken).orElse(null);
 
-        if (storedToken != null) {
-            storedToken.setExpired(true);
-            storedToken.setRevoked(true);
+    if (storedToken != null) {
+      storedToken.setExpired(true);
+      storedToken.setRevoked(true);
 
-            this.tokenService.saveToken(storedToken);
-            SecurityContextHolder.clearContext();
-        }
+      this.tokenService.saveToken(storedToken);
+      SecurityContextHolder.clearContext();
     }
+  }
 }
