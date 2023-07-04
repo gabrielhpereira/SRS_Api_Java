@@ -10,7 +10,7 @@
     Cadastro de Usuarios - OK
     Cadastro de Funcionarios - OK 
     Cadastro de Produtos - OK
-    Validações - Em Andamento
+    Validações - OK
     Log de alterações - Ok
     Testes - Em andamento
     Swagger - OK
