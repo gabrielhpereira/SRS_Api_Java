@@ -1,4 +1,4 @@
-package com.api.srs.entity.employee;
+package com.api.srs.entity.supplier;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table
-public class LogEmployeeEntity {
+public class SupplierEntity {
 
   @Id
   @Column
@@ -20,11 +20,17 @@ public class LogEmployeeEntity {
   private Integer id;
 
   @Column
-  private Integer employeeId;
+  private String name;
 
   @Column
-  private String description;
+  private String address;
 
   @Column
-  private String date;
+  private String email;
+
+  @Column
+  private String phone;
+
+  @Column
+  private Boolean status;
 }
