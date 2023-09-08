@@ -3,7 +3,7 @@ package com.api.srs.service.product;
 import com.api.srs.ApplicationConfigTest;
 import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
-import com.api.srs.enums.product.MessageProductEnum;
+import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.product.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -81,7 +81,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
     ).thenReturn(new ArrayList<>());
 
     Assertions.assertThrows(ValidationException.class, () ->
-        this.productService.listProductByFilters(buildMockDto()), MessageProductEnum.NOT_FOUND.getMessage());
+        this.productService.listProductByFilters(buildMockDto()), MessageGenericEnum.NOT_FOUND.getMessage());
   }
 
   @Test
@@ -125,11 +125,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.name()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.NAME_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.name()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.NAME_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -139,11 +139,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.amount()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
 
     Mockito.when(mock.amount()).thenReturn(0);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
   }
 
   @Test
@@ -153,11 +153,11 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.price()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
 
     Mockito.when(mock.price()).thenReturn(BigDecimal.ZERO);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageProductEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
   }
 
   @Test
@@ -188,7 +188,7 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
     Mockito.when(this.productRepository.getReferenceById(id)).thenThrow(EntityNotFoundException.class);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.productService.deleteProductById(id), MessageProductEnum.NOT_FOUND.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.productService.deleteProductById(id), MessageGenericEnum.NOT_FOUND.getMessage());
   }
 
   private static ProductDto buildMockDto() {

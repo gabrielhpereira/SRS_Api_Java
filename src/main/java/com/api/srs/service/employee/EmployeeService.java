@@ -2,7 +2,7 @@ package com.api.srs.service.employee;
 
 import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
-import com.api.srs.enums.employee.MessageEmployeeEnum;
+import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.employee.EmployeeRepository;
 import com.api.srs.shared.Validator;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,7 +23,7 @@ public class EmployeeService {
   public List<EmployeeDto> listAllEmployees() {
     List<EmployeeDto> listVo = this.employeeRepository.listAllEmployees();
 
-    if (listVo.isEmpty()) throw new ValidationException(MessageEmployeeEnum.NOT_FOUND.getMessage());
+    if (listVo.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
     return listVo;
   }
@@ -38,7 +38,7 @@ public class EmployeeService {
         Validator.validateStringNullOrEmpty(employeeDto.email())
     );
 
-    if (listEmployee.isEmpty()) throw new ValidationException(MessageEmployeeEnum.NOT_FOUND.getMessage());
+    if (listEmployee.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
     return listEmployee;
   }
@@ -95,27 +95,27 @@ public class EmployeeService {
 
       this.logEmployeeService.saveLogDeleteEmployee(employee);
     } catch (EntityNotFoundException e) {
-      throw new ValidationException(MessageEmployeeEnum.NOT_FOUND.getMessage());
+      throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage("Employee"));
     }
   }
 
   private static void validateEmployeeDto(EmployeeDto employeeDto) {
     if (employeeDto.cpf() == null || employeeDto.cpf().isBlank() || Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.cpf())))
-      throw new ValidationException(MessageEmployeeEnum.INVALID_CPF.getMessage());
+      throw new ValidationException(MessageGenericEnum.INVALID_CPF.getMessage());
 
     if (employeeDto.name() == null || employeeDto.name().isBlank())
-      throw new ValidationException(MessageEmployeeEnum.NAME_NULL_OR_EMPtY.getMessage());
+      throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
     if (employeeDto.email() == null || employeeDto.email().isBlank())
-      throw new ValidationException(MessageEmployeeEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+      throw new ValidationException(MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
 
     if (employeeDto.phone() == null || employeeDto.phone().isBlank())
-      throw new ValidationException(MessageEmployeeEnum.PHONE_NULL_OR_EMPTY.getMessage());
+      throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
 
     if (employeeDto.address() == null || employeeDto.address().isBlank())
-      throw new ValidationException(MessageEmployeeEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
+      throw new ValidationException(MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
 
     if (employeeDto.sector() == null || employeeDto.sector().isBlank())
-      throw new ValidationException(MessageEmployeeEnum.SECTOR_NULL_OR_EMPTY.getMessage());
+      throw new ValidationException(MessageGenericEnum.SECTOR_NULL_OR_EMPTY.getMessage());
   }
 }

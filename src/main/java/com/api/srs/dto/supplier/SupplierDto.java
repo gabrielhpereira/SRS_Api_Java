@@ -9,6 +9,6 @@ public record SupplierDto(
     String status
 ) {
   public SupplierDto(Integer id, String name, String address, String email, String phone, Boolean isStatus) {
-    this(id, name, address, email, phone, isStatus ? "Activated" : "Disabled");
+    this(id, name, address, email, phone, isStatus ? "Active" : "Disabled");
   }
 }

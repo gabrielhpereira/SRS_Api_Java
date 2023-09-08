@@ -3,7 +3,7 @@ package com.api.srs.service.employee;
 import com.api.srs.ApplicationConfigTest;
 import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
-import com.api.srs.enums.employee.MessageEmployeeEnum;
+import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.employee.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -87,7 +87,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
         )
     ).thenReturn(new ArrayList<>());
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(buildMockDto()), MessageEmployeeEnum.NOT_FOUND.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.listEmployeeByFilters(buildMockDto()), MessageGenericEnum.NOT_FOUND.getMessage());
 
   }
 
@@ -134,15 +134,15 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.cpf()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.INVALID_CPF.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_CPF.getMessage());
 
     Mockito.when(mock.cpf()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.INVALID_CPF.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_CPF.getMessage());
 
     Mockito.when(mock.cpf()).thenReturn("000000000");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.INVALID_CPF.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_CPF.getMessage());
   }
 
   @Test
@@ -152,11 +152,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.name()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.NAME_NULL_OR_EMPtY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.name()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.NAME_NULL_OR_EMPtY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -166,11 +166,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.email()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.email()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -180,11 +180,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.phone()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.phone()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -194,11 +194,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.address()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.address()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -208,11 +208,11 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.sector()).thenReturn(null);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.SECTOR_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.SECTOR_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.sector()).thenReturn("");
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageEmployeeEnum.SECTOR_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.SECTOR_NULL_OR_EMPTY.getMessage());
   }
 
   @Test
@@ -239,7 +239,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     Mockito.when(mock.getId()).thenReturn(id);
     Mockito.when(this.employeeRepository.getReferenceById(id)).thenThrow(EntityNotFoundException.class);
 
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.deleteEmployeeById(id), MessageEmployeeEnum.NOT_FOUND.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.deleteEmployeeById(id), MessageGenericEnum.NOT_FOUND.getMessage());
   }
 
   private static EmployeeDto buildMockDto() {
