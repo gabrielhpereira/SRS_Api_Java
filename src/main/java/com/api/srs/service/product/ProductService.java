@@ -4,14 +4,15 @@ import com.api.srs.dto.product.ProductDto;
 import com.api.srs.entity.product.ProductEntity;
 import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.product.ProductRepository;
-import com.api.srs.shared.Validator;
+
+import static com.api.srs.shared.Validator.*;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class ProductService {
 
   public List<ProductDto> listProductByFilters(ProductDto productDto) {
     List<ProductDto> listVo = this.productRepository.listProductByFilters(
-        Validator.validateStringNullOrEmpty(productDto.name()),
-        Validator.validateBigDecimalNullOrLessEqualZero(productDto.price()),
-        Validator.validateIntegerNullOrLessEqualZero(productDto.amount())
+        validateStringNullOrEmpty(productDto.name()),
+        validateBigDecimalNullOrLessEqualZero(productDto.price()),
+        validateIntegerNullOrLessEqualZero(productDto.amount())
     );
 
     if (listVo.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
@@ -46,10 +47,8 @@ public class ProductService {
   public void saveOrUpdateProduct(ProductDto productDto) {
     validateProductDto(productDto);
 
-    if (productDto.id() == null || productDto.id().equals(BigInteger.ZERO))
-      this.saveProduct(productDto);
-    else
-      this.updateProduct(productDto);
+    if (validateBigIntegerNullOrZero(productDto.id()) == null) this.saveProduct(productDto);
+    else this.updateProduct(productDto);
   }
 
   private void updateProduct(ProductDto productDto) {
@@ -93,13 +92,13 @@ public class ProductService {
   }
 
   private static void validateProductDto(ProductDto productDto) {
-    if (productDto.name() == null || productDto.name().isBlank())
+    if (validateStringNullOrEmpty(productDto.name()) == null)
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
-    if (productDto.amount() == null || productDto.amount() <= 0)
+    if (validateIntegerNullOrLessEqualZero(productDto.amount()) == null)
       throw new ValidationException(MessageGenericEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
 
-    if (productDto.price() == null || productDto.price().compareTo(BigDecimal.ZERO) <= 0)
+    if (validateBigDecimalNullOrLessEqualZero(productDto.price()) == null)
       throw new ValidationException(MessageGenericEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
   }
 }

@@ -1,6 +1,7 @@
 package com.api.srs.shared;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.InputMismatchException;
 
 public class Validator {
@@ -9,12 +10,28 @@ public class Validator {
     return valor == null || valor.isBlank() ? null : valor.trim();
   }
 
-  public static BigDecimal validateBigDecimalNullOrLessEqualZero(BigDecimal valor) {
-    return valor == null || valor.compareTo(BigDecimal.ZERO) <= 0 ? null : valor;
+  public static Integer validateIntegerNullOrZero(Integer valor) {
+    return valor == null || valor.equals(0) ? null : valor;
+  }
+
+  public static BigInteger validateBigIntegerNullOrZero(BigInteger valor) {
+    return valor == null || valor.equals(BigInteger.ZERO) ? null : valor;
+  }
+
+  public static BigDecimal validateBigDecimalNullOrZero(BigDecimal valor) {
+    return valor == null || valor.equals(BigDecimal.ZERO) ? null : valor;
   }
 
   public static Integer validateIntegerNullOrLessEqualZero(Integer valor) {
     return valor == null || valor.compareTo(0) <= 0 ? null : valor;
+  }
+
+  public static BigInteger validateBigIntegerNullOrLessEqualZero(BigInteger valor) {
+    return valor == null || valor.compareTo(BigInteger.ZERO) <= 0 ? null : valor;
+  }
+
+  public static BigDecimal validateBigDecimalNullOrLessEqualZero(BigDecimal valor) {
+    return valor == null || valor.compareTo(BigDecimal.ZERO) <= 0 ? null : valor;
   }
 
   public static Boolean cpfValidator(String cpf) {

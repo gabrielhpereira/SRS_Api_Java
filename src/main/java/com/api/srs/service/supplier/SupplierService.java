@@ -4,7 +4,9 @@ import com.api.srs.dto.supplier.SupplierDto;
 import com.api.srs.entity.supplier.SupplierEntity;
 import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.supplier.SupplierRepository;
-import com.api.srs.shared.Validator;
+
+import static com.api.srs.shared.Validator.*;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,10 @@ public class SupplierService {
 
   @Transactional
   public void saveOrUpdateSupplier(SupplierDto supplierDto) {
+    validateSupplierDto(supplierDto);
 
+    if (validateIntegerNullOrZero(supplierDto.id()) == null) this.saveSupplier(supplierDto);
+    else this.updateSupplier(supplierDto);
   }
 
   private void saveSupplier(SupplierDto supplierDto) {
@@ -40,16 +45,16 @@ public class SupplierService {
   }
 
   private static void validateSupplierDto(SupplierDto supplierDto) {
-    if (supplierDto.name() == null || supplierDto.name().isBlank())
+    if (validateStringNullOrEmpty(supplierDto.name()) == null)
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
-    if (supplierDto.email() == null || supplierDto.email().isBlank())
+    if (validateStringNullOrEmpty(supplierDto.email()) == null)
       throw new ValidationException(MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
 
-    if (supplierDto.phone() == null || supplierDto.phone().isBlank())
+    if (validateStringNullOrEmpty(supplierDto.phone()) == null)
       throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
 
-    if (supplierDto.address() == null || supplierDto.address().isBlank())
+    if (validateStringNullOrEmpty(supplierDto.address()) == null)
       throw new ValidationException(MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
   }
 
@@ -63,10 +68,10 @@ public class SupplierService {
 
   public List<SupplierDto> listSuppliersByFilters(SupplierDto supplierDto) {
     List<SupplierDto> listVo = this.supplierRepository.listSuppliersByFilters(
-        Validator.validateStringNullOrEmpty(supplierDto.name()),
-        Validator.validateStringNullOrEmpty(supplierDto.address()),
-        Validator.validateStringNullOrEmpty(supplierDto.email()),
-        Validator.validateStringNullOrEmpty(supplierDto.phone()),
+        validateStringNullOrEmpty(supplierDto.name()),
+        validateStringNullOrEmpty(supplierDto.address()),
+        validateStringNullOrEmpty(supplierDto.email()),
+        validateStringNullOrEmpty(supplierDto.phone()),
         supplierDto.status().equals("1")
     );
 

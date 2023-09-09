@@ -4,7 +4,9 @@ import com.api.srs.dto.employee.EmployeeDto;
 import com.api.srs.entity.employee.EmployeeEntity;
 import com.api.srs.enums.MessageGenericEnum;
 import com.api.srs.repository.employee.EmployeeRepository;
-import com.api.srs.shared.Validator;
+
+import static com.api.srs.shared.Validator.*;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,12 @@ public class EmployeeService {
 
   public List<EmployeeDto> listEmployeeByFilters(EmployeeDto employeeDto) {
     List<EmployeeDto> listEmployee = this.employeeRepository.listEmployeeByFilters(
-        Validator.validateStringNullOrEmpty(employeeDto.cpf()),
-        Validator.validateStringNullOrEmpty(employeeDto.name()),
-        Validator.validateStringNullOrEmpty(employeeDto.sector()),
-        Validator.validateStringNullOrEmpty(employeeDto.phone()),
-        Validator.validateStringNullOrEmpty(employeeDto.address()),
-        Validator.validateStringNullOrEmpty(employeeDto.email())
+        validateStringNullOrEmpty(employeeDto.cpf()),
+        validateStringNullOrEmpty(employeeDto.name()),
+        validateStringNullOrEmpty(employeeDto.sector()),
+        validateStringNullOrEmpty(employeeDto.phone()),
+        validateStringNullOrEmpty(employeeDto.address()),
+        validateStringNullOrEmpty(employeeDto.email())
     );
 
     if (listEmployee.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
@@ -47,7 +49,7 @@ public class EmployeeService {
   public void saveOrUpdateEmployee(EmployeeDto employeeDto) {
     validateEmployeeDto(employeeDto);
 
-    if (employeeDto.id() == null)
+    if (validateIntegerNullOrZero(employeeDto.id()) == null)
       this.saveEmployee(employeeDto);
     else
       this.updateEmployee(employeeDto);
@@ -100,22 +102,22 @@ public class EmployeeService {
   }
 
   private static void validateEmployeeDto(EmployeeDto employeeDto) {
-    if (employeeDto.cpf() == null || employeeDto.cpf().isBlank() || Boolean.FALSE.equals(Validator.cpfValidator(employeeDto.cpf())))
+    if (employeeDto.cpf() == null || employeeDto.cpf().isBlank() || Boolean.FALSE.equals(cpfValidator(employeeDto.cpf())))
       throw new ValidationException(MessageGenericEnum.INVALID_CPF.getMessage());
 
-    if (employeeDto.name() == null || employeeDto.name().isBlank())
+    if (validateStringNullOrEmpty(employeeDto.name()) == null)
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
-    if (employeeDto.email() == null || employeeDto.email().isBlank())
+    if (validateStringNullOrEmpty(employeeDto.email()) == null)
       throw new ValidationException(MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
 
-    if (employeeDto.phone() == null || employeeDto.phone().isBlank())
+    if (validateStringNullOrEmpty(employeeDto.phone()) == null)
       throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
 
-    if (employeeDto.address() == null || employeeDto.address().isBlank())
+    if (validateStringNullOrEmpty(employeeDto.address()) == null)
       throw new ValidationException(MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
 
-    if (employeeDto.sector() == null || employeeDto.sector().isBlank())
+    if (validateStringNullOrEmpty(employeeDto.sector()) == null)
       throw new ValidationException(MessageGenericEnum.SECTOR_NULL_OR_EMPTY.getMessage());
   }
 }
