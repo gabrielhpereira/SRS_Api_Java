@@ -36,12 +36,31 @@ public class SupplierService {
     else this.updateSupplier(supplierDto);
   }
 
-  private void saveSupplier(SupplierDto supplierDto) {
+  private void updateSupplier(SupplierDto supplierDto) {
+    SupplierEntity supplier = this.supplierRepository.getReferenceById(supplierDto.id());
+    SupplierEntity oldSupplier = new SupplierEntity(supplier);
 
+    supplier.setName(supplierDto.name().trim());
+    supplier.setEmail(supplierDto.email().trim());
+    supplier.setAddress(supplierDto.address().trim());
+    supplier.setPhone(supplierDto.phone().trim());
+//    supplier.setStatus(supplierDto.status().trim());
+
+    this.supplierRepository.saveAndFlush(supplier);
   }
 
-  private void updateSupplier(SupplierDto supplierDto) {
+  private void saveSupplier(SupplierDto supplierDto) {
+    SupplierEntity supplier =
+        SupplierEntity
+            .builder()
+            .name(supplierDto.name().trim())
+            .email(supplierDto.email().trim())
+            .phone(supplierDto.phone().trim())
+            .address(supplierDto.address().trim())
+            .status(true)
+            .build();
 
+    this.supplierRepository.saveAndFlush(supplier);
   }
 
   private static void validateSupplierDto(SupplierDto supplierDto) {

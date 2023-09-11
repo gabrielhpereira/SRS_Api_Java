@@ -33,4 +33,13 @@ public class SupplierEntity {
 
   @Column
   private Boolean status;
+
+  public SupplierEntity(SupplierEntity supplier){
+    this.id = supplier.getId();
+    this.name = supplier.getName();
+    this.address = supplier.getAddress();
+    this.email = supplier.getEmail();
+    this.phone = supplier.getPhone();
+    this.status = supplier.getStatus();
+  }
 }

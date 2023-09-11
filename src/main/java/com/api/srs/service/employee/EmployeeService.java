@@ -23,11 +23,11 @@ public class EmployeeService {
   private final LogEmployeeService logEmployeeService;
 
   public List<EmployeeDto> listAllEmployees() {
-    List<EmployeeDto> listVo = this.employeeRepository.listAllEmployees();
+    List<EmployeeDto> listDto = this.employeeRepository.listAllEmployees();
 
-    if (listVo.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
+    if (listDto.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
-    return listVo;
+    return listDto;
   }
 
   public List<EmployeeDto> listEmployeeByFilters(EmployeeDto employeeDto) {
