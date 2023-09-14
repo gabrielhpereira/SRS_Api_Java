@@ -21,8 +21,8 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Intege
 
   @Query(SELECT
       + "WHERE s.status = :status"
-      + " AND (:name IS NULL OR UPPER(s.name) LIKE CONCAT('%', :name, '%'))"
-      + " AND (:address IS NULL OR UPPER(s.address) LIKE CONCAT('%', :address, '%'))"
+      + " AND (:name IS NULL OR UPPER(s.name) LIKE CONCAT('%', UPPER(:name), '%'))"
+      + " AND (:address IS NULL OR UPPER(s.address) LIKE CONCAT('%', UPPER(:address), '%'))"
       + " AND (:email IS NULL OR s.email LIKE CONCAT ('%', :email, '%'))"
       + " AND (:phone IS NULL OR s.phone LIKE CONCAT ('%', :phone, '%'))")
   public List<SupplierDto> listSuppliersByFilters(

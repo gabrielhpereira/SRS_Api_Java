@@ -8,7 +8,10 @@ import com.api.srs.shared.DateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.api.srs.shared.GenericLog.*;
+
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -24,30 +27,17 @@ public class LogProductService {
   public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct) {
     StringBuilder sb = new StringBuilder();
 
-    if (!newProduct.getName().equalsIgnoreCase(oldProduct.getName()))
-      sb.append("Name changed from ")
-          .append(oldProduct.getName())
-          .append(" to ").append(newProduct.getName())
-          .append("\n");
+    sb.append(updateEntity(newProduct.getName(), oldProduct.getName(), "Name"));
+    sb.append(updateEntity(newProduct.getPrice().setScale(2, RoundingMode.CEILING),
+                           oldProduct.getPrice().setScale(2, RoundingMode.CEILING), "Price"));
+    sb.append(updateEntity(newProduct.getAmount(), oldProduct.getAmount(), "Amount"));
 
-    if (newProduct.getPrice().compareTo(oldProduct.getPrice()) != 0)
-      sb.append("Price changed from ")
-          .append(oldProduct.getPrice()).append(" to ")
-          .append(newProduct.getPrice())
-          .append("\n");
-
-    if (!newProduct.getAmount().equals(oldProduct.getAmount()))
-      sb.append("Amount changed from ")
-          .append(oldProduct.getAmount())
-          .append(" to ")
-          .append(newProduct.getAmount());
-
-    if (!sb.toString().isEmpty())
-      this.logProductRepository.save(
+    if (!sb.isEmpty())
+      this.logProductRepository.saveAndFlush(
           LogProductEntity
               .builder()
               .productId(newProduct.getId())
-              .description("Product " + newProduct.getId() + " : \n\n" + sb.toString())
+              .description("Product " + newProduct.getId() + " : \n\n" + sb)
               .date(DateTime.nowDate())
               .build());
   }

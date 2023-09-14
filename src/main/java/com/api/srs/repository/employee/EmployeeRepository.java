@@ -19,10 +19,10 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
   @Query(SELECT
       + " WHERE 1 = 1"
       + "     AND (:cpf IS NULL OR e.cpf LIKE CONCAT ('%', :cpf, '%'))"
-      + "     AND (:name IS NULL OR UPPER(e.name) LIKE CONCAT('%', :name, '%'))"
-      + "     AND (:sector IS NULL OR UPPER(e.sector) LIKE CONCAT('%', :sector, '%'))"
+      + "     AND (:name IS NULL OR UPPER(e.name) LIKE CONCAT('%', UPPER(:name), '%'))"
+      + "     AND (:sector IS NULL OR UPPER(e.sector) LIKE CONCAT('%', UPPER(:sector), '%'))"
       + "     AND (:phone IS NULL OR e.phone LIKE CONCAT('%', :phone, '%'))"
-      + "     AND (:address IS NULL OR UPPER(e.address) LIKE CONCAT('%', :address, '%'))"
+      + "     AND (:address IS NULL OR UPPER(e.address) LIKE CONCAT('%', UPPER(:address), '%'))"
       + "     AND (:email IS NULL OR e.email LIKE CONCAT('%', :email, '%'))")
   public List<EmployeeDto> listEmployeeByFilters(
       @Param("cpf") String cpf,

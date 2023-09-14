@@ -24,31 +24,33 @@ public class ProductService {
   private final LogProductService logProductService;
 
   public List<ProductDto> listAllProducts() {
-    List<ProductDto> listVo = this.productRepository.listAllProducts();
+    List<ProductDto> listProduct = this.productRepository.listAllProducts();
 
-    if (listVo.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
+    if (listProduct.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
-    return listVo;
+    return listProduct;
   }
 
   public List<ProductDto> listProductByFilters(ProductDto productDto) {
-    List<ProductDto> listVo = this.productRepository.listProductByFilters(
+    List<ProductDto> listProduct = this.productRepository.listProductByFilters(
         validateStringNullOrEmpty(productDto.name()),
         validateBigDecimalNullOrLessEqualZero(productDto.price()),
         validateIntegerNullOrLessEqualZero(productDto.amount())
     );
 
-    if (listVo.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
+    if (listProduct.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
-    return listVo;
+    return listProduct;
   }
 
   @Transactional
   public void saveOrUpdateProduct(ProductDto productDto) {
     validateProductDto(productDto);
 
-    if (validateBigIntegerNullOrZero(productDto.id()) == null) this.saveProduct(productDto);
-    else this.updateProduct(productDto);
+    if (validateBigIntegerNullOrZero(productDto.id()) == null)
+      this.saveProduct(productDto);
+    else
+      this.updateProduct(productDto);
   }
 
   private void updateProduct(ProductDto productDto) {
