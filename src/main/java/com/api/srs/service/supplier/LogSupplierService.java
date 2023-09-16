@@ -32,7 +32,7 @@ public class LogSupplierService {
     sb.append(updateEntity(newSupplier.getStatus(), oldSupplier.getStatus(), "Status"));
 
     if (!sb.isEmpty())
-      this.logSupplierRepository.saveAndFlush(
+      this.logSupplierRepository.save(
           LogSupplierEntity
               .builder()
               .supplierId(newSupplier.getId())
@@ -43,7 +43,7 @@ public class LogSupplierService {
   }
 
   protected void saveLogNewSupplier(SupplierEntity supplier) {
-    this.logSupplierRepository.saveAndFlush(
+    this.logSupplierRepository.save(
         LogSupplierEntity
             .builder()
             .supplierId(supplier.getId())
@@ -54,7 +54,7 @@ public class LogSupplierService {
   }
 
   protected void saveLogDeleteSupplier(SupplierEntity supplier) {
-    this.logSupplierRepository.saveAndFlush(
+    this.logSupplierRepository.save(
         LogSupplierEntity
             .builder()
             .supplierId(supplier.getId())

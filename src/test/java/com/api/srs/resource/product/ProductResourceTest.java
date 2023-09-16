@@ -21,7 +21,6 @@ import java.util.stream.IntStream;
 public class ProductResourceTest extends GenericResourceTest implements ApplicationConfigTest {
 
   private static final String PATH = "/product";
-  private static final String MESSAGE = "Message Test";
 
   @MockBean
   private ProductService productService;
@@ -124,7 +123,7 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
   @Test
   @DisplayName("DeleteProduct return status code 409")
   public void testDeleteProductReturnConflictStatus() throws Exception {
-    Mockito.doThrow(new ValidationException(MESSAGE)).when(this.productService).deleteProductById(Mockito.any());
+    Mockito.doThrow(new ValidationException(MESSAGE)).when(this.productService).deleteProductById(Mockito.any(BigInteger.class));
 
     this.genericTestConflictStatus(MockMvcRequestBuilders.delete(PATH + "/deleteProduct/1")
         .contentType(MediaType.APPLICATION_JSON), MESSAGE);
@@ -132,8 +131,8 @@ public class ProductResourceTest extends GenericResourceTest implements Applicat
 
   @Test
   @DisplayName("DeleteProduct return status code 500")
-  public void testDeleteProductReturnInternalErrorStatus() throws Exception {
-    Mockito.doThrow(new NullPointerException(MESSAGE)).when(this.productService).deleteProductById(Mockito.any());
+  public void testDeleteProductReturnInternalError() throws Exception {
+    Mockito.doThrow(new NullPointerException(MESSAGE)).when(this.productService).deleteProductById(Mockito.any(BigInteger.class));
 
     this.genericTestInternalErrorStatus(MockMvcRequestBuilders.delete(PATH + "/deleteProduct/1")
         .contentType(MediaType.APPLICATION_JSON), MESSAGE);

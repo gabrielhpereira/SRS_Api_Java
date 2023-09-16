@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser
 public class GenericResourceTest {
 
+  protected static final String MESSAGE = "Message Test";
+
   @Autowired
   private MockMvc mockMvc;
 

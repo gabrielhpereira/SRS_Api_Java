@@ -23,11 +23,26 @@ public class SupplierResource extends GenericResource {
     return ResponseEntity.ok(this.supplierService.listAllSuppliers());
   }
 
+  @GetMapping("/listAllActiveSuppliers")
+  @Operation(description = "List all active suppliers")
+  @ApiResponse(responseCode = "200", description = "Suppliers successfully listed")
+  public ResponseEntity<?> listAllActiveSuppliers() {
+    return ResponseEntity.ok(this.supplierService.listAllActiveSuppliers());
+  }
+
   @PostMapping("/listSupplierByFilters")
   @Operation(description = "List suppliers by filters")
   @ApiResponse(responseCode = "200", description = "Suppliers successfully listed")
   public ResponseEntity<?> listSuppliersByFilters(@RequestBody SupplierDto supplierDto) {
     return ResponseEntity.ok(this.supplierService.listSuppliersByFilters(supplierDto));
+  }
+
+  @PutMapping("/enableOrDisableSupplier/{id}")
+  @Operation(description = "Enable or disable an supplier by id")
+  @ApiResponse(responseCode = "200", description = "Supplier successfully enabled or disabled")
+  public ResponseEntity<?> enableOrDisableSupplier(@PathVariable Integer id) {
+    this.supplierService.enableOrDisableSupplier(id);
+    return ResponseEntity.ok().build();
   }
 
   @PostMapping("/saveOrUpdateSupplier")
@@ -43,14 +58,6 @@ public class SupplierResource extends GenericResource {
   @ApiResponse(responseCode = "200", description = "Supplier deleted successfully")
   public ResponseEntity<?> deleteSupplierById(@PathVariable Integer id) {
     this.supplierService.deleteSupplierById(id);
-    return ResponseEntity.ok().build();
-  }
-
-  @PutMapping("/enableOrDisableSupplier/{id}")
-  @Operation(description = "Enable or disable an supplier by id")
-  @ApiResponse(responseCode = "200", description = "Supplier successfully enabled or disabled")
-  public ResponseEntity<?> enableOrDisableSupplier(@PathVariable Integer id) {
-    this.supplierService.enableOrDisableSupplier(id);
     return ResponseEntity.ok().build();
   }
 }
