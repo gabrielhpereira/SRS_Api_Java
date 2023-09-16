@@ -5,17 +5,27 @@
     Maven
 
 ## Progresso do desenvolvimento
+    Swagger - Testar    
+
     Login - Testar
+    Redefinir senha -
     Cadastro de Usuarios - Testar
+    
     Cadastro de Funcionarios - Testar 
     Cadastro de Produtos - Testar
     Cadastro de Fornecedores - Testar
-    Validações - Em Andamento
-    Relatorios em CSV e PDF -  
+
     Log de alterações - Testar
-    Swagger - Testar
-    Melhorar sistema de logs -
-    Testes - OK
+    Relatorios em CSV e PDF -  
+
+    Validações - Testar 
+    Testes unitários services e resources - OK
+
+## Melhorias
+    Outro metodo para realizar log - 
+    Documentação no swagger - 
+    Validações personalidadas para email, telefone, cpf - 
+    Adicionar roles personalidadas - 
 
 # Front-End
 
