@@ -22,7 +22,7 @@ public class LogSupplierService {
     return this.logSupplierRepository.listAllLogSupplier(supplierId);
   }
 
-  public void saveLogUpdateSupplier(SupplierEntity newSupplier, SupplierEntity oldSupplier) {
+  protected void saveLogUpdateSupplier(SupplierEntity newSupplier, SupplierEntity oldSupplier) {
     StringBuilder sb = new StringBuilder();
 
     sb.append(updateEntity(newSupplier.getName(), oldSupplier.getName(), "Name"));
@@ -42,7 +42,7 @@ public class LogSupplierService {
       );
   }
 
-  public void saveLogNewSupplier(SupplierEntity supplier) {
+  protected void saveLogNewSupplier(SupplierEntity supplier) {
     this.logSupplierRepository.saveAndFlush(
         LogSupplierEntity
             .builder()
@@ -53,7 +53,7 @@ public class LogSupplierService {
     );
   }
 
-  public void saveLogDeleteSupplier(SupplierEntity supplier) {
+  protected void saveLogDeleteSupplier(SupplierEntity supplier) {
     this.logSupplierRepository.saveAndFlush(
         LogSupplierEntity
             .builder()

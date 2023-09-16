@@ -24,7 +24,7 @@ public class LogProductService {
     return this.logProductRepository.listAllLogProduct(idProduct);
   }
 
-  public void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct) {
+  protected void saveLogUpdateProduct(ProductEntity newProduct, ProductEntity oldProduct) {
     StringBuilder sb = new StringBuilder();
 
     sb.append(updateEntity(newProduct.getName(), oldProduct.getName(), "Name"));
@@ -32,8 +32,8 @@ public class LogProductService {
                            oldProduct.getPrice().setScale(2, RoundingMode.CEILING), "Price"));
     sb.append(updateEntity(newProduct.getAmount(), oldProduct.getAmount(), "Amount"));
 
-    if (!sb.isEmpty())
-      this.logProductRepository.saveAndFlush(
+    if (!sb.toString().isEmpty())
+      this.logProductRepository.save(
           LogProductEntity
               .builder()
               .productId(newProduct.getId())
@@ -42,7 +42,7 @@ public class LogProductService {
               .build());
   }
 
-  public void saveLogNewProduct(ProductEntity product) {
+  protected void saveLogNewProduct(ProductEntity product) {
     this.logProductRepository.save(
         LogProductEntity
             .builder()
@@ -52,7 +52,7 @@ public class LogProductService {
             .build());
   }
 
-  public void saveLogDeleteProduct(ProductEntity product) {
+  protected void saveLogDeleteProduct(ProductEntity product) {
     this.logProductRepository.save(
         LogProductEntity
             .builder()

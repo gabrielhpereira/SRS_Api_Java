@@ -115,7 +115,8 @@ public class ProductServiceTest implements ApplicationConfigTest {
 
 
     Mockito.verify(this.productRepository, Mockito.times(1)).saveAndFlush(ArgumentMatchers.any(ProductEntity.class));
-    Mockito.verify(this.logProductService, Mockito.times(1)).saveLogUpdateProduct(ArgumentMatchers.any(ProductEntity.class), ArgumentMatchers.any(ProductEntity.class));
+    Mockito.verify(this.logProductService, Mockito.times(1))
+        .saveLogUpdateProduct(ArgumentMatchers.any(ProductEntity.class), ArgumentMatchers.any(ProductEntity.class));
   }
 
   @Test
@@ -124,11 +125,9 @@ public class ProductServiceTest implements ApplicationConfigTest {
     ProductDto mock = Mockito.mock(ProductDto.class);
 
     Mockito.when(mock.name()).thenReturn(null);
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
     Mockito.when(mock.name()).thenReturn("");
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
   }
 
@@ -138,11 +137,9 @@ public class ProductServiceTest implements ApplicationConfigTest {
     ProductDto mock = buildMockDto();
 
     Mockito.when(mock.amount()).thenReturn(null);
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
 
     Mockito.when(mock.amount()).thenReturn(0);
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.AMOUNT_NULL_OR_LESS_THAN_ZERO.getMessage());
   }
 
@@ -152,11 +149,9 @@ public class ProductServiceTest implements ApplicationConfigTest {
     ProductDto mock = buildMockDto();
 
     Mockito.when(mock.price()).thenReturn(null);
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
 
     Mockito.when(mock.price()).thenReturn(BigDecimal.ZERO);
-
     Assertions.assertThrows(ValidationException.class, () -> this.productService.saveOrUpdateProduct(mock), MessageGenericEnum.PRICE_NULL_OR_LESS_THAN_ZERO.getMessage());
   }
 
@@ -168,7 +163,6 @@ public class ProductServiceTest implements ApplicationConfigTest {
     ProductEntity mock = Mockito.mock(ProductEntity.class);
 
     Mockito.when(mock.getId()).thenReturn(id);
-
     Mockito.when(this.productRepository.getReferenceById(id)).thenReturn(mock);
 
     this.productService.deleteProductById(id);

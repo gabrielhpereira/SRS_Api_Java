@@ -30,6 +30,14 @@ public class SupplierService {
     return listSupplier;
   }
 
+  public List<SupplierDto> listAllActiveSuppliers(){
+    List<SupplierDto> listSupplier = this.supplierRepository.listAllActiveSuppliers();
+
+    if(listSupplier.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
+
+    return listSupplier;
+  }
+
   public List<SupplierDto> listSuppliersByFilters(SupplierDto supplierDto) {
     List<SupplierDto> listSupplier = this.supplierRepository.listSuppliersByFilters(
         validateStringNullOrEmpty(supplierDto.name()),
@@ -47,10 +55,13 @@ public class SupplierService {
   @Transactional
   public void enableOrDisableSupplier(Integer id) {
     SupplierEntity supplier = this.supplierRepository.getReferenceById(id);
+    SupplierEntity oldSupplier = new SupplierEntity(supplier);
 
     supplier.setStatus(!supplier.getStatus());
 
-    this.supplierRepository.save(supplier);
+    this.supplierRepository.saveAndFlush(supplier);
+
+    this.logSupplierService.saveLogUpdateSupplier(supplier, oldSupplier);
   }
 
   @Transactional
