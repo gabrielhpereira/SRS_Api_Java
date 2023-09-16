@@ -1,8 +1,7 @@
-# Api de Cadastros
+# Api
 ## Informações
-    JDK 17
+    Java 17
     Spring 3.0.2
-    Java
     Maven
 
 ## Progresso do desenvolvimento
@@ -16,7 +15,7 @@
     Log de alterações - Testar
     Swagger - Testar
     Melhorar sistema de logs -
-    Testes - Em andamento
+    Testes - OK
 
 # Front-End
 
@@ -25,7 +24,7 @@
     Angular 15
     PrimeNG 16.3
 
-## Progresso do desenvolvimento Front-end
+## Progresso do desenvolvimento
     Login -
     Componentes compartilhados -
     Menu Geral - 
