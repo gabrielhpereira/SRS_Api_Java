@@ -16,7 +16,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Intege
   @Query(SELECT)
   public List<SupplierDto> listAllSuppliers();
 
-  @Query(SELECT + "WHERE s.status = 1")
+  @Query(SELECT + "WHERE s.status = TRUE")
   public List<SupplierDto> listAllActiveSuppliers();
 
   @Query(SELECT

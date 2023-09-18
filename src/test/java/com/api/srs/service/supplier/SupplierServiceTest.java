@@ -154,7 +154,7 @@ public class SupplierServiceTest implements ApplicationConfigTest {
   }
 
   @Test
-  @DisplayName("Musk update an supplier")
+  @DisplayName("Must update an supplier")
   public void testUpdateSupplier() {
     SupplierDto mock = buildMockDto();
 
