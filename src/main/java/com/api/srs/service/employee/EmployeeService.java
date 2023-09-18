@@ -10,7 +10,7 @@ import static com.api.srs.shared.Validator.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import javax.validation.ValidationException;
 import java.util.List;
