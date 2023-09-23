@@ -160,10 +160,10 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     EmployeeDto mock = buildMockDto();
 
     Mockito.when(mock.email()).thenReturn(null);
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
 
     Mockito.when(mock.email()).thenReturn("");
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
   }
 
   @Test

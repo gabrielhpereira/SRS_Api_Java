@@ -3,6 +3,7 @@ package com.api.srs.shared;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.InputMismatchException;
+import java.util.regex.Pattern;
 
 public class Validator {
 
@@ -34,8 +35,16 @@ public class Validator {
     return valor == null || valor.compareTo(BigDecimal.ZERO) <= 0 ? null : valor;
   }
 
-  public static Boolean cpfValidator(String cpf) {
-    if (cpf == null || cpf.equals("")) return true;
+  public static boolean emailValidator(String email) {
+    if(email == null || email.isEmpty()) return false;
+
+    return Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+        .matcher(email)
+        .matches();
+  }
+
+  public static boolean cpfValidator(String cpf) {
+    if (cpf == null || cpf.isEmpty()) return false;
 
     if (cpf.equals("00000000000") || cpf.equals("11111111111") ||
         cpf.equals("22222222222") || cpf.equals("33333333333") ||

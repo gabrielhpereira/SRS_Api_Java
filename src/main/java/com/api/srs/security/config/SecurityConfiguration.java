@@ -31,6 +31,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(mvc.pattern("/auth/*")).permitAll()
             .requestMatchers(mvc.pattern("/product/*")).permitAll()
+            .requestMatchers(mvc.pattern("/employee/*")).permitAll()
             .requestMatchers(mvc.pattern("/logProduct/**")).permitAll()
             .requestMatchers(mvc.pattern("/swagger-ui/*")).permitAll()
             .requestMatchers(mvc.pattern("/v3/**")).permitAll()

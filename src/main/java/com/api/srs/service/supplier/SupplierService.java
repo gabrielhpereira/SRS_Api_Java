@@ -123,7 +123,7 @@ public class SupplierService {
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
     if (validateStringNullOrEmpty(supplierDto.email()) == null)
-      throw new ValidationException(MessageGenericEnum.EMAIL_NULL_OR_EMPTY.getMessage());
+      throw new ValidationException(MessageGenericEnum.INVALID_EMAIL.getMessage());
 
     if (validateStringNullOrEmpty(supplierDto.phone()) == null)
       throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
