@@ -35,10 +35,18 @@ public class Validator {
     return valor == null || valor.compareTo(BigDecimal.ZERO) <= 0 ? null : valor;
   }
 
-  public static boolean emailValidator(String email) {
-    if(email == null || email.isEmpty()) return false;
+  public static boolean phoneValidator(String phone) {
+    if (phone == null || phone.isEmpty()) return true;
 
-    return Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+    return !Pattern.compile("\\(?\\b([0-9]{2,3}|0((x|[0-9]){2,3}[0-9]{2}))\\)?\\s*[0-9]{4,5}[- ]*[0-9]{4}\\b")
+        .matcher(phone)
+        .matches();
+  }
+
+  public static boolean emailValidator(String email) {
+    if (email == null || email.isEmpty()) return true;
+
+    return !Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
         .matcher(email)
         .matches();
   }

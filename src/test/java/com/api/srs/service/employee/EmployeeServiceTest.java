@@ -164,6 +164,9 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.email()).thenReturn("");
     Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
+
+    Mockito.when(mock.email()).thenReturn("test@test");
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
   }
 
   @Test
@@ -172,10 +175,13 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     EmployeeDto mock = buildMockDto();
 
     Mockito.when(mock.phone()).thenReturn(null);
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
 
     Mockito.when(mock.phone()).thenReturn("");
-    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
+
+    Mockito.when(mock.phone()).thenReturn("test");
+    Assertions.assertThrows(ValidationException.class, () -> this.employeeService.saveOrUpdateEmployee(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
   }
 
   @Test
@@ -238,7 +244,7 @@ public class EmployeeServiceTest implements ApplicationConfigTest {
     Mockito.when(mock.email()).thenReturn("test@gmail.com");
     Mockito.when(mock.sector()).thenReturn("test");
     Mockito.when(mock.address()).thenReturn("test");
-    Mockito.when(mock.phone()).thenReturn("123456789");
+    Mockito.when(mock.phone()).thenReturn("11999999999");
 
     return mock;
   }

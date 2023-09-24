@@ -211,6 +211,9 @@ public class SupplierServiceTest implements ApplicationConfigTest {
 
     Mockito.when(mock.email()).thenReturn("");
     Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
+
+    Mockito.when(mock.email()).thenReturn("test@test");
+    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.INVALID_EMAIL.getMessage());
   }
 
   @Test
@@ -219,10 +222,13 @@ public class SupplierServiceTest implements ApplicationConfigTest {
     SupplierDto mock = buildMockDto();
 
     Mockito.when(mock.phone()).thenReturn(null);
-    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
 
-    Mockito.when(mock.phone()).thenReturn(null);
-    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    Mockito.when(mock.phone()).thenReturn("");
+    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
+
+    Mockito.when(mock.phone()).thenReturn("test");
+    Assertions.assertThrows(ValidationException.class, () -> this.supplierService.saveOrUpdateSupplier(mock), MessageGenericEnum.INVALID_PHONE.getMessage());
   }
 
   @Test

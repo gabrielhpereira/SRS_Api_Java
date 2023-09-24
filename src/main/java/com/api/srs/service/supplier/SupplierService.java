@@ -30,10 +30,10 @@ public class SupplierService {
     return listSupplier;
   }
 
-  public List<SupplierDto> listAllActiveSuppliers(){
+  public List<SupplierDto> listAllActiveSuppliers() {
     List<SupplierDto> listSupplier = this.supplierRepository.listAllActiveSuppliers();
 
-    if(listSupplier.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
+    if (listSupplier.isEmpty()) throw new ValidationException(MessageGenericEnum.NOT_FOUND.getMessage());
 
     return listSupplier;
   }
@@ -122,11 +122,11 @@ public class SupplierService {
     if (validateStringNullOrEmpty(supplierDto.name()) == null)
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
-    if (validateStringNullOrEmpty(supplierDto.email()) == null)
+    if (emailValidator(supplierDto.email()))
       throw new ValidationException(MessageGenericEnum.INVALID_EMAIL.getMessage());
 
-    if (validateStringNullOrEmpty(supplierDto.phone()) == null)
-      throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    if (phoneValidator(supplierDto.phone()))
+      throw new ValidationException(MessageGenericEnum.INVALID_PHONE.getMessage());
 
     if (validateStringNullOrEmpty(supplierDto.address()) == null)
       throw new ValidationException(MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());

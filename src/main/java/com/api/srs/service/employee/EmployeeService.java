@@ -108,11 +108,11 @@ public class EmployeeService {
     if (validateStringNullOrEmpty(employeeDto.name()) == null)
       throw new ValidationException(MessageGenericEnum.NAME_NULL_OR_EMPTY.getMessage());
 
-    if (!emailValidator(employeeDto.email()))
+    if (emailValidator(employeeDto.email()))
       throw new ValidationException(MessageGenericEnum.INVALID_EMAIL.getMessage());
 
-    if (validateStringNullOrEmpty(employeeDto.phone()) == null)
-      throw new ValidationException(MessageGenericEnum.PHONE_NULL_OR_EMPTY.getMessage());
+    if (phoneValidator(employeeDto.phone()))
+      throw new ValidationException(MessageGenericEnum.INVALID_PHONE.getMessage());
 
     if (validateStringNullOrEmpty(employeeDto.address()) == null)
       throw new ValidationException(MessageGenericEnum.ADDRESS_NULL_OR_EMPTY.getMessage());
