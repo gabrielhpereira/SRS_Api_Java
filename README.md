@@ -24,7 +24,7 @@
 ## Melhorias
     Outro metodo para realizar log - 
     Documentação no swagger - 
-    Validações personalidadas para email, telefone, cpf - 
+    Validações personalidadas para email, telefone, cpf - Testar 
     Adicionar roles personalidadas - 
 
 # Front-End
